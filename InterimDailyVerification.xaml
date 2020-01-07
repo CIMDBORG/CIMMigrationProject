@@ -1,0 +1,149 @@
+﻿<Window x:Class="Interim.InterimDailyVerification"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Interim"
+        mc:Ignorable="d"
+        Title="Daily Verification" Height="550" Width="1350" ResizeMode="CanResizeWithGrip" Background="#efe1b3">
+    <Grid>
+        <StackPanel Orientation="Vertical" Margin="10,0,0,0">
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,0">
+                <TextBlock  Text="Daily Verification" FontSize="26" FontWeight="Bold"
+                                HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                <TextBlock x:Name="Source" Text="Source: " FontSize="22" FontWeight="Bold" Margin="300,0,0,0" Width="200"
+                                HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <TextBlock x:Name="CC" Text="Country: US" FontSize="26" FontWeight="Bold"
+                                HorizontalAlignment="Right" VerticalAlignment="Center" Margin="460,0,0,0"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,20,0.333,0" Height="33">
+                <TextBlock Text="Assigned To: " FontSize="22" FontWeight="Bold"/>
+                <ComboBox Name="AssignedCombobox" VerticalAlignment="Top"  SelectionChanged="AssignedCombobox_SelectionChanged"
+                                 FontSize="20"
+                                />
+                <TextBlock Text="Alt Auditor: " FontSize="22" FontWeight="Bold" Margin="20,0,0,0"/>
+                <ComboBox Name="AltComboBox" VerticalAlignment="Top" SelectionChanged="AltComboBox_SelectionChanged"
+                                 FontSize="20"/>
+                <TextBlock x:Name="Description" Text="Description: " FontSize="22" FontWeight="Bold" Margin="30,0,0,0" Width="500"/>
+                <TextBlock x:Name="ID" Text="ID: 6" FontSize="26" FontWeight="Bold" TextAlignment="Right"  Margin="350,0,0,0" Width="100"
+                                HorizontalAlignment="Right"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,0,0.333,0" Height="50">
+                <TextBlock Text="Shipper # "
+                    Margin="0,0,0,0" FontSize="26"
+                    HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                <TextBlock Text="Incentive Tracking # "
+                    Margin="30,0,0,0" FontSize="26"
+                    HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                <TextBlock Text="Shipper # "
+                     FontSize="26" Margin="235,0,0,0"
+                    HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <TextBlock Text="Non-Incented Tracking # "
+                     FontSize="26" Margin="25,0,0,0"
+                    HorizontalAlignment="Right" VerticalAlignment="Center"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Height="50">
+                <TextBox x:Name="IncShipNumOne" Background="WhiteSmoke"
+                    Margin="0,0,0,0" IsReadOnly="False"
+                    HorizontalAlignment="Left" Width="125" Height="40" FontSize="26" TabIndex="2"/>
+                <TextBox x:Name="IncTrkNumOne" Background="WhiteSmoke"
+                    Margin="20,0,0,0" IsReadOnly="False"
+                    HorizontalAlignment="Left" Width="270" FontSize="26" TabIndex="2" Height="40"/>
+                <TextBlock x:Name="IncTrkNumOneDup" Text="Dup"
+                    Margin="0,0,0,0" Visibility="Hidden"
+                    HorizontalAlignment="Left" Width="40" FontStyle="Oblique" FontWeight="Bold" FontSize="20"/>
+                <ComboBox Name="IncStatusComboBoxOne" HorizontalAlignment="Left" VerticalAlignment="Center"
+                                Width="150" FontSize="26" Margin="20,0,0,0"
+                                SelectionChanged="IncStatusComboBoxOne_SelectionChanged"/>
+                
+                <TextBox x:Name="NonIncShipNumOne" Background="WhiteSmoke"
+                    Margin="30,0,0,0" IsReadOnly="False"
+                    HorizontalAlignment="Left" Width="125" Height="40" FontSize="26" TabIndex="2"/>
+                <TextBox x:Name="NonIncTrkNumOne" Background="WhiteSmoke"
+                    Margin="20,00,0,0" IsReadOnly="False"
+                    HorizontalAlignment="Left" Width="270" Height="40" FontSize="26" TabIndex="2"/>
+                <TextBlock x:Name="NonIncTrkNumOneDup" Text="Dup"
+                    Margin="0,0,0,0" Visibility="Hidden"
+                    HorizontalAlignment="Left" Width="40" FontStyle="Oblique" FontWeight="Bold" FontSize="20"/>
+                <ComboBox Name="NIStatusComboBoxOne" VerticalAlignment="Center"
+                                Width="150" FontSize="26" Margin="20,0,0,0"
+                                SelectionChanged="NIStatusComboBoxOne_SelectionChanged"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Height="50">
+                <TextBox x:Name="IncShipNumTwo" Background="WhiteSmoke"
+                    Margin="0,0,0,0" IsReadOnly="False"
+                    HorizontalAlignment="Left" Width="125" Height="40" FontSize="26" TabIndex="2"/>
+                <TextBox x:Name="IncTrkNumTwo" Background="WhiteSmoke"
+                    Margin="20,0,0,0" IsReadOnly="False"
+                    HorizontalAlignment="Left" Width="270" Height="40" FontSize="26" TabIndex="2"/>
+                <TextBlock x:Name="IncTrkNumTwoDup" Text="Dup"
+                    Margin="0,0,0,0" Visibility="Hidden"
+                    HorizontalAlignment="Left" Width="40" FontStyle="Oblique" FontWeight="Bold" FontSize="20"/>
+                <ComboBox Name="IncStatusComboBoxTwo" HorizontalAlignment="Left" VerticalAlignment="Center"
+                                Width="150" FontSize="26" Margin="20,0,0,0"
+                                SelectionChanged="IncStatusComboBoxTwo_SelectionChanged"/>
+                <TextBox x:Name="NonIncShipNumTwo" Background="WhiteSmoke"
+                    Margin="30,0,0,0" IsReadOnly="False"
+                    HorizontalAlignment="Left" Width="125" Height="40" FontSize="26" TabIndex="2"/>
+                <TextBox x:Name="NonIncTrkNumTwo" Background="WhiteSmoke"
+                    Margin="20,0,0,0" IsReadOnly="False"
+                    HorizontalAlignment="Left" Width="270" Height="40" FontSize="26" TabIndex="2"/>
+                <TextBlock x:Name="NonIncTrkNumTwoDup" Text="Dup"
+                    Margin="0,0,0,0" Visibility="Hidden"
+                    HorizontalAlignment="Left" Width="40" FontStyle="Oblique" FontWeight="Bold" FontSize="20"/>
+                <ComboBox Name="NIStatusComboBoxTwo" VerticalAlignment="Center"
+                                Width="150" FontSize="26" Margin="20,0,0,0"
+                                SelectionChanged="NIStatusComboBoxTwo_SelectionChanged"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Text="Result:"
+                   Margin="0,0,0,0" FontSize="20"
+                   />
+                    <ComboBox Name="ResultCombobox" HorizontalAlignment="Left"  VerticalAlignment="Top"
+                                Width="150" FontSize="16" Margin="0,0,0,0" SelectionChanged="ResultCombobox_SelectionChanged"/>
+                </StackPanel>
+                <StackPanel Orientation="Vertical" Margin="50,0,0,0">
+                    <TextBlock Text="Defect#"
+                    FontSize="20"/>
+                    <TextBox x:Name="Defect" 
+                      Background="WhiteSmoke" TextChanged="Update_On_Content_Change"
+                     HorizontalAlignment="Left" Width="185" Height="30"
+                      FontSize="20" AcceptsReturn="True"
+                     TextWrapping="Wrap" MaxLength="255"
+                     SpellCheck.IsEnabled="True"/>
+                </StackPanel>
+                <StackPanel Orientation="Vertical" Margin="50,0,0,0">
+                    <TextBlock Text="Notes: "
+                   Margin="0,0,0,0" FontSize="20"
+                   />
+                    <ComboBox Name="DayComboBox" HorizontalAlignment="Left" VerticalAlignment="Center"
+                                Width="100" FontSize="16" Margin="0,0,0,0" SelectionChanged="DayComboBox_SelectionChanged_1"/>
+                    <TextBox x:Name="Notes" 
+                     Margin="0,10,0,0" Background="WhiteSmoke"
+                     HorizontalAlignment="Left" Width="765" Height="100"
+                      FontSize="20" AcceptsReturn="True" TextChanged="Notes_TextChanged"
+                     TextWrapping="Wrap" MaxLength="255"
+                     SpellCheck.IsEnabled="True"/>
+                </StackPanel>
+            </StackPanel>
+
+            
+            <StackPanel Orientation="Horizontal" Margin="0,20,0,0" VerticalAlignment="Bottom" HorizontalAlignment="Center">
+                <Button FontFamily="Segoe UI Symbol" x:Name ="BackArrow"  Content="&#xE112;" Width="20" Click="BackArrow_Click"/>
+                <TextBox Text="1" x:Name="CurrentIssue" Style="{StaticResource Textbox1}" Margin="0,6,0,0"           
+                             FontSize="16" AcceptsReturn="False" Focusable="True" HorizontalAlignment="Center"
+                             TextWrapping="Wrap" MaxLength="3" Width="30" VerticalAlignment="Center" Height="30"
+                             SpellCheck.IsEnabled="True" KeyDown="CurrentIssue_KeyDown"
+                                 VerticalScrollBarVisibility="Auto"/>
+                <TextBlock Text="of 8" x:Name ="TotalIssues" HorizontalAlignment="Right"
+                    FontSize="16" Width="60"  Margin="0,8,0,0" Height="30"
+                   TextWrapping="Wrap">
+                </TextBlock>
+                <Button  FontFamily="Segoe UI Symbol" Width="20" Content="&#xE111;" x:Name = "ForwardArrow" Click="ForwardArrow_Click"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>

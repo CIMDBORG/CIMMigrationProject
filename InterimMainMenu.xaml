@@ -1,0 +1,47 @@
+﻿<Window x:Class="Interim.InterimMainMenu"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Interim"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800" Background="#efe1b3">
+    <Grid>
+        <StackPanel Orientation="Vertical">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Name="TrkNumsVer" Text="Test" FontSize="20" FontWeight="Bold"
+                                 />
+                <TextBlock Name="TrkNumsTotal" FontSize="20" FontWeight="Bold"
+                               Text="Test"/>
+            </StackPanel>
+                <TextBlock Name="TotalScenLeft" FontSize="20" FontWeight="Bold"
+                               Text="Test"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <StackPanel Orientation="Vertical">
+                <Button x:Name="DailyVerification" Content="Daily Verification" Cursor="Hand" 
+                    Style="{StaticResource btnBrown}" Width="175" Height="50" Click="DailyVerification_Click"/>
+                <Button x:Name="WeekendVerification" Content="Weekend Verification" Cursor="Hand"
+                    Margin="10,10" Click="WeekendVerification_Click"
+                    Style="{StaticResource btnBrown}" Width="175" Height="50"/>
+                <Button x:Name="Assign" Content="Assignments" Cursor="Hand"
+                    Margin="10,10" 
+                    Style="{StaticResource btnBrown}" Width="175" Height="50" Click="Assign_Click"/>
+                <Button x:Name="IndivdualReport" Content="Individual Reports" Cursor="Hand"
+                    Margin="10,10" 
+                    Style="{StaticResource btnBrown}" Width="175" Height="50" Click="IndivdualReport_Click"/>
+            </StackPanel>
+            <StackPanel Orientation="Vertical">
+                <Button x:Name="HelpNeeded" Content="Help Needed" Cursor="Hand"
+                    Margin="10,10" 
+                    Style="{StaticResource btnBrown}" Width="175" Height="50" Click="HelpNeeded_Click"/>
+                <Button x:Name="AssignSources" Content="Assign Blank Sources" Cursor="Hand"
+                    Margin="10,10" 
+                    Style="{StaticResource btnBrown}" Width="175" Height="50" Click="AssignSources_Click"/>
+                <Button x:Name="Report" Content="Reports" Cursor="Hand"
+                    Margin="10,10" 
+                    Style="{StaticResource btnBrown}" Width="175" Height="50" Click="Report_Click"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>

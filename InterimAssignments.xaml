@@ -1,0 +1,72 @@
+﻿<Window x:Class="Interim.InterimAssignments"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Interim"
+        mc:Ignorable="d"
+        Title="Assignments" Height="450" Width="800" Background="#efe1b3">
+    <Grid>
+        <StackPanel>
+            <Button x:Name="SatReport" Content="Saturday Report" HorizontalAlignment="Left" Width="150" Cursor="Hand"
+                     Click="SatReport_Click"/>
+            <Button x:Name="SourceDetailReport" Margin="0,10,0,0" Content="Source Detail Report" HorizontalAlignment="Left" Width="150" Cursor="Hand"
+                     Click="SourceDetailReport_Click"/>
+            <DataGrid Name="AssignList" Height="300" Width="750" Margin="0,20,0,0" Background="#efe1b3" 
+                                AutoGenerateColumns="False" RowHeaderWidth="0.1" FontSize="16" BorderBrush="WhiteSmoke"
+                                CanUserAddRows="False" CanUserResizeColumns="True" CanUserResizeRows="True"
+                                TextOptions.TextFormattingMode="Ideal" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="ID" Binding="{Binding ID}" Width="Auto" IsReadOnly="True" Visibility="Collapsed"/>
+                    <DataGridTextColumn Header="Country" Binding="{Binding INTERIM_CC}" Width="Auto" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Source" Binding="{Binding INTERIM_SOURCE}" Width="Auto" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Daily Assignment" Binding="{Binding INTERIM_DAILY_ASSIGN}" Width="Auto" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Weekly Assignment" Binding="{Binding INTERIM_SAT_ASSIGN}" Width="Auto" IsReadOnly="True"/>
+                    <DataGridTemplateColumn x:Name="DayAssign" Header="Change Daily">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <ComboBox SelectedValuePath="Content" Name="DailyAssign" SelectionChanged="DailyComboBox_SelectionChanged">
+                                    <ComboBoxItem Content="Pawel" Tag="0" />
+                                    <ComboBoxItem Content="Jeff" Tag="1" />
+                                    <ComboBoxItem Content="Jan-Marie" Tag="2" />
+                                    <ComboBoxItem Content="Chris" Tag="3" />
+                                    <ComboBoxItem Content="Tau" Tag="4" />
+                                    <ComboBoxItem Content="Dom" Tag="5" />
+                                    <ComboBoxItem Content="Sam" Tag="6" />
+                                    <ComboBoxItem Content="Brandon" Tag="7" />
+                                    <ComboBoxItem Content="Nick" Tag="8" />
+                                    <ComboBoxItem Content="Ellen" Tag="9" />
+                                    <ComboBoxItem Content="Carlos" Tag="10" />
+                                    <ComboBoxItem Content="Mike P" Tag="11" />
+                                    <ComboBoxItem Content="Morty" Tag="12" />
+                                </ComboBox>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Change Weekly"> 
+                        <DataGridTemplateColumn.CellEditingTemplate>
+                            <DataTemplate>
+                                <ComboBox SelectedValuePath="Content" Name="WeeklyAssign" SelectionChanged="WeeklyAssign_SelectionChanged">
+                                    <ComboBoxItem Content="Pawel" Tag="0" />
+                                    <ComboBoxItem Content="Jeff" Tag="1" />
+                                    <ComboBoxItem Content="Jan-Marie" Tag="2" />
+                                    <ComboBoxItem Content="Chris" Tag="3" />
+                                    <ComboBoxItem Content="Tau" Tag="4" />
+                                    <ComboBoxItem Content="Dom" Tag="5" />
+                                    <ComboBoxItem Content="Sam" Tag="6" />
+                                    <ComboBoxItem Content="Brandon" Tag="7" />
+                                    <ComboBoxItem Content="Nick" Tag="8" />
+                                    <ComboBoxItem Content="Ellen" Tag="9" />
+                                    <ComboBoxItem Content="Carlos" Tag="10" />
+                                    <ComboBoxItem Content="Mike P" Tag="11" />
+                                    <ComboBoxItem Content="Morty" Tag="12" />                              
+                                </ComboBox>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellEditingTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </StackPanel>
+    </Grid>
+</Window>
