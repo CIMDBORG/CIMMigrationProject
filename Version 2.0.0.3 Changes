@@ -1,0 +1,4 @@
+VERSION 2.0.0.3 Changes/Enhancements:
+
+-Owner field automatically populates in both Strategic Tasks and regular Issues
+-Strategic Tasks no longer appear on weekly review
