@@ -22,6 +22,7 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTextColumn Header="Country" Binding="{Binding CC}" Width="Auto" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Interim Type" Binding="{Binding INTERIM_TYPE}" Width="Auto" IsReadOnly="True"/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

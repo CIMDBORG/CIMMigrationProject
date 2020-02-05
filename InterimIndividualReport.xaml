@@ -12,10 +12,16 @@
             <ComboBox Name="AssignedCombobox" VerticalAlignment="Top"  SelectionChanged="AssignedCombobox_SelectionChanged"
                                  FontSize="20"
                                 />
-            <DataGrid Name="IndRpt" Height="650" Width="1800" Margin="0,20,0,0" Background="#efe1b3"
-                                AutoGenerateColumns="True" RowHeaderWidth="0.1" FontSize="16" BorderBrush="WhiteSmoke"
+            <DataGrid   Name="IndRpt" Height="650" Width="1295" RowHeight="150" Margin="0,40,0,0"
+                                AutoGenerateColumns="False" RowHeaderWidth="0.1" FontSize="16" BorderBrush="WhiteSmoke"
                                 CanUserAddRows="False" CanUserResizeColumns="True" CanUserResizeRows="True"
-                                TextOptions.TextFormattingMode="Ideal" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"/>
+                                TextOptions.TextFormattingMode="Ideal">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Tracking Nums Left" Binding="{Binding TrkNumsLeft}" Width="Auto" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Total Scenarios" Binding="{Binding TotalScenarios}" Width="Auto" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Verified" Binding="{Binding Verified}" Width="Auto" IsReadOnly="True"/>
+                </DataGrid.Columns>
+            </DataGrid>
         </StackPanel>
     </Grid>
 </Window>

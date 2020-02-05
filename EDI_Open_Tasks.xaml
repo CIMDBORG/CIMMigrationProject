@@ -1,0 +1,61 @@
+﻿<Window x:Class="WpfApp2.EDI_Open_Tasks"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp2"
+        mc:Ignorable="d" Background="#efe1b3"
+        Title="EDI_Open_Tasks" Height="550" Width="1250" ResizeMode="CanResize">
+    <Grid>
+        <StackPanel Orientation="Vertical" Margin="10,0,0,0">
+            <TextBlock  Text="Open Tasks" FontSize="26" FontWeight="Bold"
+                                HorizontalAlignment="Left" VerticalAlignment="Center"/>
+            <ComboBox Name="TaskComboBox" HorizontalAlignment="Left" VerticalAlignment="Center"
+                                Width="150" FontSize="16" Margin="0,10,0,0" 
+                                SelectionChanged="TaskComboBox_SelectionChanged"/>
+        </StackPanel>
+        <DataGrid   Name="Imp" Height="450" Width="1000" RowHeight="100" Margin="0,40,0,0" Background="#f5f5dc"
+                                AutoGenerateColumns="False" RowHeaderWidth="0.1" FontSize="16" BorderBrush="WhiteSmoke"
+                                CanUserAddRows="False" CanUserResizeColumns="True" CanUserResizeRows="True"
+                                TextOptions.TextFormattingMode="Ideal" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Company" Binding="{Binding COMPANY_NAME}" Width="150" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Product" Binding="{Binding PRODUCT}" Width="200" IsReadOnly="True">
+                <DataGridTextColumn.ElementStyle>
+                    <Style>
+                        <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                    </Style>
+                </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Implementer" Binding="{Binding IMPLEMENTOR}" Width="150" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Status" Binding="{Binding STS_TYPE}" Width="200" IsReadOnly="True">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style>
+                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <DataGrid   Name="Maint_Req" Height="450" Width="1000" RowHeight="150" Margin="0,40,0,0" Background="#f5f5dc"
+                                AutoGenerateColumns="False" RowHeaderWidth="0.1" FontSize="16" BorderBrush="WhiteSmoke"
+                                CanUserAddRows="False" CanUserResizeColumns="True" CanUserResizeRows="True"
+                                TextOptions.TextFormattingMode="Ideal" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Visibility="Collapsed">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Case ID" Binding="{Binding REQUEST_NUMBER}" Width="150" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Customer" Binding="{Binding COMPANY_NAME}" Width="150" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Tech Contact " Binding="{Binding TECHNICAL_CONTACT}" Width="150" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Date" Binding="{Binding REQ_DATE}" Width="150" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Status" Binding="{Binding STATUS}" Width="150" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Notes" Binding="{Binding NOTES}" Width="260" IsReadOnly="True">
+                <DataGridTextColumn.ElementStyle>
+                    <Style>
+                        <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                    </Style>
+                </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Window>

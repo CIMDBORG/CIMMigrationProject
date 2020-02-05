@@ -6,8 +6,8 @@
         xmlns:local="clr-namespace:Interim"
         mc:Ignorable="d"
         Title="SaturdayScenariosReport" d:DesignHeight="1920" d:DesignWidth="1080">
-    <Grid Height="1000" Width="1800">
-        <DataGrid Name="SourceReport" Height="650" Width="1800" Margin="0,20,0,0" Background="#efe1b3"
+    <Grid>
+        <DataGrid Name="SourceReport" Height="900" Width="1800" Margin="0,20,0,0" Background="#efe1b3"
                                 AutoGenerateColumns="False" RowHeaderWidth="0.1" FontSize="16" BorderBrush="WhiteSmoke"
                                 CanUserAddRows="False" CanUserResizeColumns="True" CanUserResizeRows="True"
                                 TextOptions.TextFormattingMode="Ideal" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
@@ -15,15 +15,17 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Source" Binding="{Binding INTERIM_BILL_TYPE}" Width="Auto" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Description" Binding="{Binding INTERIM_TEST_CASE_CRITERIA}" Width="Auto" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Non-Incentive Shipper #1" Binding="{Binding INTERIM_BI_SHIP_NUM1}" Width="Auto" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Non-Incentive Shipper #1" Binding="{Binding INTERIM_BI_SHIP_NUM1}" Width="Auto" IsReadOnly="True"/>
+                <DataGridTemplateColumn Header ="Assign To" Width="100">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBox x:Name="ChangeAssignment" TextChanged="Source_TextChanged"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
                 <DataGridTextColumn Header="Non-Incentive Tracking #1" Binding="{Binding INTERIM_BI_TRACK_NUM1}" Width="Auto" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Non-Incentive Shipper #2" Binding="{Binding INTERIM_BI_SHIP_NUM2}" Width="Auto" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Non-Incentive Tracking #2" Binding="{Binding INTERIM_BI_TRACK_NUM2}" Width="Auto" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Incentive Tracking #1" Binding="{Binding INTERIM_NI_TRACK_NUM1}" Width="Auto" IsReadOnly="False"/>
-                <DataGridTextColumn Header="Incentive Shipper #1" Binding="{Binding INTERIM_NI_SHIP_NUM1}" Width="Auto" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Incentive Tracking #2" Binding="{Binding INTERIM_NI_TRACK_NUM2}" Width="Auto" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Incentive Shipper #2" Binding="{Binding INTERIM_NI_SHIP_NUM2}" Width="Auto" IsReadOnly="True"/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

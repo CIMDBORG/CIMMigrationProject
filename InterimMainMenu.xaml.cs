@@ -14,6 +14,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WpfApp2;
+using Interim;
+using WpfApp1;
 
 namespace Interim
 {
@@ -23,17 +26,19 @@ namespace Interim
     public partial class InterimMainMenu : Window
     {
         public string connectionString = ConfigurationManager.ConnectionStrings["conString"].ConnectionString;
-        public string[] user_data;
-        public InterimMainMenu(string[] arr)
+        public string[] arr;
+
+        public InterimMainMenu(string[] user_data)
         {
            InitializeComponent();
-            user_data = arr;
-            if(arr[6] == "User")
+            arr = user_data;
+            WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
+            if (arr[6] == "User")
             {
                 Assign.Visibility = Visibility.Collapsed;
             }
            TrkNumsVerified();
-           //ScenariosLeft();
+           ScenariosLeft();
            TotalTrkNums();
         }
 
@@ -106,23 +111,13 @@ namespace Interim
                 }
         }
 
-        /*private void ScenariosLeft()
+        private void ScenariosLeft()
         {
-            string scenariosLeftQry = "Select(Select Count([INTERIM_NI_TRACK_NUM2]) + " +
-                "Count([INTERIM_NI_TRACK_NUM2]) +Count([INTERIM_BI_TRACK_NUM1]) " +
-                "+Count([INTERIM_BI_TRACK_NUM2]) from INTERIM_TEST_CASES " +
-                 "INNER JOIN INTERIM_HISTORY ON(INTERIM_HISTORY.INTERIM_SOURCE = INTERIM_TEST_CASES.INTERIM_BILL_TYPE) " +
-                 "AND(INTERIM_TEST_CASES.INTERIM_CC = INTERIM_HISTORY.INTERIM_CC) " +
-                "WHERE ([INTERIM_NI_TRACK_NUM1] Like '1%') OR([INTERIM_NI_TRACK_NUM2] Like '1%') " +
-                "OR([INTERIM_BI_TRACK_NUM1] Like '1%') OR([INTERIM_BI_TRACK_NUM2] Like '1%')) " +
-                "-(Select Count([INTERIM_NI_SHIP_NUM1_STAT]) +Count([INTERIM_NI_SHIP_NUM2_STAT]) " +
-                "+Count([INTERIM_BI_SHIP_NUM1_STAT]) +Count([INTERIM_BI_SHIP_NUM2_STAT]) " +
-                "from INTERIM_TEST_CASES " +
-                 "INNER JOIN INTERIM_HISTORY ON(INTERIM_HISTORY.INTERIM_SOURCE = INTERIM_TEST_CASES.INTERIM_BILL_TYPE) " +
-                 "AND(INTERIM_TEST_CASES.INTERIM_CC = INTERIM_HISTORY.INTERIM_CC) " +
-                " WHERE [INTERIM_NI_SHIP_NUM1_STAT] is NOT NULL " +
-                "OR[INTERIM_NI_SHIP_NUM2_STAT] is NOT NULL OR[INTERIM_BI_SHIP_NUM1_STAT] " +
-                "is NOT NULL OR[INTERIM_BI_SHIP_NUM2_STAT] is NOT NULL);";
+            string scenariosLeftQry = "Select(Select Count([INTERIM_NI_TRACK_NUM2]) + Count([INTERIM_NI_TRACK_NUM2]) + Count([INTERIM_BI_TRACK_NUM1]) + Count([INTERIM_BI_TRACK_NUM2]) " +
+                                       "from INTERIM_TEST_CASES WHERE ([INTERIM_NI_TRACK_NUM1] Like '1%') OR([INTERIM_NI_TRACK_NUM2] Like '1%')OR([INTERIM_BI_TRACK_NUM1] Like '1%') " +
+                                       "OR([INTERIM_BI_TRACK_NUM2] Like '1%')) - (Select Count([INTERIM_NI_SHIP_NUM1_STAT])+Count([INTERIM_NI_SHIP_NUM2_STAT]) + " +
+                                        "Count([INTERIM_BI_SHIP_NUM1_STAT]) +Count([INTERIM_BI_SHIP_NUM2_STAT]) from INTERIM_HISTORY WHERE [INTERIM_NI_SHIP_NUM1_STAT] is NOT NULL " +
+                                        "OR[INTERIM_NI_SHIP_NUM2_STAT] is NOT NULL OR[INTERIM_BI_SHIP_NUM1_STAT] is NOT NULL OR[INTERIM_BI_SHIP_NUM2_STAT] is NOT NULL);";
 
             using (SqlConnection con = new SqlConnection(connectionString))
                 try
@@ -135,7 +130,7 @@ namespace Interim
                     {
                         for (int x = 0; x < cols; x++)
                         {
-                            TotalScenLeft.Text = "Scenarios Left: " + reader.GetInt32(0).ToString();
+                            TotalScenLeft.Text = "Tracking Nums Left: " + reader.GetInt32(0).ToString();
                         }
                     }
                     reader.Close();
@@ -150,7 +145,7 @@ namespace Interim
                 {
                     con.Close();
                 }
-        }*/
+        }
 
         //The following event handlers take you to the respective forms
         private void WeekendVerification_Click(object sender, RoutedEventArgs e)
@@ -199,6 +194,86 @@ namespace Interim
         {
             InterimIndividualReport idvRep = new InterimIndividualReport();
             idvRep.Show();
+        }
+
+        private void MainMenu_Click(object sender, RoutedEventArgs e)
+        {
+            MenuScreen mainMenu = new MenuScreen(arr);
+            this.Close();
+            mainMenu.Show();
+        }
+
+        private void ReportBtn_Click(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://github.com/CIMDBORG/CIMMigrationProject/issues");
+        }
+        private void ButtonOpenMenu_Click(object sender, RoutedEventArgs e)
+        {
+            ButtonCloseMenu.Visibility = Visibility.Visible;
+            ButtonOpenMenu.Visibility = Visibility.Collapsed;
+        }
+
+        private void ButtonCloseMenu_Click(object sender, RoutedEventArgs e)
+        {
+            ButtonCloseMenu.Visibility = Visibility.Collapsed;
+            ButtonOpenMenu.Visibility = Visibility.Visible;
+        }
+
+        private void ListViewMenu_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+            switch (((ListViewItem)((ListView)sender).SelectedItem).Name)
+            {
+                case "ItemHome":
+                    MenuScreen menu = new MenuScreen(arr);
+                    menu.Show();
+                    break;
+                case "AddRec":
+                    NewRecord nR = new NewRecord(arr);
+                    nR.Show();
+                    break;
+                case "GitHub":
+                    System.Diagnostics.Process.Start("https://github.com/CIMDBORG/CIMMigrationProject/issues");
+                    break;
+                default:
+                    break;
+            }
+        }
+        private void EdiBtn_Click_1(object sender, RoutedEventArgs e)
+        {
+            EDI_User_Menu_Window ediM = new EDI_User_Menu_Window(arr);
+            ediM.Show();
+            this.Close();
+        }
+
+        private void IssuesBtn_Click_1(object sender, RoutedEventArgs e)
+        {
+            UserMenu_Window userM = new UserMenu_Window(arr);
+            userM.Show();
+            this.Close();
+        }
+
+        private void InterimBtn_Click_1(object sender, RoutedEventArgs e)
+        {
+            InterimMainMenu intM = new InterimMainMenu(arr);
+            intM.Show();
+            this.Close();
+        }
+        private void ErrFileBtn_Click(object sender, RoutedEventArgs e)
+        {
+            ErrorFileMenu erm2 = new ErrorFileMenu(arr);
+            erm2.Show();
+        }
+
+        private void HelpBtn_Click(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://github.com/CIMDBORG/CIMMigrationProject/wiki");
+        }
+
+        private void LogoutBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+
         }
     }
 }

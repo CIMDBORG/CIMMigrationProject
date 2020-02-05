@@ -8,7 +8,7 @@
         Title="Assignments" Height="450" Width="800" Background="#efe1b3">
     <Grid>
         <StackPanel>
-            <Button x:Name="SatReport" Content="Saturday Report" HorizontalAlignment="Left" Width="150" Cursor="Hand"
+            <Button x:Name="SatReport" Content="Saturday Report/Assignments" HorizontalAlignment="Left" Width="200" Cursor="Hand"
                      Click="SatReport_Click"/>
             <Button x:Name="SourceDetailReport" Margin="0,10,0,0" Content="Source Detail Report" HorizontalAlignment="Left" Width="150" Cursor="Hand"
                      Click="SourceDetailReport_Click"/>
@@ -38,8 +38,9 @@
                                     <ComboBoxItem Content="Nick" Tag="8" />
                                     <ComboBoxItem Content="Ellen" Tag="9" />
                                     <ComboBoxItem Content="Carlos" Tag="10" />
-                                    <ComboBoxItem Content="Mike P" Tag="11" />
+                                    <ComboBoxItem Content="Mike" Tag="11" />
                                     <ComboBoxItem Content="Morty" Tag="12" />
+                                    <ComboBoxItem Content="Ken" Tag="13" />
                                 </ComboBox>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
@@ -59,8 +60,9 @@
                                     <ComboBoxItem Content="Nick" Tag="8" />
                                     <ComboBoxItem Content="Ellen" Tag="9" />
                                     <ComboBoxItem Content="Carlos" Tag="10" />
-                                    <ComboBoxItem Content="Mike P" Tag="11" />
-                                    <ComboBoxItem Content="Morty" Tag="12" />                              
+                                    <ComboBoxItem Content="Mike" Tag="11" />
+                                    <ComboBoxItem Content="Morty" Tag="12" />
+                                    <ComboBoxItem Content="Ken" Tag="13" />
                                 </ComboBox>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellEditingTemplate>

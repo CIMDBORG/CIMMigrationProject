@@ -31,7 +31,8 @@ namespace Interim
         }
         private string SrcReportQuery()
         { 
-            return "SELECT INTERIM_ID AS ID, INTERIM_TEST_CASE_CRITERIA, INTERIM_CC AS CC FROM INTERIM_TEST_CASES WHERE(INTERIM_BILL_TYPE IS NULL) AND((INTERIM_BI_SHIP_NUM1 IS NOT NULL AND INTERIM_BI_SHIP_NUM1 != '')" +
+            return "SELECT INTERIM_ID AS ID, INTERIM_TEST_CASE_CRITERIA, INTERIM_CC AS CC, INTERIM_TYPE FROM INTERIM_TEST_CASES WHERE(INTERIM_BILL_TYPE IS NULL) AND (INTERIM_ASSIGNED_NAME IS NULL) " +
+                "AND((INTERIM_BI_SHIP_NUM1 IS NOT NULL AND INTERIM_BI_SHIP_NUM1 != '')" +
                 "OR(INTERIM_BI_SHIP_NUM2 IS NOT NULL AND INTERIM_BI_SHIP_NUM2 != '') OR" +
                 "(INTERIM_NI_SHIP_NUM1 IS NOT NULL AND INTERIM_NI_SHIP_NUM1 != '') OR(INTERIM_NI_SHIP_NUM2 IS NOT NULL AND INTERIM_NI_SHIP_NUM2 != ''));";
         }
@@ -66,10 +67,9 @@ namespace Interim
         private void Source_TextChanged(object sender, TextChangedEventArgs e)
         {
             DataRowView reportRow = (DataRowView)((TextBox)e.Source).DataContext;
-            string billType = ((TextBox)e.Source).Text.ToString();
+            string name = ((TextBox)e.Source).Text.ToString();
             string cc = reportRow["CC"].ToString();
-            string updateQuery = "UPDATE INTERIM_TEST_CASES SET INTERIM_BILL_TYPE = '" + billType + "' WHERE INTERIM_ID = '" + reportRow["ID"] + "';";
-            string insertQuery = "INSERT INTO INTERIM_ASSIGNMENTS (INTERIM_CC, INTERIM_SOURCE) VALUES('" + cc + "', " + billType +"');";
+            string updateQuery = "UPDATE INTERIM_TEST_CASES SET INTERIM_ASSIGNED_ALT = 1, INTERIM_ASSIGNED_NAME = '"+ name + "' WHERE INTERIM_ID = '" + reportRow["ID"] + "';";
             using (SqlConnection connection = new SqlConnection(connectionString))
                 try
                 {

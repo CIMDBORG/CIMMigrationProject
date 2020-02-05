@@ -1,0 +1,42 @@
+﻿<Window x:Class="WpfApp2.EDI_Search_Company"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp2"
+        mc:Ignorable="d"
+        Title="EDI_Search_Company" Height="450" Width="800" Background="#efe1b3" ResizeMode="CanResizeWithGrip">
+    <Grid>
+        <StackPanel Orientation="Vertical">
+            <StackPanel Orientation="Horizontal">
+                <RadioButton GroupName="SearchCriteria" Name="CompanySearch" Content="Search by Company" Checked="RadioButton_Checked"/>
+                <RadioButton GroupName="SearchCriteria" Name="EDIIDSearch" Content="Search by EDI ID" Checked="RadioButton_Checked_1" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
+                <ComboBox Name="SearchCompanyComboBox" Visibility="Collapsed" Width="150" Margin="0,0,0,0"/>
+                <ComboBox Name="SearchIDComboBox" Width="150" Visibility="Collapsed" Margin="0,0,0,0"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <DataGrid   Name="Report" Height="Auto" MaxHeight="450"
+                                AutoGenerateColumns="False" FontSize="20"
+                                CanUserAddRows="False" RowHeaderWidth="0.1" Margin="50"
+                                TextOptions.TextFormattingMode="Ideal" Width="1650">
+
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn Width="110">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button x:Name="EditButton" Width="90" FontSize="18" Height="30" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource btnBrownTwo}" Cursor="Hand">Edit/View</Button>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTextColumn Header="Product" Binding="{Binding Priority_Number}" Width="160" IsReadOnly="False"/>
+                        <DataGridTextColumn Header="Version" Binding="{Binding System}" Width="100" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="Third Party" Binding="{Binding Category}" Width="125" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="Status" Binding="{Binding BID_ID}" Width="100" IsReadOnly="True"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>

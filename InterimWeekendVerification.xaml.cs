@@ -74,30 +74,63 @@ namespace Interim
             NIStatusComboBoxTwo.Items.Add("Help");
         }
 
+        //Get the IDs of the test cases assigned to one person
         private List<int> GetScenarioIDs()
         {
+            DateTime currentDate = DateTime.Now;
+
             List<int> IDList = new List<int>();
             string query = "Select INTERIM_TEST_CASES.[INTERIM_ID] AS INTERIM_ID from INTERIM_TEST_CASES INNER JOIN INTERIM_ASSIGNMENTS " +
                 "ON(INTERIM_TEST_CASES.INTERIM_BILL_TYPE = INTERIM_ASSIGNMENTS.INTERIM_SOURCE AND INTERIM_TEST_CASES.INTERIM_CC = INTERIM_ASSIGNMENTS.INTERIM_CC) " +
-                "WHERE INTERIM_ASSIGNMENTS.INTERIM_DAILY_ASSIGN = '" + AssignedCombobox.SelectedItem.ToString() + "' " +
-                "AND INTERIM_TEST_CASES.INTERIM_TYPE = 'Sat';";
+                "WHERE (INTERIM_ASSIGNMENTS.INTERIM_SAT_ASSIGN LIKE '%" + AssignedCombobox.SelectedItem.ToString() + "%' " +
+                "OR INTERIM_TEST_CASES.INTERIM_ASSIGNED_NAME LIKE '%" + AssignedCombobox.SelectedItem.ToString() + "%')" +
+                " AND (INTERIM_TYPE = 'Weekly');";
+
+            string queryTwo = "Select INTERIM_TEST_CASES.[INTERIM_ID] AS INTERIM_ID from INTERIM_TEST_CASES WHERE(INTERIM_TEST_CASES.INTERIM_ASSIGNED_NAME LIKE '%" + AssignedCombobox.SelectedItem.ToString() + "%') AND (INTERIM_TEST_CASES.INTERIM_TYPE = 'Weekly');";
 
             using (SqlConnection con = new SqlConnection(connectionString))
-            {
-                con.Open();
-                SqlCommand cmd = new SqlCommand(query, con);
-                using (SqlDataReader reader = cmd.ExecuteReader())
+                try
                 {
-                    while (reader.Read())
-                    {
-                        for (int i = 0; i < reader.FieldCount; i++)
+                    
+                        con.Open();
+                        SqlCommand cmd = new SqlCommand(query, con);
+                        using (SqlDataReader reader = cmd.ExecuteReader())
                         {
-                            IDList.Add(reader.GetInt32(0));
+                            while (reader.Read())
+                            {
+                                for (int i = 0; i < reader.FieldCount; i++)
+                                {
+                                    IDList.Add(reader.GetInt32(0));
+                                }
+                            }
+                            reader.Close();
                         }
-                    }
+
+                        SqlCommand cmdTwo = new SqlCommand(queryTwo, con);
+                        using (SqlDataReader readerTwo = cmdTwo.ExecuteReader())
+                        {
+                            while (readerTwo.Read())
+                            {
+                                for (int i = 0; i < readerTwo.FieldCount; i++)
+                                {
+                                    IDList.Add(readerTwo.GetInt32(0));
+                                }
+                            }
+                            readerTwo.Close();
+                        }
+
+                        return IDList;
+                    
                 }
-                return IDList;
-            }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("No scenarios have been assigned yet");
+                    return null;
+                }
+                finally
+                {
+                    con.Close();
+                }
         }
 
         /*private string UpdateScenarioQuery()
@@ -116,6 +149,7 @@ namespace Interim
                 FillInForm();
                 DayComboBox.SelectedIndex = 0;
                 BindNotes();
+                BindStatuses();
             }
             else
             {
@@ -125,16 +159,20 @@ namespace Interim
 
         private void FillAssignedComboBox(ComboBox comboBox)
         {
-            comboBox.Items.Add("Pawel");
-            comboBox.Items.Add("Jeff");
-            comboBox.Items.Add("Jan-Marie");
+            comboBox.Items.Add("Carlos");
             comboBox.Items.Add("Chris");
-            comboBox.Items.Add("Tau");
-            comboBox.Items.Add("Dom");
-            comboBox.Items.Add("Sam");
             comboBox.Items.Add("Brandon");
-            comboBox.Items.Add("Nick");
+            comboBox.Items.Add("Dom");
             comboBox.Items.Add("Ellen");
+            comboBox.Items.Add("Jan-Marie");
+            comboBox.Items.Add("Jeff");
+            comboBox.Items.Add("Ken");
+            comboBox.Items.Add("Mike");
+            comboBox.Items.Add("Morty");
+            comboBox.Items.Add("Nick");
+            comboBox.Items.Add("Pawel");
+            comboBox.Items.Add("Sam");
+            comboBox.Items.Add("Tau");
         }
 
         private void FillResultComboBox()
@@ -161,7 +199,7 @@ namespace Interim
             IncShipNumOne.Text = issue_data[0];
             IncTrkNumOne.Text = issue_data[1];
             NonIncShipNumOne.Text = issue_data[5];
-            NonIncTrkNumOne.Text = issue_data[6];
+            NonIncTrkNumOne.Text = issue_data[4];
             IncShipNumTwo.Text = issue_data[2];
             IncTrkNumTwo.Text = issue_data[3];
             NonIncShipNumTwo.Text = issue_data[7];
@@ -170,29 +208,76 @@ namespace Interim
             NonIncTrkNumTwo.Text = issue_data[6];
             Source.Text = "Source: " + issue_data[10];
             Description.Text = issue_data[11];
+
             if (issue_data[12] != null)
             {
-                ResultCombobox.SelectedItem = issue_data[12];
-            }
-            else
-            {
-                ResultCombobox.SelectedItem = null;
-            }
-            if (issue_data[13] != null)
-            {
-                AltComboBox.SelectedItem = issue_data[13];
+                AltComboBox.SelectedItem = issue_data[12];
             }
             else
             {
                 AltComboBox.SelectedItem = null;
             }
-            if (issue_data[14] != null)
+            if (issue_data[13] != null)
             {
-                Defect.Text = issue_data[14];
+                Defect.Text = issue_data[13];
             }
             else
             {
                 Defect.Text = null;
+            }
+            DetermineDups();
+            BindResult();
+        }
+
+        private void BindResult()
+        {
+            string query;
+
+            query = "SELECT INTERIM_CRITERIA_STATUS " +
+                "FROM INTERIM_HISTORY INNER JOIN INTERIM_TEST_CASES ON (INTERIM_TEST_CASES.INTERIM_TEST_CASE_CRITERIA = INTERIM_HISTORY.INTERIM_DESCRIPTION AND INTERIM_TEST_CASES.INTERIM_CC = INTERIM_HISTORY.INTERIM_CC) " + 
+                "WHERE INTERIM_ID = " + GetID() + ";";
+
+            string result;
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    {
+                        connection.Open();
+                        SqlCommand command = new SqlCommand(query, connection);
+
+                        SqlDataReader reader = command.ExecuteReader();
+                        int cols = reader.FieldCount;
+                        string[] data = new string[cols];
+                        while (reader.Read())
+                        {
+                            for (int x = 0; x < cols; x++)
+                            {
+                                data[x] = reader.GetValue(x).ToString();
+                            }
+                        }
+                        reader.Close();
+                        connection.Close();
+                        if (data[0].Length > 0)
+                        {
+                            result = data[0];
+                            ResultCombobox.SelectedItem = result;
+                        }
+                        else
+                        {
+                            ResultCombobox.Text = null;
+                        }
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error:" + ex.Message);
+                }
+                finally
+                {
+                    connection.Close();
+                }
             }
         }
 
@@ -203,9 +288,9 @@ namespace Interim
                 {
                     string query = "SELECT INTERIM_BI_SHIP_NUM1, INTERIM_BI_TRACK_NUM1, INTERIM_BI_SHIP_NUM2, INTERIM_BI_TRACK_NUM2, INTERIM_NI_TRACK_NUM1, " +
                         "INTERIM_NI_SHIP_NUM1, INTERIM_NI_TRACK_NUM2" +
-                    ", INTERIM_NI_SHIP_NUM2, INTERIM_ID, INTERIM_TEST_CASES.INTERIM_CC, INTERIM_ASSIGNMENTS.INTERIM_SOURCE AS SOURCE, " +
-                    "INTERIM_TEST_CASES.INTERIM_TEST_CASE_CRITERIA AS DESCRIPTION, INTERIM_CRITERIA_STATUS, INTERIM_ALT_AUD, INTERIM_DEFECT_NO FROM INTERIM_ASSIGNMENTS " +
-                    "INNER JOIN INTERIM_TEST_CASES ON INTERIM_ASSIGNMENTS.INTERIM_SOURCE = INTERIM_TEST_CASES.INTERIM_BILL_TYPE " +
+                    ", INTERIM_NI_SHIP_NUM2, INTERIM_ID, INTERIM_TEST_CASES.INTERIM_CC, INTERIM_HISTORY.INTERIM_SOURCE AS SOURCE, " +
+                    "INTERIM_TEST_CASES.INTERIM_TEST_CASE_CRITERIA AS DESCRIPTION, INTERIM_ALT_AUD, INTERIM_DEFECT_NO FROM INTERIM_HISTORY " +
+                    "INNER JOIN INTERIM_TEST_CASES ON (INTERIM_HISTORY.INTERIM_DESCRIPTION = INTERIM_TEST_CASES.INTERIM_TEST_CASE_CRITERIA) AND (INTERIM_TEST_CASES.INTERIM_CC = INTERIM_HISTORY.INTERIM_CC) " +
                     "WHERE INTERIM_TEST_CASES.INTERIM_ID = '" + ID + "';";
 
                     connection.Open();
@@ -238,6 +323,123 @@ namespace Interim
                 }
         }
 
+        //checks whether a tracking number is a dup or not
+        private void DetermineDups()
+        {
+            int incTrkNumOneCnt;
+            int incTrkNumTwoCnt;
+            int niTrkNumOneCnt;
+            int niTrkNumTwoCnt;
+
+            string incTrackingNumCountOne = "SELECT COUNT(INTERIM_BI_TRACK_NUM1) FROM INTERIM_TEST_CASES " +
+                                        "WHERE INTERIM_BI_TRACK_NUM1 = '" + IncTrkNumOne.Text.ToString() + "' AND INTERIM_TEST_CASE_CRITERIA = '" + Description.Text.ToString() + "';";
+
+            string incTrackingNumCountTwo = "SELECT COUNT(INTERIM_BI_TRACK_NUM2) FROM INTERIM_TEST_CASES " +
+                                        "WHERE INTERIM_BI_TRACK_NUM2 = '" + IncTrkNumTwo.Text.ToString() + "' AND INTERIM_TEST_CASE_CRITERIA = '" + Description.Text.ToString() + "';";
+
+            string niTrackingNumCountOne = "SELECT COUNT(INTERIM_NI_TRACK_NUM1) FROM INTERIM_TEST_CASES " +
+                                        "WHERE INTERIM_NI_TRACK_NUM1 = '" + NonIncTrkNumOne.Text.ToString() + "'AND INTERIM_TEST_CASE_CRITERIA = '" + Description.Text.ToString() + "';";
+
+            string niTrackingNumCountTwo = "SELECT COUNT(INTERIM_NI_TRACK_NUM2) FROM INTERIM_TEST_CASES " +
+                                        "WHERE INTERIM_NI_TRACK_NUM2 = '" + NonIncTrkNumTwo.Text.ToString() + "'AND INTERIM_TEST_CASE_CRITERIA = '" + Description.Text.ToString() + "';";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+                try
+                {
+                    connection.Open();
+                    SqlCommand command1 = new SqlCommand(incTrackingNumCountOne, connection);
+                    SqlCommand command2 = new SqlCommand(incTrackingNumCountTwo, connection);
+                    SqlCommand command3 = new SqlCommand(niTrackingNumCountOne, connection);
+                    SqlCommand command4 = new SqlCommand(niTrackingNumCountTwo, connection);
+
+                    SqlDataReader reader1 = command1.ExecuteReader();
+                    int cols = reader1.FieldCount;
+                    while (reader1.Read())
+                    {
+                        for (int x = 0; x < cols; x++)
+                        {
+                            incTrkNumOneCnt = reader1.GetInt32(0);
+                            if ((incTrkNumOneCnt > 1) && !(IncTrkNumOne.Text.StartsWith("X")))
+                            {
+                                IncTrkNumOneDup.Visibility = Visibility.Visible;
+                            }
+                            else
+                            {
+                                IncTrkNumOneDup.Visibility = Visibility.Hidden;
+                            }
+                        }
+                    }
+                    reader1.Close();
+
+                    SqlDataReader reader2 = command2.ExecuteReader();
+                    while (reader2.Read())
+                    {
+                        for (int x = 0; x < cols; x++)
+                        {
+                            incTrkNumTwoCnt = reader2.GetInt32(0);
+                            if (incTrkNumTwoCnt > 1 && !(IncTrkNumTwo.Text.StartsWith("X")))
+                            {
+                                IncTrkNumTwoDup.Visibility = Visibility.Visible;
+                            }
+                            else
+                            {
+                                IncTrkNumTwoDup.Visibility = Visibility.Hidden;
+                            }
+                        }
+                    }
+                    reader2.Close();
+
+                    SqlDataReader reader3 = command3.ExecuteReader();
+                    while (reader3.Read())
+                    {
+                        for (int x = 0; x < cols; x++)
+                        {
+                            niTrkNumOneCnt = reader3.GetInt32(0);
+                            if (niTrkNumOneCnt > 1 && !(NonIncTrkNumOne.Text.StartsWith("X")))
+                            {
+                                NonIncTrkNumOneDup.Visibility = Visibility.Visible;
+                            }
+                            else
+                            {
+                                NonIncTrkNumOneDup.Visibility = Visibility.Hidden;
+                            }
+                        }
+                    }
+                    reader3.Close();
+
+                    SqlDataReader reader4 = command4.ExecuteReader();
+                    while (reader4.Read())
+                    {
+                        for (int x = 0; x < cols; x++)
+                        {
+                            niTrkNumTwoCnt = reader4.GetInt32(0);
+                            if (niTrkNumTwoCnt > 1 && !(NonIncTrkNumTwo.Text.StartsWith("X")))
+                            {
+                                NonIncTrkNumTwoDup.Visibility = Visibility.Visible;
+                            }
+                            else
+                            {
+                                NonIncTrkNumTwoDup.Visibility = Visibility.Hidden;
+                            }
+                        }
+                    }
+
+                    reader4.Close();
+
+                    connection.Close();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error:" + ex.Message);
+                }
+                finally
+                {
+                    connection.Close();
+                }
+        }
+
+
+
         //event handler for back arrow
         //subtract one for the current issue id text, subtract current index from list
         private void BackArrow_Click(object sender, RoutedEventArgs e)
@@ -252,6 +454,7 @@ namespace Interim
                 SelectScenarioData(IDs[currentID].ToString());
                 FillInForm();
                 BindNotes();
+                BindStatuses();
             }
         }
 
@@ -269,6 +472,7 @@ namespace Interim
                 SelectScenarioData(IDs[currentID].ToString());
                 FillInForm();
                 BindNotes();
+                BindStatuses();
             }
         }
 
@@ -317,6 +521,7 @@ namespace Interim
                 }
         }
 
+        //update notes
         private void Notes_TextChanged(object sender, TextChangedEventArgs e)
         {
             string notesQuery = "UPDATE INTERIM_HISTORY SET INTERIM_" + verificationDay + "_NOTES = '" + Notes.Text.ToString().Replace("'", "\''") + "' FROM INTERIM_HISTORY " +
@@ -416,6 +621,7 @@ namespace Interim
                     connection.Close();
                 }
         }
+
 
         private void IncStatusComboBoxTwo_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -533,12 +739,50 @@ namespace Interim
                 }
         }
 
+        //updates result of tracking number
+        private void ResultCombobox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            string result;
+            if (ResultCombobox.SelectedItem != null)
+            {
+                result = ResultCombobox.SelectedItem.ToString();
+            }
+            else
+            {
+                result = "";
+            }
+
+            string scenarioResult = "UPDATE INTERIM_HISTORY SET INTERIM_CRITERIA_STATUS = '" + result.Replace("'", "\''") + "' FROM INTERIM_HISTORY " +
+                                    "INNER JOIN INTERIM_TEST_CASES ON(INTERIM_HISTORY.INTERIM_SOURCE = INTERIM_TEST_CASES.INTERIM_BILL_TYPE) " +
+                                    "AND(INTERIM_TEST_CASES.INTERIM_CC = INTERIM_HISTORY.INTERIM_CC) AND (INTERIM_TEST_CASES.INTERIM_TEST_CASE_CRITERIA = INTERIM_HISTORY.INTERIM_DESCRIPTION) WHERE INTERIM_TEST_CASES.INTERIM_ID = " + GetID() + ";";
+            using (SqlConnection connection = new SqlConnection(connectionString))
+                try
+                {
+                    connection.Open();
+                    SqlCommand managerCmd = new SqlCommand(scenarioResult, connection);
+                    managerCmd.ExecuteNonQuery();
+                    SelectScenarioData(GetID().ToString());
+                    BindStatuses();
+                    FillInForm();
+                }
+
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.ToString());
+                }
+
+                finally
+                {
+                    connection.Close();
+                }
+        }
+
         private void BindStatuses()
         {
             string query;
 
             query = "SELECT INTERIM_NI_SHIP_NUM1_STAT, INTERIM_NI_SHIP_NUM2_STAT, INTERIM_BI_SHIP_NUM1_STAT, INTERIM_BI_SHIP_NUM2_STAT " +
-                "FROM INTERIM_HISTORY INNER JOIN INTERIM_TEST_CASES ON (INTERIM_TEST_CASES.INTERIM_BILL_TYPE = INTERIM_HISTORY.INTERIM_SOURCE AND INTERIM_TEST_CASES.INTERIM_CC = INTERIM_HISTORY.INTERIM_CC) " +
+                "FROM INTERIM_HISTORY INNER JOIN INTERIM_TEST_CASES ON ( INTERIM_TEST_CASES.INTERIM_CC = INTERIM_HISTORY.INTERIM_CC) " +
                 "AND (INTERIM_TEST_CASES.INTERIM_TEST_CASE_CRITERIA = INTERIM_HISTORY.INTERIM_DESCRIPTION) WHERE INTERIM_ID = " + GetID() + ";";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -608,42 +852,6 @@ namespace Interim
                 }
             }
         }
-
-        private void ResultCombobox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            string result;
-            if (ResultCombobox.SelectedItem != null)
-            {
-                result = ResultCombobox.SelectedItem.ToString();
-            }
-            else
-            {
-                result = "";
-            }
-
-            string scenarioResult = "UPDATE INTERIM_TEST_CASES SET INTERIM_CRITERIA_STATUS = '" + result.Replace("'", "\''") + "' WHERE INTERIM_ID = " + GetID() + ";";
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
-                try
-                {
-                    connection.Open();
-                    SqlCommand managerCmd = new SqlCommand(scenarioResult, connection);
-                    managerCmd.ExecuteNonQuery();
-                    SelectScenarioData(GetID().ToString());
-                    FillInForm();
-                }
-
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.ToString());
-                }
-
-                finally
-                {
-                    connection.Close();
-                }
-        }
-
         //bind notes to the form based on what day is chosen from the combobox
         private void BindNotes()
         {
@@ -653,25 +861,25 @@ namespace Interim
             if (DayComboBox.SelectedItem.ToString() == "Tue")
             {
                 query = "SELECT INTERIM_TUE_NOTES FROM INTERIM_HISTORY " +
-                        "INNER JOIN INTERIM_TEST_CASES ON (INTERIM_TEST_CASES.INTERIM_BILL_TYPE = INTERIM_HISTORY.INTERIM_SOURCE AND INTERIM_TEST_CASES.INTERIM_CC = INTERIM_HISTORY.INTERIM_CC) " +
+                        "INNER JOIN INTERIM_TEST_CASES ON ( INTERIM_TEST_CASES.INTERIM_CC = INTERIM_HISTORY.INTERIM_CC) " +
                         "AND (INTERIM_TEST_CASES.INTERIM_TEST_CASE_CRITERIA = INTERIM_HISTORY.INTERIM_DESCRIPTION) WHERE INTERIM_ID = " + GetID() + ";";
             }
 
             else if (DayComboBox.SelectedItem.ToString() == "Wed")
             {
                 query = "SELECT INTERIM_WED_NOTES FROM INTERIM_HISTORY INNER JOIN INTERIM_TEST_CASES " +
-                    "ON (INTERIM_TEST_CASES.INTERIM_BILL_TYPE = INTERIM_HISTORY.INTERIM_SOURCE AND INTERIM_TEST_CASES.INTERIM_CC = INTERIM_HISTORY.INTERIM_CC) AND (INTERIM_TEST_CASES.INTERIM_TEST_CASE_CRITERIA = INTERIM_HISTORY.INTERIM_DESCRIPTION)" +
+                    "ON ( INTERIM_TEST_CASES.INTERIM_CC = INTERIM_HISTORY.INTERIM_CC) AND (INTERIM_TEST_CASES.INTERIM_TEST_CASE_CRITERIA = INTERIM_HISTORY.INTERIM_DESCRIPTION)" +
                     " WHERE INTERIM_ID = " + GetID() + ";";
             }
 
             else if (DayComboBox.SelectedItem.ToString() == "Thu")
             {
-                query = "SELECT INTERIM_THU_NOTES FROM INTERIM_HISTORY INNER JOIN INTERIM_TEST_CASES ON (INTERIM_TEST_CASES.INTERIM_BILL_TYPE = INTERIM_HISTORY.INTERIM_SOURCE AND INTERIM_TEST_CASES.INTERIM_CC = INTERIM_HISTORY.INTERIM_CC) AND (INTERIM_TEST_CASES.INTERIM_TEST_CASE_CRITERIA = INTERIM_HISTORY.INTERIM_DESCRIPTION)" +
+                query = "SELECT INTERIM_THU_NOTES FROM INTERIM_HISTORY INNER JOIN INTERIM_TEST_CASES ON ( INTERIM_TEST_CASES.INTERIM_CC = INTERIM_HISTORY.INTERIM_CC) AND (INTERIM_TEST_CASES.INTERIM_TEST_CASE_CRITERIA = INTERIM_HISTORY.INTERIM_DESCRIPTION)" +
                     " WHERE INTERIM_ID = " + GetID() + ";";
             }
             else
             {
-                query = "SELECT INTERIM_FRI_NOTES FROM INTERIM_HISTORY INNER JOIN INTERIM_TEST_CASES ON (INTERIM_TEST_CASES.INTERIM_BILL_TYPE = INTERIM_HISTORY.INTERIM_SOURCE AND INTERIM_TEST_CASES.INTERIM_CC = INTERIM_HISTORY.INTERIM_CC) AND (INTERIM_TEST_CASES.INTERIM_TEST_CASE_CRITERIA = INTERIM_HISTORY.INTERIM_DESCRIPTION)" +
+                query = "SELECT INTERIM_FRI_NOTES FROM INTERIM_HISTORY INNER JOIN INTERIM_TEST_CASES ON ( INTERIM_TEST_CASES.INTERIM_CC = INTERIM_HISTORY.INTERIM_CC) AND (INTERIM_TEST_CASES.INTERIM_TEST_CASE_CRITERIA = INTERIM_HISTORY.INTERIM_DESCRIPTION)" +
                     "WHERE INTERIM_ID = " + GetID() + ";";
             }
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -713,7 +921,6 @@ namespace Interim
                 }
             }
         }
-
         private void DayComboBox_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
         {
             if (DayComboBox.SelectedItem.ToString() != null)

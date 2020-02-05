@@ -1,0 +1,66 @@
+﻿<Page x:Class="WpfApp1.BrowseOpenItems"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:WpfApp1"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="BrowseOpenItems">
+
+    <Grid>
+        <StackPanel  Margin="5,20,5,0">
+
+            <StackPanel Orientation="Horizontal" Margin="50,0,0,0" HorizontalAlignment="Left">
+                <TextBlock  Text="All Open Items" FontSize="28" FontWeight="Bold"
+                                HorizontalAlignment="Left" VerticalAlignment="Center"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+
+                <TextBlock  Text="Choose a System: " FontSize="20" Margin="10,20,0,0"
+                                HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+                <ComboBox   x:Name="SystemComboBox" Margin="10,20,0,0" 
+                                HorizontalAlignment="Left" VerticalAlignment="Center"
+                                Width="125" FontSize="20" 
+                                SelectionChanged="SystemComboBox_SelectionChanged"/>
+            </StackPanel>
+
+            <DataGrid   Name="Report" MaxHeight="600" RowHeaderWidth="0.1" Margin="0,40,0,0" Width="1800"
+                                AutoGenerateColumns="False" FontSize="20"
+                                CanUserAddRows="False" 
+                                TextOptions.TextFormattingMode="Ideal">
+
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn Width="110">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button x:Name="EditButton" Width="90" FontSize="18" Height="30" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource btnBrownTwo}" Cursor="Hand"  Click="EditButton_Click">Edit/View</Button>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+
+                    <DataGridTextColumn Header="Priority Number" Binding="{Binding Priority_Number}" Width="175" IsReadOnly="False"/>
+                    <DataGridTextColumn Header="System" Binding="{Binding System}" Width="100" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Category" Binding="{Binding Category}" Width="125" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="130" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="BID ID" Binding="{Binding BID_ID}" Width="100" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Owner" Binding="{Binding Owner}" Width="125" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Req" Binding="{Binding Req}" Width="150" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Title" Binding="{Binding Title}" Width="300" IsReadOnly="True">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style>
+                                <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Impact" Binding="{Binding Impact}" Width="130" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Days" Binding="{Binding Days}" Width="75" IsReadOnly="True"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            <Button Name="Export"  Cursor ="Hand" Style="{StaticResource btnBrownTwo}" Width="125" FontSize="18" Margin="0,0,0,0" Content="Export To Excel" Height="25" HorizontalAlignment="Left" Click="Export_Click" Visibility="Visible"/>
+        </StackPanel>
+    </Grid>
+</Page>

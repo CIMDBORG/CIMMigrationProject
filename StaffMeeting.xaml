@@ -1,0 +1,63 @@
+﻿<Page x:Class="WpfApp2.StaffMeeting"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp2"
+        mc:Ignorable="d"
+        Title="StaffMeeting" Height="1000" Width="1800">
+    <Grid>
+        <StackPanel  Margin="0,20,5,0">
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,0" HorizontalAlignment="Left">
+                <TextBlock  Text="Staff Meeting" FontSize="28" FontWeight="Bold"
+                                HorizontalAlignment="Left" VerticalAlignment="Center"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal">
+                <StackPanel>
+                    <DataGrid   Name="Report" MaxHeight="600" Height="Auto" RowHeaderWidth="0.1" Width="1750" FontSize="20"
+                                AutoGenerateColumns="False" MaxColumnWidth="300" Margin="0,50,0,0"
+                                CanUserAddRows="False" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"
+                                TextOptions.TextFormattingMode="Ideal">
+
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn Width="Auto">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button x:Name="EditButton" Cursor="Hand" Width="95" Height="25" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center" Click="EditButton_Click" Style="{StaticResource btnBrownTwo}">Edit/View</Button>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTextColumn Header="Assigned To" Binding="{Binding Assigned_To}" Width="175" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Start Date" Binding="{Binding Opened_Date}" Width="125" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Title" Binding="{Binding Title}" Width="275" IsReadOnly="True">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style>
+                                        <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="Supporting Details" Binding="{Binding Supporting_Details}" Width="275" IsReadOnly="True">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style>
+                                        <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="100" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Planned Completion" Binding="{Binding Due_Date}" Width="200" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Completion Date" Binding="{Binding Completed_Date}" Width="175" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Internal Notes" Binding="{Binding Internal_Notes}" Width="275" IsReadOnly="True">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style>
+                                        <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Page>

@@ -34,7 +34,7 @@ namespace Interim
         {
             return "Select INTERIM_ID, INTERIM_BILL_TYPE, INTERIM_TEST_CASE_CRITERIA, INTERIM_NI_SHIP_NUM1, INTERIM_NI_TRACK_NUM1, " +
                 "INTERIM_NI_SHIP_NUM2, INTERIM_NI_TRACK_NUM2, INTERIM_BI_SHIP_NUM1, INTERIM_BI_TRACK_NUM1, INTERIM_BI_SHIP_NUM2, " +
-                "INTERIM_BI_TRACK_NUM2 from INTERIM_TEST_CASES WHERE INTERIM_TYPE = 'WEEKLY' " +
+                "INTERIM_BI_TRACK_NUM2, INTERIM_ASSIGNED_NAME from INTERIM_TEST_CASES WHERE INTERIM_TYPE = 'WEEKLY' " +
                 "AND (INTERIM_BILL_TYPE IS NOT NULL OR INTERIM_BILL_TYPE <>0) " +
                 "AND (INTERIM_TEST_CASE_CRITERIA IS NOT NULL OR INTERIM_TEST_CASE_CRITERIA <>0) ";
         }
@@ -62,6 +62,31 @@ namespace Interim
                 finally
                 {
                     con.Close();
+                }
+        }
+
+        private void Source_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            DataRowView reportRow = (DataRowView)((TextBox)e.Source).DataContext;
+            string name = ((TextBox)e.Source).Text.ToString();
+            string cc = reportRow["CC"].ToString();
+            string updateQuery = "UPDATE INTERIM_TEST_CASES SET INTERIM_ASSIGNED_ALT = 1, INTERIM_ASSIGNED_NAME = '" + name + "' WHERE INTERIM_ID = '" + reportRow["ID"] + "';";
+            using (SqlConnection connection = new SqlConnection(connectionString))
+                try
+                {
+                    connection.Open();
+                    SqlCommand dailyCmd = new SqlCommand(updateQuery, connection);
+                    dailyCmd.ExecuteNonQuery();
+                }
+
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.ToString());
+                }
+
+                finally
+                {
+                    connection.Close();
                 }
         }
     }

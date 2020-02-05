@@ -1,0 +1,74 @@
+﻿<Window x:Class="WpfApp2.EDI_Submit_PWR"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp2"
+        mc:Ignorable="d"
+        Title="EDI_Submit_PWR" Height="700" Width="1000" Background="LightGoldenrodYellow">
+    <Grid>
+        <StackPanel Orientation="Horizontal">
+            <StackPanel Orientation="Vertical">
+            <Label HorizontalAlignment="Left" Content="Request ID: " Width="250" FontSize="20"/>
+                <StackPanel Orientation="Horizontal">
+                    <Label HorizontalAlignment="Left" Content="Company " Width="150" FontSize="20"/>
+                    <TextBox x:Name="CompanyAddress" Style="{StaticResource Textbox1}" Width="250" Height="30" FontSize="20"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label HorizontalAlignment="Left" Content="Product " Width="150" FontSize="20"/>
+                    <TextBox x:Name="Product" Style="{StaticResource Textbox1}" Width="250" Height="30" FontSize="20"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label HorizontalAlignment="Left" Content="Map " Width="150" FontSize="20"/>
+                    <TextBox x:Name="Map" Style="{StaticResource Textbox1}" Width="250" Height="30" FontSize="20"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label HorizontalAlignment="Left" Content="Third Party " Width="150" FontSize="20"/>
+                    <TextBox x:Name="ThirdParty" Style="{StaticResource Textbox1}" Width="250" Height="30" FontSize="20"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label HorizontalAlignment="Left" Content="Instructions: " Width="150" FontSize="20"/>
+                    <TextBox x:Name="Instructions" Style="{StaticResource Textbox1}" Width="350" Height="100" FontSize="20"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="175,25,0,0">
+                    <Border Background="Yellow"/>
+                    <Label HorizontalAlignment="Left" Content="From" Width="60" FontSize="20"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="50,25,0,0">
+                    <Label HorizontalAlignment="Left" Content="EDI ID" Width="100" FontSize="20"/>
+                    <TextBox x:Name="EDIID" Style="{StaticResource Textbox1}" Width="250" Height="30" FontSize="20"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="50,25,0,0">
+                    <Label HorizontalAlignment="Left" Content="EDI Qual" Width="100" FontSize="20"/>
+                    <TextBox x:Name="EDIQual" Style="{StaticResource Textbox1}" Width="250" Height="30" FontSize="20"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="50,25,0,0">
+                    <Label HorizontalAlignment="Left" Content="Remote ID" Width="100" FontSize="20"/>
+                    <TextBox x:Name="RemoteID" Style="{StaticResource Textbox1}" Width="250" Height="30" FontSize="20"/>
+                </StackPanel>
+            </StackPanel>
+            <StackPanel Orientation="Vertical">
+                <StackPanel Orientation="Horizontal">
+                    <Label HorizontalAlignment="Left" Content="Request Type " Width="150" FontSize="20"/>
+                    <ComboBox x:Name="RequestType" Width="Auto" FontSize="20"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label HorizontalAlignment="Left" Content="Type Sub" Width="150" FontSize="20"/>
+                    <ComboBox x:Name="TypeSub" Width="Auto" FontSize="20"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label HorizontalAlignment="Left" Content="Request Date" Width="150" FontSize="20"/>
+                    <DatePicker x:Name="RequestDate" FontSize="20"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label HorizontalAlignment="Left" Content="Owner" Width="150" FontSize="20"/>
+                    <TextBox x:Name="Owner" Style="{StaticResource Textbox1}" Width="250" Height="30" FontSize="20"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label HorizontalAlignment="Left" Content="Multi Van" Width="150" FontSize="20"/>
+                    <CheckBox x:Name="MultiVan" FontSize="20"/>
+                </StackPanel>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>

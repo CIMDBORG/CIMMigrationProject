@@ -49,6 +49,9 @@
                 <TextBox x:Name="IncTrkNumOne" Background="WhiteSmoke"
                     Margin="20,00,0,0" IsReadOnly="False"
                     HorizontalAlignment="Left" Width="270" FontSize="26" TabIndex="2" Height="40"/>
+                <TextBlock x:Name="IncTrkNumOneDup" Text="Dup"
+                    Margin="0,0,0,0" Visibility="Hidden"
+                    HorizontalAlignment="Left" Width="40" FontStyle="Oblique" FontWeight="Bold" FontSize="20"/>
                 <ComboBox Name="IncStatusComboBoxOne" HorizontalAlignment="Left" VerticalAlignment="Center"
                                 Width="150" FontSize="26" Margin="20,0,0,0"
                                 SelectionChanged="IncStatusComboBoxOne_SelectionChanged"/>
@@ -59,6 +62,9 @@
                 <TextBox x:Name="NonIncTrkNumOne" Background="WhiteSmoke"
                     Margin="20,00,0,0" IsReadOnly="False"
                     HorizontalAlignment="Left" Width="270" Height="40" FontSize="26" TabIndex="2"/>
+                <TextBlock x:Name="NonIncTrkNumOneDup" Text="Dup"
+                    Margin="0,0,0,0" Visibility="Hidden"
+                    HorizontalAlignment="Left" Width="40" FontStyle="Oblique" FontWeight="Bold" FontSize="20"/>
                 <ComboBox Name="NIStatusComboBoxOne" VerticalAlignment="Center"
                                 Width="150" FontSize="26" Margin="20,0,0,0"
                                 SelectionChanged="NIStatusComboBoxOne_SelectionChanged"/>
@@ -71,6 +77,9 @@
                 <TextBox x:Name="IncTrkNumTwo" Background="WhiteSmoke"
                     Margin="20,0,0,0" IsReadOnly="False"
                     HorizontalAlignment="Left" Width="270" Height="40" FontSize="26" TabIndex="2"/>
+                <TextBlock x:Name="IncTrkNumTwoDup" Text="Dup"
+                    Margin="0,0,0,0" Visibility="Hidden"
+                    HorizontalAlignment="Left" Width="40" FontStyle="Oblique" FontWeight="Bold" FontSize="20"/>
                 <ComboBox Name="IncStatusComboBoxTwo" HorizontalAlignment="Left" VerticalAlignment="Center"
                                 Width="150" FontSize="26" Margin="20,0,0,0"
                                 SelectionChanged="IncStatusComboBoxTwo_SelectionChanged"/>
@@ -80,6 +89,9 @@
                 <TextBox x:Name="NonIncTrkNumTwo" Background="WhiteSmoke"
                     Margin="20,0,0,0" IsReadOnly="False"
                     HorizontalAlignment="Left" Width="270" Height="40" FontSize="26" TabIndex="2"/>
+                <TextBlock x:Name="NonIncTrkNumTwoDup" Text="Dup"
+                    Margin="0,0,0,0" Visibility="Hidden"
+                    HorizontalAlignment="Left" Width="40" FontStyle="Oblique" FontWeight="Bold" FontSize="20"/>
                 <ComboBox Name="NIStatusComboBoxTwo" VerticalAlignment="Center"
                                 Width="150" FontSize="26" Margin="20,0,0,0"
                                 SelectionChanged="NIStatusComboBoxTwo_SelectionChanged"/>

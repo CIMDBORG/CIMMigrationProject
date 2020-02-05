@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectView>ProjectFiles</ProjectView>
+    <PublishUrlHistory>\\mornas2\CIM\Production\Mike Figueroa Issues Database Application\|C:\Users\NVB3NPK\Desktop\LoginWPF-Demo Copy\|C:\Users\NVB3NPK\Desktop\|publish\</PublishUrlHistory>
+    <InstallUrlHistory>\\mornas2\CIM\Production\Mike Figueroa Issues Database Application\|\\mornas2\CIM\</InstallUrlHistory>
+    <SupportUrlHistory />
+    <UpdateUrlHistory />
+    <BootstrapperUrlHistory />
+    <ErrorReportUrlHistory />
+    <FallbackCulture>en-US</FallbackCulture>
+    <VerifyUploadedFiles>false</VerifyUploadedFiles>
+  </PropertyGroup>
+  <PropertyGroup>
+    <EnableSecurityDebugging>false</EnableSecurityDebugging>
+  </PropertyGroup>
+</Project>

@@ -1,0 +1,63 @@
+﻿<Window x:Class="WpfApp2.EDI_Search_Products"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp2"
+        mc:Ignorable="d"
+        Title="EDI_Search_Products" Height="450" Width="800">
+    <Grid Background="LightGoldenrodYellow">
+        <StackPanel Orientation="Vertical">
+
+            <TextBlock Name="CmpName" FontSize="20"/>
+
+            <StackPanel Orientation="Horizontal">
+
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Name ="CmpContact" FontSize="20"/>
+                    <TextBlock Name ="CmpPhoneNum" FontSize="20"/>
+                    <TextBlock Name ="CmpEmailAddress" FontSize="20"/>
+                    <TextBlock Name ="CmpSteetAddress" FontSize="20"/>
+                    <TextBlock Name ="CmpCity" FontSize="20"/>
+                    <TextBlock Name ="CmpState" FontSize="20"/>
+                    <TextBlock Name ="CmpZip" FontSize="20"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Name ="TechContact" FontSize="20"/>
+                    <TextBlock Name ="TechPhoneNum" FontSize="20"/>
+                    <TextBlock Name ="TechEmailAddress" FontSize="20"/>
+                    <TextBlock Name ="TechSteetAddress" FontSize="20"/>
+                    <TextBlock Name ="TechCity" FontSize="20"/>
+                    <TextBlock Name ="TechState" FontSize="20"/>
+                    <TextBlock Name ="TechZip" FontSize="20"/>
+                </StackPanel>
+
+            </StackPanel>
+
+            <Button Name="AddProd" Cursor="Hand" Style="{StaticResource btnBrownTwo}" Width="125" FontSize="20" HorizontalAlignment="Right"
+                                        Content="Add Product" Height="30" Click="AddProd_Click"/>
+
+            <DataGrid>
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn Width="Auto" x:Name="HistoryBtnCol">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Name="PWR" Cursor="Hand" Style="{StaticResource btnBrownTwo}" Width="125" FontSize="20" 
+                                        Content="Submit PWR" Click="PWR_Click" Height="30"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Header="EDI ID" Width="75" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Product" Width="75" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Version" Width="75" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="3rd Party" Width="75" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Status" Width="75" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Product ID" Width="75" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Comments" Width="75" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Last Update" Width="75" IsReadOnly="True"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </StackPanel>
+    </Grid>
+</Window>
