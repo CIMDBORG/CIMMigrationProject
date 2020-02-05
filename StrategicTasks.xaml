@@ -1,0 +1,102 @@
+﻿<Page x:Class="WpfApp1.StrategicTasks"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:WpfApp1"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="StrategicTasks">
+
+    <Grid>
+        <StackPanel  Margin="0,20,5,0">
+
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,0" HorizontalAlignment="Left">
+
+                <TextBlock  Text="Strategic Tasks" FontSize="28" FontWeight="Bold"
+                                HorizontalAlignment="Left" VerticalAlignment="Center"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,10,0,0" HorizontalAlignment="Left">
+
+                <TextBlock  Text="Choose a Status: " FontSize="20"
+                                HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+                <ComboBox   x:Name="StatusComboBox" Margin="10,0,0,0" 
+                                HorizontalAlignment="Left" VerticalAlignment="Center"
+                                Width="125" FontSize="20" 
+                                SelectionChanged="StatusComboBox_SelectionChanged"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal">
+                <StackPanel>
+                    <DataGrid   Name="Report" MaxHeight="600" Height="900" RowHeaderWidth="0.1" Width="1900" FontSize="20"
+                                AutoGenerateColumns="False" MaxColumnWidth="300" Margin="0,50,0,0"
+                                CanUserAddRows="False" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"  
+                                TextOptions.TextFormattingMode="Ideal">
+
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn Width="Auto">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button x:Name="EditButton" Cursor="Hand" Width="95" Height="25" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center" Click="EditButton_Click" Style="{StaticResource btnBrownTwo}">Edit/View</Button>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTextColumn Header="RFC/BC" Binding="{Binding BID#}" Width="80" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="100" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Assigned To" Binding="{Binding Assigned_To}" Width="175" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Start Date" Binding="{Binding Opened_Date}" Width="125" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Hours" Binding="{Binding Hours}" Width="75" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Age" Binding="{Binding Age}" Width="75" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Title" Binding="{Binding Title}" Width="275" IsReadOnly="True">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style>
+                                        <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="Supporting Details" Binding="{Binding Supporting_Details}" Width="275" IsReadOnly="True">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style>
+                                        <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="Benefits" Binding="{Binding Benefits}" Width="275" IsReadOnly="True">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style>
+                                        <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="Deliverables" Binding="{Binding Deliverables}" Width="Auto" IsReadOnly="True">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style>
+                                        <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="Planned Completion" Binding="{Binding Due_Date}" Width="200" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Completion Date" Binding="{Binding Completed_Date}" Width="175" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Annual Benefit" Binding="{Binding AnnualBenefit}" Width="160" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Internal Notes" Binding="{Binding Internal_Notes}" Width="275" IsReadOnly="True">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style>
+                                        <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="Annual Cost Savings" Binding="{Binding Annual_Cost_Savings}" Width="190" IsReadOnly="True"/>
+                            <DataGridCheckBoxColumn x:Name="HighPriority" Header="High Priority" Binding="{Binding HP}" Width="125" IsThreeState="False" IsReadOnly="True"/>
+
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <StackPanel>
+                        <Button x:Name="AddRecord" Cursor="Hand" Content="Add Task" Width="90" FontSize="18" Height="25" HorizontalAlignment="Left" VerticalAlignment="Bottom" Click="AddRecord_Click" Margin="0,50,0,0" Style="{StaticResource btnBrownTwo}"></Button>
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Page>

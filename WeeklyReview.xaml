@@ -1,0 +1,124 @@
+﻿<Page x:Class="WpfApp2.WeeklyReview"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:WpfApp2"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="WeeklyReview">
+
+    <Grid>
+        <StackPanel  Margin="5,20,5,0">
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+
+                <TextBlock  Text="Weekly Review" FontSize="28" FontWeight="Bold"
+                                HorizontalAlignment="Left" VerticalAlignment="Center"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,10,0,0">
+
+                <TextBlock  Text="Status: " FontSize="20" Name="StatusText"
+                                HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                <ComboBox   x:Name="StatusComboBox" Margin="10,0,0,0" 
+                                HorizontalAlignment="Left" VerticalAlignment="Center"
+                                Width="150" FontSize="20" SelectionChanged="Status_SelectionChanged"/>
+                <TextBlock  Text="Choose a System: " FontSize="20" Margin="30,0,0,0"
+                                HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+                <ComboBox   x:Name="SystemComboBox" Margin="10,0,0,0" 
+                                HorizontalAlignment="Left" VerticalAlignment="Center"
+                                Width="150" FontSize="20" 
+                                SelectionChanged="SystemComboBox_SelectionChanged"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal">
+                    <StackPanel>
+                        <DataGrid   Name="Review" RowHeaderWidth="0.1" Margin="0,40,0,0"
+                                AutoGenerateColumns="False" Height="Auto" MaxHeight="700" Width="1900" FontSize="20"
+                                CanUserAddRows="False" CanUserResizeColumns="True" CanUserResizeRows="True"
+                                TextOptions.TextFormattingMode="Ideal" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+
+                            <DataGrid.Columns>
+                                <DataGridTemplateColumn Width="Auto">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Name="History" Cursor="Hand" Style="{StaticResource btnBrownTwo}" Width="120" FontSize="18" Content="Toggle History" Height="25" HorizontalAlignment="Center" VerticalAlignment="Center" Click="History_Click"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Width="110">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button x:Name="EditButton" Width="90" FontSize="18" Height="30" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource btnBrownTwo}" Cursor="Hand"  Click="EditRecord_Click">Edit/View</Button>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTextColumn Header="System" Binding="{Binding Sys_Impact}" Width="100" IsReadOnly="True"/>
+                                <DataGridTextColumn Header="Title" Binding="{Binding Title}" Width="280" IsReadOnly="True">
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style>
+                                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn Header="Details" Binding="{Binding Details}" Width="280" IsReadOnly="True">
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style>
+                                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                </DataGridTextColumn>
+                            <DataGridTextColumn Header="System" Binding="{Binding Sys_Impact}" Width="80" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Category" Binding="{Binding Category}" Width="125" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="BC/TI#" Binding="{Binding BID#}" Width="100" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="125" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Open Date" Binding="{Binding Opened_Date}" Width="115" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Completed Date" Binding="{Binding Completed_Date}" Width="165" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Due Date" Binding="{Binding Due_Date}" Width="105" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Requester" Binding="{Binding Req_Name}" Width="180" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="ER/RFC" Binding="{Binding Impact}" Width="200" IsReadOnly="True"/>
+                        </DataGrid.Columns>
+                        </DataGrid>
+                    </StackPanel>
+                    <StackPanel>
+                        <DataGrid   Name="HistoryRecent" MaxHeight="700" Width="Auto" Visibility="Collapsed"                                         
+                                AutoGenerateColumns="False" RowHeight ="70" RowHeaderWidth="0.1" 
+                                CanUserAddRows="False" 
+                                TextOptions.TextFormattingMode="Ideal" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="TaskNum" Binding="{Binding TaskNum}" Width="Auto" IsReadOnly="True" Visibility="Collapsed"/>
+                                <DataGridTextColumn Header="Date" Binding="{Binding EntryDate}" Width="Auto" IsReadOnly="True"/>
+                                <DataGridTextColumn Header="Status Note" Binding="{Binding LatestStatusNote}" Width="Auto" IsReadOnly="True"/>
+                                <DataGridTextColumn Header="Status" Binding="{Binding LatestStatus}" Width="170" IsReadOnly="True">
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style>
+                                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                </DataGridTextColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </StackPanel>
+                <DataGrid   Name="FullHistory" Height="650" FontSize="18"    Margin="0,40,0,0"                                                          
+                                AutoGenerateColumns="False" Width="450"
+                                CanUserAddRows="False" BorderBrush="WhiteSmoke"
+                                TextOptions.TextFormattingMode="Ideal" Visibility="Collapsed" RowHeaderWidth="0.1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Status Date" Binding="{Binding EntryDateHistory}" Width="Auto" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="Status Note" Binding="{Binding NewStatus}" Width="Auto" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="Status" Binding="{Binding History_Status}" Width="120" IsReadOnly="True">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style>
+                                    <Setter Property="TextBlock.TextWrapping" Value="Wrap"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </StackPanel>
+            <Button Name="MarkReviewed"  Cursor ="Hand" Style="{StaticResource btnBrownTwo}" Width="160" FontSize="18" Content="Mark As Reviewed" Height="25" HorizontalAlignment="Left" Click="MarkReviewed_Click"/>
+        </StackPanel>
+    </Grid>
+</Page>
