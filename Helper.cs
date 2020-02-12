@@ -25,6 +25,7 @@ using ComboBox = System.Windows.Controls.ComboBox;
 
 //AUTHOR: Michael Figueroa
 //This class is a helper class that deals with multiple forms in the application
+//Adding test comments, testing for Git connection workaroun - ND
 
 namespace WpfApp1
 {
