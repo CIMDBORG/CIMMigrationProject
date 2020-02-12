@@ -19,16 +19,27 @@ using Excel = Microsoft.Office.Interop.Excel;
 
 namespace WpfApp1
 {
-    /// <summary>
-    /// Interaction logic for HotTopics.xaml
-    /// </summary>
+   
     public partial class HotTopics : Page
     {
         public string connectionString = ConfigurationManager.ConnectionStrings["conString"].ConnectionString;//ConnectionString comes from App.config
-        private string[] arr;                       //local variable to store login-based user data
-        private DataRowView hotTopicsRow;       //local variable to store the row of data in the 'Prioritization by System' DataGrid
-        private string reportQuery;
-        public HotTopics(string[] user_data)
+        private string[] arr;                       //holds login-based user data
+        private DataRowView hotTopicsRow;           //holds the row of data in the 'Prioritization by System' DataGrid
+        private string reportQuery;                 //holds the SQL query
+
+
+        /*Name: Dominick Carrubba (ppz7tzh) 
+        Function Name: HotTopics
+        Purpose: HotTopics Constructor to populate items in dropdown box for the data grid. 
+        Parameters: string[] user_data 
+        Return Value: N/A
+        Local Variables: None
+        Algorithm: Assigns global variables based on values passed by parameters in the constructor, calls methods
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
+        public HotTopics(string[] user_data)        
         {
             InitializeComponent();
             arr = user_data;
@@ -37,8 +48,17 @@ namespace WpfApp1
             BindDataGrid();
         }
 
-
-        //Binds current issues marked as a hot topic to the dataGrid
+        /*Name: Dominick Carrubba (ppz7tzh) 
+        Function Name: BindDataGrid
+        Purpose: HotTopics Constructor to set query to populate data in the DataGrid based on dropdown selection. 
+        Parameters: string[] user_data 
+        Return Value: query 
+        Local Variables: query
+        Algorithm: If selection from combobox is All, select all issues, if else populate based on critera selected in the combobox. Populate selected data in the Data Grid. 
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         public void BindDataGrid()
         {
             string query;
@@ -66,7 +86,7 @@ namespace WpfApp1
                             "ORDER BY Priority_Number ASC;";
                 reportQuery = query;
             }
-
+           
             using (SqlConnection con = new SqlConnection(connectionString))
                 try
                 {
@@ -94,8 +114,17 @@ namespace WpfApp1
         }
 
 
-
-        //Fills history table with most recent status for each issue
+        /*Name: Dominick Carrubba (ppz7tzh) 
+        Function Name: FillHistoryTable 
+        Purpose: Fills history table with most recent status for each issue
+        Parameters: DataTable recentHistory 
+        Return Value: string plannedDate
+        Local Variables: EntryDate - Date of entry , LatestStatusNote - most recent status text , LatestStatus - date of latest status
+        Algorithm: Open the connection to fetch statuses for issue, populate most recent status details.
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private void FillHistoryTable(DataTable recentHistory)
         {
             using (SqlConnection con = new SqlConnection(connectionString))
@@ -109,8 +138,7 @@ namespace WpfApp1
                     recentHistory.Columns.Add(dc2);
                     recentHistory.Columns.Add(dc3);
                     recentHistory.Columns.Add(dc4);
-
-                    int taskNum;
+                                        int taskNum;
                     using (SqlCommand IDCmd = new SqlCommand(reportQuery, con))
                     {
                         using (SqlDataReader reader2 = IDCmd.ExecuteReader())
@@ -153,7 +181,18 @@ namespace WpfApp1
                 }
         }
 
-        //Hot topics in the Edit Form View
+
+        /*Name: Dominick Carrubba (ppz7tzh) 
+       Function Name: EditButton_Click
+       Purpose: Event handler for the Edit Form View
+       Parameters: object sender, RoutedEventArgs e
+       Return Value: N/A
+       Local Variables: editRecord, hotTopicsRow, MessageBox
+       Algorithm: If the Edit button is clicked, then the selected row from the table is populated in the Edit Form
+       Version: 2.0.0.4
+       Date modified: Prior to 1/1/20
+       Assistance Received: N/A
+       */
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -173,7 +212,18 @@ namespace WpfApp1
             }
         }
 
-        //Exports this to excel
+
+        /*Name: Dominick Carrubba (ppz7tzh) 
+       Function Name: Export_Click
+       Purpose: Event Handler - Generates an Excel document populated with the data populated in the DataGrid 
+       Parameters: object sender, RoutedEventArgs e
+       Return Value: None
+       Local Variables: Microsoft.Office.Interop.Excel.Application excel ( excel document ),  Microsoft.Office.Interop.Excel.Workbook wb = null (Empty worksheet within docuement) 
+       Algorithm: When event is triggered, pull the query generated in BindDataGrid to populate the data in the generated excel worksheet. 
+       Version: 2.0.0.4
+       Date modified: Prior to 1/1/20
+       Assistance Received: N/A
+       */
         private void Export_Click(object sender, RoutedEventArgs e)
         {
             //Generates an empty excel document 
@@ -211,6 +261,17 @@ namespace WpfApp1
                 }
         }
 
+        /*Name: Dominick Carrubba (ppz7tzh) 
+       Function Name: SystemComboBox_SelectionChange
+       Purpose: Relay information in the data grid based on the changed selection in the combo box
+       Parameters: object sender, SelectionChangedEventArgs e
+       Return Value: none
+       Local Variables: none
+       Algorithm: When the Combo Box selection is changed -> relay change in DataGrid based on selection in ComboBox
+       Version: 2.0.0.4
+       Date modified: Prior to 1/1/20
+       Assistance Received: N/A
+       */
         private void SystemComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             BindDataGrid();
