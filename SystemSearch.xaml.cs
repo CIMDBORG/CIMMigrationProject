@@ -40,6 +40,7 @@ namespace WpfApp2
             {
                 WeeklyReviewApps editRecord = new WeeklyReviewApps(arr, sysString, Helper.FillIDList(query), inc_pri_num_ovr_300);
                 editRecord.Show();
+                this.Close();
             }
 
             catch
@@ -48,6 +49,32 @@ namespace WpfApp2
                 {
                     MessageBox.Show("There Are No Open Items for This System");
                 }
+            }
+        }
+
+        //allows user to hit enter after inputting into texbox and moving to next page if viable
+        private void SysFilter_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Return)
+            {
+                string sysString = SysFilter.Text.ToString();
+                string query = WeeklyReviewApps.GetWeeklyAppsQuery(sysString, inc_pri_num_ovr_300);
+                List<int> id_List = Helper.FillIDList(query);
+                try
+                {
+                    WeeklyReviewApps editRecord = new WeeklyReviewApps(arr, sysString, Helper.FillIDList(query), inc_pri_num_ovr_300);
+                    editRecord.Show();
+                    this.Close();
+                }
+
+                catch
+                {
+                    if (id_List.Count == 0)
+                    {
+                        MessageBox.Show("There Are No Open Items for This System");
+                    }
+                }
+
             }
         }
     }

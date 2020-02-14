@@ -1,0 +1,31 @@
+﻿<Window x:Class="WpfApp2.UserMenu_Item"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp2"
+        mc:Ignorable="d" WindowStartupLocation="CenterScreen"
+        Title="BrowseItems" Height="400" Width="450">
+    <Grid Background="LightGoldenrodYellow">
+        <TextBlock Text="Browse Items" FontSize="22" Margin="0,10,0.333,-0.333"
+                   Foreground="#FF644117" HorizontalAlignment="Center" FontWeight="Heavy"/>
+
+        <StackPanel MaxWidth="250" Margin="0,50,0,0">
+            <Button x:Name="BrowseOpenItemsbutton" Content="Browse Open Items" Cursor="Hand"
+                    Margin="10,10" 
+                    Style="{StaticResource btnBrown}" Width="175" Height="50" Click="BrowseOpenItemsbutton_Click"/>
+
+            <Button x:Name="PrioritizeBySysbutton" Content="Prioritize by System" Cursor="Hand"
+                    Margin="10,10" 
+                    Style="{StaticResource btnBrown}" Width="175" Height="50" Click="PrioritizeBySysbutton_Click"/>
+
+            <Button x:Name="SearchItemsbutton" Content="Search Items" Cursor="Hand"
+                    Margin="10,10" 
+                    Style="{StaticResource btnBrown}" Width="175" Height="50" Click="SearchItemsbutton_Click"/>
+            <Button x:Name="MainMenubutton" Content="Back" Cursor="Hand"
+                    Margin="0,0,0,-100" VerticalAlignment="Bottom" HorizontalAlignment="Left"
+                    Style="{StaticResource btnBrown}" Width="100" Height="50"
+                    Click="MainMenubutton_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

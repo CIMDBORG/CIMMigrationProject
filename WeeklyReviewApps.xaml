@@ -1,0 +1,222 @@
+﻿<Window x:Class="WpfApp2.WeeklyReviewApps"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:WpfApp2"
+      mc:Ignorable="d" 
+     Left="0" Top="0"
+        Title="Weekly Review With Applications" 
+        Height="550" 
+        Width="1200" Background="#efe1b3" ResizeMode="CanResizeWithGrip">
+
+    <Viewbox StretchDirection="DownOnly" Stretch="Uniform">
+        <Grid x:Name="MyGrid1" Width="2000" Height="1075">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="20"/>
+                <ColumnDefinition Width="382.093"/>
+                <ColumnDefinition Width="84.573"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="20"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="20"/>
+
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="10"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="20"/>
+            </Grid.RowDefinitions>
+            <TextBlock x:Name="FormLabel" Grid.Row="1" 
+                   Grid.ColumnSpan="5" FontSize="30" Margin="75,0,0.333,0" ><Run Text="Weekly Review"/><InlineUIContainer>
+                    <TextBlock Text="Priority # " x:Name="PriorityNum"
+                        Margin="1400,-5,0,0" FontSize="26"
+                        HorizontalAlignment="Right"/>
+                </InlineUIContainer><InlineUIContainer>
+                    <TextBox x:Name="PriorityText" Background="WhiteSmoke" Padding="0"
+                        Margin="0,0,0,0" IsReadOnly="False"
+                        HorizontalAlignment="Right" Width="80" FontSize="26" TabIndex="1"/>
+                </InlineUIContainer></TextBlock>
+            <StackPanel Orientation="Horizontal" Grid.Row="4" Grid.ColumnSpan="7" Margin="21,0,0.333,0.333">
+                <StackPanel Margin="0,0,0,0">
+                    <StackPanel Margin="50,0,0,0" Orientation="Vertical" Width="1718">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <TextBlock Text="Owner" Width="80"  Padding="0" TextWrapping="WrapWithOverflow"
+                     Margin="15,5,0,0" FontSize="26"
+                     HorizontalAlignment="Left"/>
+                            <TextBox x:Name="Owner" Margin="10,5,0,0" 
+                    HorizontalAlignment="Left" Width="150   " IsReadOnly="True"
+                     FontSize="26" TabIndex="9" Background="WhiteSmoke"/>
+                            <TextBlock Text="System"
+                   Margin="5,5,0,0" FontSize="26"
+                   HorizontalAlignment="Left"/>
+                            <ComboBox x:Name="SystemComboBox" Margin="10,5,0,0"
+                  HorizontalAlignment="Left" Width="140" Style="{StaticResource ComboBox1}"
+                  FontSize="24" TabIndex="3"/>
+                            <TextBlock  Text="Status"
+                                Margin="15,5,0,0" FontSize="26"
+                                HorizontalAlignment="Left"/>
+
+                            <ComboBox x:Name="StatusComboBox" Margin="10,5,0,0" 
+                                HorizontalAlignment="Left" Width="190"
+                                FontSize="26" TabIndex="5" Style="{StaticResource ComboBox1}" />
+                            <TextBlock Text="Inquiry Date: "
+                   Margin="20,5,0,0" FontSize="26"
+                   HorizontalAlignment="Left"/>
+                            <DatePicker x:Name="Startdatepicker" 
+                    HorizontalAlignment="Left" Margin="20,5,0,0" FontSize="26" TabIndex="11" />
+
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Margin="0,30,0,0" HorizontalAlignment="Center">
+                            <TextBlock Text="BC/TI # "
+                    Margin="15,5,0,0" FontSize="26"
+                    HorizontalAlignment="Left"/>
+                            <TextBox x:Name="BCTItext1" Background="WhiteSmoke"
+                    Margin="0,5,0,0" IsReadOnly="False"
+                    HorizontalAlignment="Left" Width="125" FontSize="26" TabIndex="2"/>
+                            <TextBlock Text="Impact Type " Width="150"
+                     Margin="15,5,0,0" FontSize="26"
+                     HorizontalAlignment="Left"/>
+                            <ComboBox x:Name="ImpacttypeComboBox" Margin="0,5,0,0" Grid.Row="4" Grid.Column="2"
+                    HorizontalAlignment="Left" Width="225" Style="{StaticResource ComboBox1}"
+                    Grid.ColumnSpan="2" FontSize="26" TabIndex="6" />
+                            <TextBlock Text="Category" Margin="15,5,0,0" FontSize="26"
+                                HorizontalAlignment="Left" Grid.Column="4" Grid.Row="4"/>
+                            <ComboBox x:Name="CategoryComboBox" Margin="10,5,0,0"
+                            HorizontalAlignment="Left" Width="134" Style="{StaticResource ComboBox1}"
+                            FontSize="26"  TabIndex="4" Grid.Column="4" Grid.Row="4" />
+                            <TextBlock Text="Planned Comp: " 
+                   Margin="20,9,0,0" FontSize="26"
+                   HorizontalAlignment="Left"/>
+                            <DatePicker x:Name="Planneddatepicker" 
+                        HorizontalAlignment="Left"
+                    Margin="20,5,0,0" FontSize="26" TabIndex="12" />
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Margin="50,20,0,0">
+                        <TextBlock Text="Title*"
+                   Margin="5,0,0,0" FontSize="26" 
+                   HorizontalAlignment="Left">
+                            <TextBlock.ToolTip>Title: A meaningful description of the item in clear business terms.</TextBlock.ToolTip>
+                        </TextBlock>
+                        <TextBox x:Name="TitleText" Background="WhiteSmoke"  ScrollViewer.VerticalScrollBarVisibility="Auto"
+                     Margin="0,5,0,0" IsReadOnly="False" TextWrapping="Wrap"
+                     HorizontalAlignment="Left" Width="1800" Height="100" ScrollViewer.CanContentScroll="True"
+                     Grid.ColumnSpan="2" FontSize="26" TabIndex="13"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="Supporting Details"
+                   Margin="55,15,0,0" FontSize="26"
+                   HorizontalAlignment="Left"/>
+                        <TextBox x:Name="SupportingDetailsText" Background="WhiteSmoke"
+                     Margin="50,0,0,0" IsReadOnly="False" TextWrapping="Wrap" ScrollViewer.VerticalScrollBarVisibility="Auto"
+                     HorizontalAlignment="Left" Width="1800" Height="100" 
+                     Grid.ColumnSpan="2" FontSize="26"  TabIndex="14"/>
+                        <TextBlock Text="Business Impacts/Additional Systems Impacted"
+                   Margin="50,15,0,0" FontSize="26" Width="auto"
+                   HorizontalAlignment="Left" TextWrapping="Wrap"/>
+                        <TextBox x:Name="BusinessImpactsText" Background="WhiteSmoke"
+                     Margin="50,0,0,0" IsReadOnly="False" TextWrapping="Wrap"
+                     HorizontalAlignment="Left" Width="1800" Height="75" ScrollViewer.VerticalScrollBarVisibility="Auto"
+                     FontSize="26" TabIndex="15"/>
+                    </StackPanel>
+
+                    <StackPanel>
+
+                    </StackPanel>
+                    <StackPanel Height="207" Margin="0,20,0,0">
+                        <TextBlock Text="Manager Notes" Margin="55,0,0,0" FontSize="26"
+                               HorizontalAlignment="left" TextWrapping="Wrap" Height="34"/>
+                        <TextBox x:Name="ManagerNotesText" Style="{StaticResource Textbox1}"
+                             Margin="50,00,0,0" ScrollViewer.VerticalScrollBarVisibility="Auto"
+                             HorizontalAlignment="left" Width="795" Height="120" Background="WhiteSmoke"
+                             FontSize="26" AcceptsReturn="True"
+                             TextWrapping="Wrap" MaxLength="255"
+                             SpellCheck.IsEnabled="True"
+                                 VerticalScrollBarVisibility="Auto"/>
+
+                        <DataGrid x:Name="Report" Height="200" Width="930"
+                        HorizontalAlignment="Left" Margin="920,-150,0,0"
+                        AutoGenerateColumns="False" MaxColumnWidth="500" 
+                        CanUserResizeColumns="True" MouseDoubleClick="Report_MouseDoubleClick"
+                        CanUserAddRows="True" IsReadOnly="True"
+                        FontSize="24"
+                        TextOptions.TextFormattingMode="Ideal">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Date" Binding="{Binding EntryDate}" Width="140"/>
+
+                                <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="225">
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style>
+                                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                </DataGridTextColumn>
+
+                                <DataGridTextColumn Header="Status Note" Binding="{Binding Status_Note}" Width="600">
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style>
+                                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                </DataGridTextColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </StackPanel>
+                    <StackPanel x:Name="Manager_Options" HorizontalAlignment="Left" Orientation="Horizontal" Margin="50,0,0,0">
+
+                        <CheckBox x:Name="ManagerReviewCheckBox"  VerticalContentAlignment="Center" FontSize="26" Width="250" Content="Manager Review"/>
+                        <CheckBox x:Name="UpdateRequiredCheckBox" VerticalContentAlignment="Center" FontSize="26" Width="250"  Content="Update Required"/>
+                        <CheckBox x:Name="managerMeetingCheckBox" VerticalContentAlignment="Center" FontSize="26" Width="250" Content="Manager Meeting"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation ="Horizontal" HorizontalAlignment="Center" Margin="810,-35,0,0">
+                        <CheckBox x:Name="ControlEnhancementCheckBox" VerticalContentAlignment="Center" FontSize="26" Width="300" Content="Control Enhancement"/>
+                        <CheckBox x:Name="ProcessImprovementCheckBox" VerticalContentAlignment="Center" FontSize="26" Width="300" Content="Process Improvement"/>
+                        <CheckBox x:Name="CIMValueAddedCheckBox" VerticalContentAlignment="Center" FontSize="26" Width="225" Content="CIM Value Added"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation ="Horizontal" HorizontalAlignment="Center" Margin="365,0,0,0">
+                        <CheckBox x:Name="HotTopicCheckBox" VerticalContentAlignment="Center" FontSize="26" Width="150"  Content="Hot Topic"/>
+                        <CheckBox x:Name="CIMKnowCheckBox" VerticalContentAlignment="Center" FontSize="26" Width="230" Content="CIM Knowledge"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="50,60,0,0" Width="1714" Height="60">
+                        <Button x:Name="AddStatus" Content="Add Status" Width="140" Style="{StaticResource btnGray}"
+                                HorizontalAlignment="Left"  Click="AddStatus_Click" FontSize="24" Height="42" Margin="30,0"/>
+                        <Button x:Name="UpdatBtn" HorizontalAlignment="Left" Width="140" Style="{StaticResource btnGray}"
+                                FontSize="24" Margin="30,0" Content="Update" Height="42" Click="UpdatBtn_Click"/>
+                        <Button FontFamily="Segoe UI Symbol" x:Name ="BackArrow"  Content="&#xE112;" Width="20" 
+                                Height="30" Margin="990,0,0,0" Click="BackArrow_Click" 
+                                Style="{StaticResource btnGray}" FontSize="16"/>
+                        <TextBox x:Name="CurrentIssue" Style="{StaticResource Textbox1}"
+                             Margin="20,0,0,0"
+                             HorizontalAlignment="Center" Width="40" Height="30"
+                             FontSize="20" AcceptsReturn="False" Focusable="True"
+                             TextWrapping="Wrap" MaxLength="3"
+                             SpellCheck.IsEnabled="True" KeyDown="CurrentIssue_KeyDown"
+                                 VerticalScrollBarVisibility="Auto"/>
+                        <TextBlock Text="of 8" x:Name ="TotalIssues" HorizontalAlignment="Center"
+                   Margin="10,0,0,0" FontSize="24" Width="60" Height="30"
+                   TextWrapping="Wrap">
+                            <TextBlock.ToolTip>Internal Notes: Optional and may be used if you have information you are tracking that exceeds character limitation.</TextBlock.ToolTip>
+                        </TextBlock>
+                        <Button Margin="20,0,0,0" FontFamily="Segoe UI Symbol" Style="{StaticResource btnGray}"
+                                Width="20" Height="30" Content="&#xE111;" x:Name = "ForwardArrow" Click="ForwardArrow_Click" FontSize="16"/>
+                    </StackPanel>
+                    <StackPanel Width="300" HorizontalAlignment="Left">
+                        <TextBlock x:Name="Updated" HorizontalAlignment="Left"
+                  FontSize="30" Height="42" Margin="50,-150,0,0" Foreground="Blue" RenderTransformOrigin="0.569,0.604"><Run Text="Update Successful!"/></TextBlock>
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+    </Viewbox>
+</Window>
