@@ -10,6 +10,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using WpfApp1;
@@ -71,10 +72,13 @@ namespace WpfApp2
                 case "ItemHome":
                     MenuScreen menu = new MenuScreen(arr);
                     menu.Show();
+                    this.Close();
                     break;
                 case "AddRec":
-                    NewRecord nR = new NewRecord(arr);
+                    NewRecord nR  = new NewRecord(arr);
                     nR.Show();
+                    nR.WindowState = WindowState.Maximized;
+                    this.Close();
                     break;
                 case "GitHub":
                     System.Diagnostics.Process.Start("https://github.com/CIMDBORG/CIMMigrationProject/issues");
@@ -108,12 +112,14 @@ namespace WpfApp2
         {
             ErrorFileMenu erm1 = new ErrorFileMenu(arr);
             erm1.Show();
+            this.Close();
         }
 
         private void ErrFileBtn_Click(object sender, RoutedEventArgs e)
         {
             ErrorFileMenu erm2 = new ErrorFileMenu(arr);
             erm2.Show();
+            this.Close();
         }
         private void ReportBtn_Click(object sender, RoutedEventArgs e)
         {
@@ -128,6 +134,12 @@ namespace WpfApp2
         {
             Application.Current.Shutdown();
 
+        }
+
+        private void DbBtn_Click(object sender, RoutedEventArgs e)
+        {
+            ButtonCloseMenu.Visibility = Visibility.Visible;
+            ButtonOpenMenu.Visibility = Visibility.Collapsed;
         }
     }
 }

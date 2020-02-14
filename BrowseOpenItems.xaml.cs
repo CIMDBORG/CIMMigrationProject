@@ -28,16 +28,38 @@ namespace WpfApp1
         private DataRowView priorBySystemRow;       //local variable to store the row of data in the 'Prioritization by System' DataGrid
         private string reportQuery;
 
+        /*Name: Michael Figueroa
+        Function Name: BrowseOpenItems
+        Purpose: BrowseOpenItems constructor
+        Parameters: string[] user_data
+        Return Value: None
+        Local Variables: None
+        Algorithm: user_data assigned to array, SystemComboBox is filled, then assigned Index 0, then DataGrid is binded
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         public BrowseOpenItems(string[] user_data)
         {
             InitializeComponent();
             arr = user_data;
             Helper.FillSystemComboBox(SystemComboBox);
             SystemComboBox.SelectedIndex = 0;
-            BindDataGrid(ReportHelper.SystemChosen(SystemComboBox));
+            BindDataGrid();
         }
 
-        public void BindDataGrid(string sys)
+        /*Name: Michael Figueroa
+       Function Name: BindDataGrid
+       Purpose: Binds information to Report datagrid
+       Parameters: string 
+       Return Value: None
+       Local Variables: None
+       Algorithm: if the systemcombobox is set to "All", then query for open items aren't filtered by system; else, the query is filtered by system
+       Version: 2.0.0.4
+       Date modified: Prior to 1/1/20
+       Assistance Received: N/A
+       */
+        public void BindDataGrid()
         {
             using (SqlConnection con = new SqlConnection(connectionString))
                 try
@@ -83,7 +105,19 @@ namespace WpfApp1
                     con.Close();
                 }
         }
-            private void EditButton_Click(object sender, RoutedEventArgs e)
+
+        /*Name: Michael Figueroa
+        Function Name: EditButton_Click
+        Purpose: Event handler for edit button click
+        Parameters: Auto-generated
+        Return Value: None
+        Local Variables: DataRowView agingItemsRow
+        Algorithm: The DataRow in which the Edit button was clicked is retrieved, and the EditRecord form is opened using that DataRowView in the constructor
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
+        private void EditButton_Click(object sender, RoutedEventArgs e)
             {
                 try
                 {
@@ -102,11 +136,34 @@ namespace WpfApp1
                 }
             }
 
+        /*Name: Michael Figueroa
+       Function Name: SystemComboBox_SelectionChanged
+       Purpose: event handler; Refreshes datagrid with correct info when a new system is chosen
+       Parameters: Auto-generated
+       Return Value: None
+       Local Variables: None
+       Algorithm: Calls BindDataGrid()
+       Version: 2.0.0.4
+       Date modified: Prior to 1/1/20
+       Assistance Received: N/A
+       */
         private void SystemComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            BindDataGrid(ReportHelper.SystemChosen(SystemComboBox));
+            BindDataGrid();
         }
 
+
+        /*Name: Michael Figueroa
+       Function Name: Export_Click
+       Purpose: Excel export (this method will no longer exist after the excel export method is moved to Helper class
+       Parameters: Auto-Generated
+       Return Value: None
+       Local Variables: DataTable reports, DataTable historyTable
+       Algorithm: reports and historyTable DataTables are filled, then the helper ToExcelClosedXML method completes the export.
+       Version: 2.0.0.4
+       Date modified: Prior to 1/1/20
+       Assistance Received: N/A
+       */
         private void Export_Click(object sender, RoutedEventArgs e)
         {
             using (SqlConnection con = new SqlConnection(connectionString))

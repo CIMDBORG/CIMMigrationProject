@@ -5,19 +5,28 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp2"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        mc:Ignorable="d"
+        mc:Ignorable="d" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize"
         Title="MenuScreen" Height="600" Width="600" Background="#efe1b3">
     <Window.Resources>
         <Storyboard x:Key="OpenMenu">
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="GridMenu">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" 
+                                           Storyboard.TargetName="GridMenu">
                 <EasingDoubleKeyFrame KeyTime="0" Value="70"/>
                 <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="200"/>
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
         <Storyboard x:Key="CloseMenu">
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="GridMenu">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" 
+                                           Storyboard.TargetName="GridMenu">
                 <EasingDoubleKeyFrame KeyTime="0" Value="200"/>
                 <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="70"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="OpenMenu2">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" 
+                                           Storyboard.TargetName="GridMenu">
+                <EasingDoubleKeyFrame KeyTime="0" Value="70"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="200"/>
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
     </Window.Resources>
@@ -27,6 +36,9 @@
         </EventTrigger>
         <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="ButtonCloseMenu">
             <BeginStoryboard Storyboard="{StaticResource CloseMenu}"/>
+        </EventTrigger>
+        <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="DbBtn">
+            <BeginStoryboard Storyboard="{StaticResource OpenMenu2}"/>
         </EventTrigger>
     </Window.Triggers>
     <Grid>
@@ -85,10 +97,14 @@
                             <TranslateTransform/>
                         </TransformGroup>
                     </Grid.RenderTransform>
-                    <Button x:Name="ButtonOpenMenu" Height="60" Width="300" Margin="5" HorizontalAlignment="Center" VerticalAlignment="Top"  Background="{x:Null}" BorderBrush="{x:Null}" Foreground="Black" Click="ButtonOpenMenu_Click">
+                    <Button x:Name="ButtonOpenMenu" Height="60" Width="300" Margin="5" HorizontalAlignment="Center" 
+                            VerticalAlignment="Top" 
+                            Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" 
+                            Background="{x:Null}" BorderBrush="{x:Null}" Foreground="Black" 
+                            Click="ButtonOpenMenu_Click">
                         <materialDesign:PackIcon Kind="Menu" Width="25" Height="25" Foreground="LightGoldenrodYellow"/>
                     </Button>
-                    <Button x:Name="ButtonCloseMenu" Visibility="Collapsed" Height="60" Width="50" Margin="5" HorizontalAlignment="Right" VerticalAlignment="Top" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FF31577E" Click="ButtonCloseMenu_Click">
+                    <Button x:Name="ButtonCloseMenu" Visibility="Collapsed" Height="60" Width="50" Margin="5" HorizontalAlignment="Right" VerticalAlignment="Top" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FF31577E" Click="ButtonCloseMenu_Click">
                         <materialDesign:PackIcon Kind="ArrowLeft" Width="25" Height="25" Foreground="LightGoldenrodYellow"/>
                     </Button>
 
@@ -114,8 +130,15 @@
                         </StackPanel>
                     </ListViewItem>
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Height="300" Width="250">
-                        <materialDesign:PackIcon Kind="Database" VerticalAlignment="Top" Height="25" Width="25" Margin="10" Foreground="LightGoldenrodYellow"/>
-                        <Expander x:Name="DBListing" ExpandDirection="Down" Header="DB List" Background="#FF644117" Foreground="LightGoldenrodYellow">
+                        <Button x:Name="DbBtn" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="10"
+                            Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" 
+                            Background="{x:Null}" BorderBrush="{x:Null}" Foreground="Black" Width="25" Height="25"
+                                Click="DbBtn_Click">
+                            <materialDesign:PackIcon Kind="Database" VerticalAlignment="Top" Height="25" 
+                                 HorizontalAlignment="Left" Width="25" Foreground="LightGoldenrodYellow"/>
+                        </Button>
+                        <Expander x:Name="DBListing" ExpandDirection="Down" Header="DB List" 
+                                      Background="#FF644117" Foreground="LightGoldenrodYellow">
                             <StackPanel Orientation="Vertical">
                                 <Button x:Name="EdiBtn" Content="EDI DB" Click="EdiBtn_Click_1" 
                                             Margin="0,0,0,0" Width="125" Height="30" Background="LightGoldenrodYellow" 

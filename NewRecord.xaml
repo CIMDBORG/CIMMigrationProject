@@ -7,8 +7,10 @@
         mc:Ignorable="d"
         Left="0" Top="0"
         Height="600" 
-        Width="1200" 
-        Title="Add New Record" Background="#efe1b3" ResizeMode="CanResizeWithGrip" Loaded="Window_Loaded">
+        Width="1200"
+        Title="Add New Record" Background="#efe1b3" ResizeMode="CanMinimize" Loaded="Window_Loaded">
+    
+    
     <Viewbox StretchDirection="DownOnly" Stretch="Uniform">
         
     <Grid x:Name="MyGrid">

@@ -27,13 +27,8 @@ namespace WpfApp2
 
         private void AddProd_Click(object sender, RoutedEventArgs e)
         {
-
-        }
-
-        private void PWR_Click(object sender, RoutedEventArgs e)
-        {
-            EDI_Submit_PWR submitPWR = new EDI_Submit_PWR();
-            submitPWR.Show();
+            EDI_Add_Product addProd = new EDI_Add_Product();
+            addProd.Show();
         }
     }
 }

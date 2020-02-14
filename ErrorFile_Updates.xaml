@@ -4,8 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp2"
-        mc:Ignorable="d"
-        Title="ErrorFile_Updates" Height="450" Width="500">
+        mc:Ignorable="d" Loaded="Window_Loaded" WindowStartupLocation="CenterScreen"
+        Title="ErrorFile_Updates" Height="550" Width="500">
     <Grid Background="LightGoldenrodYellow">
         <StackPanel>
             <StackPanel>
@@ -16,54 +16,60 @@
                 <StackPanel Orientation="Vertical" Height="300" Width="434" Margin="47,40,0,40" HorizontalAlignment="Center">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Width="200" Height="30" FontSize="16" 
-                       Foreground="#FF644117" Text="Tracking Number"/>
-                        <TextBox Width="200"/>
+                       Foreground="#FF644117" Text="Account Number"/>
+                        <ComboBox Width="200" x:Name="AcctNum" SelectionChanged="AcctNum_SelectionChanged"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Width="200" Height="30" FontSize="16" 
-                       Foreground="#FF644117" Text="Account Number"/>
-                        <TextBox Width="200"/>
+                       Foreground="#FF644117" Text="Tracking Number"/>
+                        <TextBox Width="200" x:Name="TrackNum"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Width="200" Height="30" FontSize="16" 
                        Foreground="#FF644117" Text="Import Date"/>
-                        <TextBox Width="200"/>
+                        <TextBox Width="200" x:Name="ImpDt"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Width="200" Height="30" FontSize="16" 
                        Foreground="#FF644117" Text="Transmitting Shipper"/>
-                        <TextBox Width="200"/>
+                        <TextBox Width="200" x:Name="TransShip"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Width="200" Height="30" FontSize="16" 
                        Foreground="#FF644117" Text="Source"/>
-                        <TextBox Width="200"/>
+                        <TextBox Width="200" x:Name="SourceBox"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Width="200" Height="30" FontSize="16" 
                        Foreground="#FF644117" Text="Most Recent Shipper Name"/>
-                        <TextBox Width="200"/>
+                        <TextBox Width="200" x:Name="ShipName"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Width="200" Height="30" FontSize="16" 
                        Foreground="#FF644117" Text="Account End Date"/>
-                        <TextBox Width="200"/>
+                        <TextBox Width="200" x:Name="AcctEndDt"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Width="200" Height="30" FontSize="16" 
                        Foreground="#FF644117" Text="eTT Status"/>
-                        <TextBox Width="200"/>
+                        <TextBox Width="200" x:Name="EttStat"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Width="200" Height="30" FontSize="16" 
                        Foreground="#FF644117" Text="Issue Description"/>
-                        <TextBox Width="200"/>
+                        <TextBox Width="200" x:Name="IssDesc"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Width="200" Height="30" FontSize="16" 
                        Foreground="#FF644117" Text="International Account"/>
-                        <TextBox Width="200"/>
+                        <CheckBox x:Name="IntlAcct"/>
                     </StackPanel>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Button x:Name="SubmitBtn" Click="SubmitBtn_Click" Style="{StaticResource btnBrown}" Width="100" Height="30" Content="Submit"
+                            Foreground="LightGoldenrodYellow" FontSize="18"/>
+                    <Button x:Name="CancelBtn" Click="CancelBtn_Click" Style="{StaticResource btnBrown}" Width="100" Height="30" Content="Cancel"
+                            Foreground="LightGoldenrodYellow" FontSize="18"/>
                 </StackPanel>
             </StackPanel>
         </StackPanel>

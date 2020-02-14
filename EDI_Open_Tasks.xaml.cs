@@ -61,13 +61,13 @@ namespace WpfApp2
         //Implementation query
         private string Imp_Qry()
         {
-            return "SELECT COMPANY_NAME, PRODUCT, IMPLEMENTER, STS_TYPE FROM EDI_PRODUCT INNER JOIN EDI_CST_HST ON EDI_PRODUCT.EDI_ID = EDI_CST_HST.EDI_ID WHERE STS_TYPE != 'Production';";
+            return "SELECT COMPANY_NAME, PRODUCT, IMPLEMENTOR, STS_TYPE FROM EDI_CUSTOMER INNER JOIN EDI_CST_HST ON EDI_CUSTOMER.EDI_ID = EDI_CST_HST.EDI_ID WHERE STS_TYPE != 'Production';";
         }
 
         //Maintenance Request Query
         private string Mnt_Req_Qry()
         {
-            return "SELECT REQUEST_NUMBER, EDI_MAIN_REQ.TECHNICAL_CONTACT AS TECHNICAL_CONTACT, REQ_DATE, STATUS, NOTES FROM EDI_MAIN_REQ INNER JOIN EDI_PRODUCT ON EDI_PRODUCT.EDI_ID = EDI_MAIN_REQ.EDI_ID;";
+            return "SELECT REQUEST_NUMBER, EDI_MAIN_REQ.TECHNICAL_CONTACT AS TECHNICAL_CONTACT, REQ_DATE, STATUS, NOTES FROM EDI_MAIN_REQ INNER JOIN EDI_CUSTOMER ON EDI_CUSTOMER.EDI_ID = EDI_MAIN_REQ.EDI_ID;";
         }
 
         private void TaskComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)

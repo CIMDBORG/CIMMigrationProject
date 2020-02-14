@@ -42,9 +42,17 @@ namespace WpfApp1
         //              DataRowView prioritizationBySystemResultRow : row of PBS table that is sent after clicking 'Edit' button
         //*******************************************************************
 
-        //These constructors are specific to what kind of forms they are opened from
-        //Constructor one and constructor 2 are opened from a regular datagrid, and the form begins on the issue that was clicked on the datagrid  
-        //Constructors 3 and 4 are opened from Weekly Review with Apps; the difference between them is that 3 is opened with Weekly Review with Apps without a system filter, while 4 consist of one singular system
+        /*Name: Michael Figueroa
+        Function Name: EditRecord
+        Purpose: Edit Record Constructor for Edit/View DataGrid button click event
+        Parameters: Page priorPage, string[] user_data, DataRowView priorRow, List<int> IDListOriginal
+        Return Value: N/A
+        Local Variables: None
+        Algorithm: Assigns global variables based on values passed by parameters in the constructor, calls methods, then collapses the blue updated label
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
 
         public EditRecord(Page priorPage, string[] user_data, DataRowView priorRow, List<int> IDListOriginal)
         {
@@ -63,10 +71,21 @@ namespace WpfApp1
             Updated.Visibility = Visibility.Collapsed;
         }
 
+        /*Name: Michael Figueroa
+        Function Name: EditRecord
+        Purpose: Edit Record Constructor for both the Update Required and Aging Report Warning buttons
+        Parameters: string[] user_data, DataRowView priorRow, List<int> IDListOriginal
+        Return Value: N/A
+        Local Variables: None
+        Algorithm: Assigns global variables based on values passed by parameters in the constructor, calls methods, then collapses the blue updated label
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
+
         public EditRecord(string[] user_data, DataRowView priorRow, List<int> IDListOriginal)
         {
             InitializeComponent();
-            page = new Page();
             arr = user_data;
             IDList = IDListOriginal;
             priorBySystemRow = priorRow;
@@ -79,27 +98,71 @@ namespace WpfApp1
             Updated.Visibility = Visibility.Collapsed;
         }
 
-        //this gets the initial issue id that is clicked on in the report grid 
+        /*Name: Michael Figueroa
+       Function Name: GetIssueID
+       Purpose: Getter method that retrieves the number of IDs contained in the report the issue was pulled from
+       Parameters: string[] user_data, DataRowView priorRow, List<int> IDListOriginal
+       Return Value: Returns ID number of the issue
+       Local Variables: None
+       Algorithm: None
+       Version: 2.0.0.4
+       Date modified: Prior to 1/1/20
+       Assistance Received: N/A
+       */
+
         private string GetIssueID()
         {
 
             return priorBySystemRow["ID"].ToString();
         }
 
-        //this gets the total number of issues that the report contains; this is used for display purposes 
+        /*Name: Michael Figueroa
+        Function Name: GetTotalNumIssues
+        Purpose: Getter method that retrieves the total number of issues that are in the report the Edit Record form was accessed from
+        Parameters: None
+        Return Value: Returns count of List<int> IDList
+        Local Variables: None
+        Algorithm: None
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
+
         private int GetTotalNumIssues()
         {
             return IDList.Count;
         }
 
-        //this sets the total number of issues in the edit record form arrow selection menu; displays the total number of issues on report in edit view (so issue "_ of X")
+       /*Name: Michael Figueroa
+       Function Name: SetTotalIssuesText
+       Purpose: Setter method that sets TotalIssues.Text
+       Parameters: None
+       Return Value: None
+       Local Variables: None
+       Algorithm: Uses GetTotalNumIssues() in order to set TotalIssues.Text
+       Version: 2.0.0.4
+       Date modified: Prior to 1/1/20
+       Assistance Received: N/A
+       */
+
         private void SetTotalIssuesText()
         {
             TotalIssues.Text = "Of " + GetTotalNumIssues().ToString();
         }
 
 
-        //this sets the index of the initial id textbox (displayed as "Issue X of _")
+       /*Name: Michael Figueroa
+       Function Name: SetInitialIDTextBox
+       Purpose: Setter Method
+       Parameters: string[] user_data, DataRowView priorRow, List<int> IDListOriginal
+       Return Value: N/A
+       Local Variables: None
+       Algorithm: Assigns global variables based on values passed by parameters in the constructor, calls methods, then collapses the blue updated label
+       Version: 2.0.0.4
+       Date modified: Prior to 1/1/20
+       Assistance Received: N/A
+       */
+
         private void SetInitialIDTextBox()
         {
             int issueID = Int32.Parse(GetIssueID());
@@ -107,14 +170,36 @@ namespace WpfApp1
             CurrentIssue.Text = (IDList.IndexOf(issueID) + 1).ToString();
         }
 
-        //Gets current index in List
+        /*Name: Michael Figueroa
+        Function Name: GetCurrentID()
+        Purpose: Getter method that retrieves the ID of the current issue being displayed on screen
+        Parameters: None
+        Return Value: The ID of the current issue being displayed on screen
+        Local Variables: None
+        Algorithm: Assigns global variables based on values passed by parameters in the constructor, calls methods, then collapses the blue updated label
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
+  
         private int GetCurrentID()
         {
             int current = Int32.Parse(CurrentIssue.Text.ToString()) - 1;
             return IDList[current];
         }
 
-        //Runs when the window is loaded. Prepares comboboxes and checks user's role to set content visibilities
+       /*Name: Michael Figueroa
+       Function Name: Window_Loaded
+       Purpose: Event handler that runs when he Edit form first loads
+       Parameters: Auto-generated
+       Return Value: None
+       Local Variables: None
+       Algorithm: Adds to Category, Requesting Dept comboboxes, then sets permissions based on whether a user is a Manager or a regular User
+       Version: 2.0.0.4
+       Date modified: Prior to 1/1/20
+       Assistance Received: N/A
+       */
+
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             Helper.FillSystemComboBoxNoAll(SystemComboBox);
@@ -157,13 +242,21 @@ namespace WpfApp1
             }
         }
 
-
-
-        // Changes content of Impact type combobox based on user's selection of Category.
+        /*Name: Michael Figueroa
+        Function Name: CategoryComboBox_SelectionChanged
+        Purpose: Event handler that runs every time the category combobox selection changes
+        Parameters: Auto-generated
+        Return Value: None
+        Local Variables: None
+        Algorithm: If category is strategic task (SekectedIndex = 5), then the appropriate strategic task fields collapse/become visible; 
+        otherwise the form displays the fields appropriate to all other issues. Lastly, calls CurrentStatus
+        If the category is BC/TI, then the status combobox is filled with BC Specific fields; else, the normal selection of statuses is chosen
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private void CategoryComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            //Sets visibility of deliverables textbox based on whether or not strategic task is chosen from the category combobox
-
             if (CategoryComboBox.SelectedIndex == 5)
             {
                 PriorityNum.Visibility = Visibility.Collapsed;
@@ -221,8 +314,6 @@ namespace WpfApp1
                 StatusComboBox.Items.Add("Pending");
             }
 
-            //Sets combobox options based on the category chosen; only managers are able to edit record statuses to BC Approved or BC Submitted in a Business Case issue
-
             if (CategoryComboBox.SelectedIndex == 0)
             {            
                     StatusComboBox.Items.Clear();
@@ -263,9 +354,19 @@ namespace WpfApp1
             Helper.CurrentStatus(GetCurrentID().ToString(), StatusComboBox);
         }
 
-        //validates user input in these fields, as they must be ints and not strings
-        //Used for error checking in int fields such as priority number and BC/TI number
-
+        /*Name: Michael Figueroa
+        Function Name: IsInt
+        Purpose: Checks whether or not a value is an Int
+        Parameters: None
+        Return Value: bool
+        Local Variables: string priority_Number, string bcTi, string oneTime, string annual benefit, string[] intArray, int number
+        Algorithm: priority number, BCTI, one time benefit, and annual benefit values are retrieved from form, then put into a string array
+        The for loop checks whether any of those values are not numbers using TryParse; if the parse is not successful, the value is not a mumber and
+        method returns false; if parse is successful, it returns true
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private bool IsInt()
         {
             string priority_Number = PriorityText.Text.ToString();
@@ -275,30 +376,34 @@ namespace WpfApp1
 
             string[] intArray = new String[] { priority_Number, bcTi, oneTime, annualBenefit };
 
-            bool success = true;
             int number = 0;
             for (int i = 0; i < intArray.Length; i++)
             {
                 if (!(Int32.TryParse(intArray[i], out number)))
                 {
-                    success = false;
+                    return false;
                 }
             }
-
-            if (success)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return true;
         }
 
-        //This is the query that is run when a user edits an issue
-        //Also where empty values on form are handled if needed
-        //PlannedDate set to NULL to avoid dates being set to 1/1/1900 if empty
-        //Query is changed based on whether the issue is a strategic task or not
+        /*Name: Michael Figueroa
+        Function Name: UserUpdateQuery
+        Purpose: Update query for regular users
+        Parameters: string ID
+        Return Value: the user update query
+        Local Variables: string plannedDate, string compdate, string BCTI, string updatedDate, string query
+        Algorithm: Sets plannedDate, compDate variables to null if input is empty, else sets it to date user chooses, 
+        sets oneTime benefit and annualbenefit, sets BCTI to null is input is empty, annualcost fields to 0 if fields are empty,  
+        Then, updates the list of dates on which updates have been made by user.
+        The query is variable is then set; if the issue is a strategic task, then those fields specific to strategic tasks are updated
+        else, non-strategic task fields are updated only.
+        If the user has been prompted to update the issue, the user_update_bit is set to 1, meaning an update has been made
+        if they have not been prompted to update the issue, the user_update_bit is not effected at all
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private string UserUpdateQuery(string ID)
         {
             string plannedDate;
@@ -409,7 +514,21 @@ namespace WpfApp1
                 return query;
         }
 
-        //this returns today's date; this is used to append the date to the date string, seperated by a delimiter (;) in sqlserver userUpdate or managerUpdate columns
+        /*Name: Michael Figueroa
+        Function Name: GetUpdatedDateString
+        Purpose: This is for use in UserUpdateQuery and ManagerUpdateQuery methods; this updates the Manager_Update and User_Update
+        SQL fields for the particular issue being edited
+        Parameters: None
+        Return Value: string containing the list of dates on which updates have been made, separated by a delimiter
+        Local Variables: string todaysDate, StringBuilder updateDateBuilder
+        Algorithm: Today's date is retrieved using DateTime.Now; then query is run; reader checks if the user is a Manager or a 
+        regular User; if manager, the Manager_Update field is updated, else if user, then the User_Update field is updated.
+        The update is done by checking if the field is null; if it is not null, the stringbuilder appends the current date to the 
+        value retrieved by the query, and then returned. Else if the values are null, then todaysDate is the return value
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private string GetUpdatedDateString()
         {
             string todaysDate = DateTime.Now.ToString("M/d/yyyy");
@@ -468,9 +587,22 @@ namespace WpfApp1
             return null;
         }
 
-        //Query that runs for a manager update
-        //Manager can request a user update by using the checkbox
-        //Text is written to the original supp detail, original title, and original bus impacts columns in order to force the user to make a change for it to count as an update
+        /*Name: Michael Figueroa
+        Function Name: ManagerUpdateQuery
+        Purpose: This is to set the update query from a manager perspective
+        Parameters: string IDs
+        Return Value: string containing the list of dates on which updates have been made, separated by a delimiter
+        Local Variables: string todaysDate, StringBuilder updateDateBuilder
+        Algorithm: Sets plannedDate, compDate variables to null if input is empty, else sets it to date user chooses, 
+        sets oneTime benefit and annualbenefit, sets BCTI to null is input is empty, annualcost fields to 0 if fields are empty, 
+        sets userUpdateBit to 0 is the user update box is checked, else, userUpdateBit is set to true, signifying no update is to be made
+        Then, updates the list of dates on which updates have been made by user
+        The query variable is then set; if the issue is a strategic task, then those fields specific to strategic tasks are updated
+        else, non-strategic task fields are updated only.
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private string ManagerUpdateQuery(string ID)
         {
             string plannedDate;
@@ -512,12 +644,10 @@ namespace WpfApp1
             string updatedDate = GetUpdatedDateString();
             string setUserUpdateBit;
 
-            //this sets userUpdateBit to 0, which is meant to signify that the user has not responded to the manager update request yet
             if (UpdateRequiredCheckBox.IsChecked.ToString() == "True")
             {
                 setUserUpdateBit = "False";
             }
-            //else, it is true that the user has responded to an update
             else
             {
                 setUserUpdateBit = "True";
@@ -599,8 +729,21 @@ namespace WpfApp1
             return query;
         }
 
-
-        //this controls whether the user has made a significant enough change to allow an update to be made
+        /*Name: Michael Figueroa
+        Function Name: UserUpdateReady
+        Purpose: Determines whether a user has made an update; this is used for when a manager has requested an update to an issue
+        Parameters: None
+        Return Value: bool
+        Local Variables: string query
+        Algorithm: Original title, supplementary details, business impacts, Manager_Update_Bit, User_Update_Bit
+        are all selected in a query. 
+        If Manager_Update_Bit is null, then returns true; else if both Manager_Update_Bit and User_Update_Bit are true or both false, then returns true;
+        If title, sup details, or bus impacts have been edited (are different to original columns), then returns true
+        else returns false and the user is notified that they must make an edit before updating the issue
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private bool UserUpdateReady()
         {
             using (SqlConnection con = new SqlConnection(connectionString))
@@ -650,7 +793,21 @@ namespace WpfApp1
             return true;
         }
 
-        //tells us whether or not the user logged in is a manager or not.
+        /*Name: Michael Figueroa
+        Function Name: IsManager
+        Purpose: Determines whether user is manager
+        Parameters: None
+        Return Value: bool
+        Local Variables: None
+        Algorithm: if arr[] = "Manager" 
+        are all selected in a query. 
+        If Manager_Update_Bit is null, then returns true; else if both Manager_Update_Bit and User_Update_Bit are true or both false, then returns true;
+        If title, sup details, or bus impacts have been edited (are different to original columns), then returns true
+        else returns false and the user is notified that they must make an edit before updating the issue
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private bool IsManager()
         {
             if (arr[6] == "Manager" || arr[6] == "Program Manager")
@@ -660,20 +817,28 @@ namespace WpfApp1
             return false;
         }
 
-        //Event handler for submit button
-        //Checks if user is manager/not Paul. If so, then the manager update query is run, if not, user update query is
 
-        private void SubmitIssueButton_Click(object sender, RoutedEventArgs e)
+        /*Name: Michael Figueroa
+        Function Name: SubmitIssue
+        Purpose: This executes the update query. 
+        Parameters: None
+        Return Value: bool
+        Local Variables: string ID, string managerQuery
+        Algorithm: first, string ID is assigned using GetCurrentID. Then, if the current user logged in is a manager and not assigned_to the issue being edited, 
+        then the ManageUpdateQuery is executed, and the form is re-binded
+        with updated info; else, user update is executed and the form is re-binded with updates
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
+        private void SubmitIssue()
         {
-            //Issue ID 
-            // Then, we set all the date fields to handle all values, including nulls
             string ID = GetCurrentID().ToString();
             using (SqlConnection connection = new SqlConnection(connectionString))
                 try
                 {
                     connection.Open();
-                    //Checks user role and updates appropriate values
-                    //Manager can also make a user update as well; can still request an update from user using checkbox
+
                     if ((IsManager()) && (issue_data[25] != arr[2]))
                     {
                         string managerQuery = ManagerUpdateQuery(ID);
@@ -683,6 +848,7 @@ namespace WpfApp1
                         FillInForm();
                         BindDataGrid(GetCurrentID().ToString());
                         Updated.Visibility = Visibility.Visible;
+
                     }
                     else if (UserUpdateReady())
                     {
@@ -749,8 +915,18 @@ namespace WpfApp1
         }
 
 
-
-        // Asks user to confirm that they wish to leave the form if they click 'Cancel'
+        /*Name: Michael Figueroa
+        Function Name: CancelButton_Click
+        Purpose: Event handler for cancel button that asks user if they want to exist form
+        Parameters: Auto-Generated
+        Return Value: None
+        Local Variables: MessageBoxResult messageBoxResult
+        Algorithm: MessageBox pops up asking if user wants to exit form; if they click ok, they exit and none of the info on the form saves, else, nothing happens
+        are all selected in a query. 
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
             MessageBoxResult messageBoxResult = MessageBox.Show("Exit form? All information entered will be cleared.", "Cancel Confirmation", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
@@ -760,9 +936,17 @@ namespace WpfApp1
             }
         }
 
-
-
-        // Logic that sets an issue's status to Closed or Implemented based on if the user selects a completion date
+        /*Name: Michael Figueroa
+        Function Name: CompDatePicker_SelectedDateChanged
+        Purpose: Event handler for when the CompDatePicker changes (This is only for when the CompDate is filled)
+        Parameters: Auto-Generated
+        Return Value: None
+        Local Variables: None
+        Algorithm: If a date is selected in the Comp Date field on the form, then the status is changed to "Closed"
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A - I would like someone to revise this at some point
+        */
         private void CompDatePicker_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
             if (CompDatePicker.Text.Length != 0)
@@ -773,10 +957,20 @@ namespace WpfApp1
 
 
 
-        // DESCRIPTION: Logic that sets an issue's completion date to the current date if the user changes the status to 'Closed' or 'Implemented'
+        /*Name: Michael Figueroa
+        Function Name: CompDatePicker_SelectedDateChanged
+        Purpose: Event handler for when the CompDatePicker changes
+        Parameters: Auto-Generated
+        Return Value: None
+        Local Variables: None
+        Algorithm: "Implemented" for BC's and "Closed" for all other categories are both at index 2; if statusComboBox is index 2, then the CompDatePicker is today
+        else - the comp date picker field is null
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A - I would like someone to revise this at some point
+        */
         private void StatusComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            //I preset that "Implemented" for BC's and "Closed" for all other categories are both at index 2
             if (StatusComboBox.SelectedIndex == 2)
             {
                 CompDatePicker.SelectedDate = DateTime.Today;
@@ -789,10 +983,19 @@ namespace WpfApp1
 
 
 
-        //*******************************************************************
-        // DESCRIPTION: Function that runs the SELECT query in SQL server to pull the necessary issue data to populate Edit form. 
-        //              Stores the results of the query in our string[] class variable issue_data
-        //*******************************************************************
+        /*Name: Michael Figueroa
+        Function Name: SelectIssueData
+        Purpose: Fills out the global variable string[] issue_data with the appropriate data of the particular ID
+        Parameters: string ID
+        Return Value: None
+        Local Variables: string query, string data[], int cols
+        Algorithm: query is assigned, then the reader goes through the query in a for loop equal to the length of how many cols there are; approriate data is written into the array
+        (Title, Req_Dept, Req_Name, etc. etc.) - the reader is then closed.
+        IF there is an exception: Error message is displayed, issue_data remains empty
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private void SelectIssueData(string ID)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -838,7 +1041,17 @@ namespace WpfApp1
 
 
 
-        // Populates the fields of the Edit form using the string[] issue_data. Includes appropriate parsing/error handling for certain fields.
+        /*Name: Michael Figueroa
+        Function Name: FillInForm
+        Purpose: Fills out the XAML EditRecord form with the information specific to the current issue
+        Parameters: None
+        Return Value: None
+        Local Variables: string query, string data[], int cols, DateTime myStartDate, DateTime myDueDate, DateTime myCompDate
+        Algorithm: Fills in the appropriate fields on the EditRecord.xaml form using the issue_data array filled in SelectIssueData()
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private void FillInForm()
         {
             TitleText.Text = issue_data[0].ToString();
@@ -948,7 +1161,6 @@ namespace WpfApp1
                 WeeklyReviewChk.IsChecked = true;
             }
 
-            //if the user_update_bit is false, then the checkbox will be checked because no update has been made yet by the user
             if (issue_data[24].ToString() == "False" && issue_data[26].ToString() == "True")
             {
                 UpdateRequiredCheckBox.IsChecked = true;
@@ -1004,7 +1216,17 @@ namespace WpfApp1
             TeamMembers.Text = issue_data[36].ToString();
         }
 
-        // Passes this Window and prioritization by system row to a new AddEditStatus window, then displays it.
+        /*Name: Michael Figueroa
+        Function Name: AddStatusButton_Click
+        Purpose: Event handler for Add Status button
+        Parameters: Auto Generated
+        Return Value: None
+        Local Variables: None
+        Algorithm: If the Add Status button is clicked, then the EditRecord_AddEditStatus form is shown
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private void AddStatusButton_Click(object sender, RoutedEventArgs e)
         {
             EditRecord_AddEditStatus addStatus = new EditRecord_AddEditStatus(this, GetCurrentID());
@@ -1013,12 +1235,18 @@ namespace WpfApp1
 
 
 
-        //*******************************************************************
-        // Runs the SELECT query in SQL server to pull the necessary history data for particular issue, specified by TaskNum input.
-        //  Fills in the DataGrid on this window with the results of this query.
-        //  Displays EntryDate, Status, and StatusNote.
-        //New_Issues Table
-        // INPUT:       string TaskNum : accepts the TaskNumber for the SELECT query. TaskNum in the History table is equivalent to ID in .
+        /*Name: Michael Figueroa
+        Function Name: BindDataGrid
+        Purpose: Binds the History DataGrid which shows the status history for the current issue
+        Parameters: string TaskNum
+        Return Value: None
+        Local Variables: string query, DataTable dt
+        Algorithm: query is assigned based on the issue ID number (the TaskNum variable here is equivalent to the Issue ID), the DataTable is filled using the query, and then the
+        DataGrid ItemSource (ItemSource is basically the information that will binded to the front-end) is set equal to the information from DataTable dt
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         //*******************************************************************
         public void BindDataGrid(string TaskNum)
         {
@@ -1049,12 +1277,17 @@ namespace WpfApp1
         }
 
 
-        //*******************************************************************
-        // DESCRIPTION: Runs when a row of Report datagrid is double-clicked. This pulls the data from that row and opens an AddEditRecord window,
-        //                  passing that data along in the constructor so it can auto-populate upon loading.
-        //              Also passes this window itself to that form, so that this EditRecord Window can update once the status is edited,
-        //                  as well as PBS DataRowView.
-        //*******************************************************************
+        /*Name: Michael Figueroa
+        Function Name: Report_MouseDoubleClick
+        Purpose: DoubleClick even handler for the history form that allows user to edit status
+        Parameters: Auto-Generated
+        Return Value: None
+        Local Variables: DataGrid dg, DataRowView dataRow
+        Algorithm: When a specific row on the History table is double-clicked, the editStatus screen comes up.
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private void Report_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             try
@@ -1077,8 +1310,19 @@ namespace WpfApp1
             }
         }
 
-        //event handler for back arrow
-        //subtract one for the current issue id text, subtract current index from list
+        /*Name: Michael Figueroa
+        Function Name: BackArrow_Click
+        Purpose: Event Handler that allows user to scroll through the issues (in a backwards manner) in the report the EditRecord form was accessed from
+        Parameters: Auto-Generated
+        Return Value: None
+        Local Variables: string current, int currentID
+        Algorithm: currentID is the index of the List<int> IDLIst array; if the currentID value subtracted by 1 is greater or equal to zero, then the currentID is decremented by 1,
+        The History DataGrid and Form are all re-binded with the ID of the previous issue in the report; else, nothing happens, in order to avoid and indexOutofBounds exception in
+        IDList array.
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private void BackArrow_Click(object sender, RoutedEventArgs e)
         {
             string current = CurrentIssue.Text.ToString();
@@ -1094,10 +1338,23 @@ namespace WpfApp1
             }
         }
 
-
-        //event handler for forward arrow
+        /*Name: Michael Figueroa
+        Function Name: ForwardArrow_Click
+        Purpose: Event Handler that allows user to scroll through the issues (in a forwards manner) in the report the EditRecord form was accessed from
+        Parameters: Auto-Generated
+        Return Value: None
+        Local Variables: string current, int currentID
+        Algorithm: currentID is the index of the List<int> IDLIst array; if the currentID value subtracted by 1 is greater or equal to zero, then the currentID is decremented by 1,
+        The History DataGrid and Form are all re-binded with the ID of the previous issue in the report; else, nothing happens, in order to avoid and indexOutofBounds exception in
+        IDList array.
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private void ForwardArrow_Click(object sender, RoutedEventArgs e)
         {
+           // SubmitIssue();
+
             string current = CurrentIssue.Text.ToString();
             int currentID = Int32.Parse(current) - 1;
 
@@ -1108,11 +1365,23 @@ namespace WpfApp1
                 CurrentIssue.Text = (currentID + 1).ToString();
                 BindDataGrid(IDList[currentID].ToString());
                 SelectIssueData(IDList[currentID].ToString());
+                
                 FillInForm();
             }
         }
 
-        //allows user to jump to an issue by typing in a number
+        /*Name: Michael Figueroa
+        Function Name: CurrentIssue_KeyDown
+        Purpose: Event Handler that allows user to use enter button to jump issues on the report (so user can go from the first issue to the ninth issue, for instance)
+        Parameters: Auto-Generated
+        Return Value: None
+        Local Variables: string current, int currentID
+        Algorithm: currentID is the index of the List<int> IDLIst array; if the currentID value is less than the length of the IDList List, then the re-binds using the informaton with
+        issue ID of IDList[currentID]
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private void CurrentIssue_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
@@ -1133,5 +1402,21 @@ namespace WpfApp1
             }
         }
 
+        /*Name: Brandon Cox
+          Function Name: UpdtBtn_Click
+          Purpose: Event Handler that saves updates the user made to the current issue
+          Parameters: 
+          Return Value: None
+          Local Variables: 
+          Algorithm: calls SubmitIssue()
+             Version: 2.0.0.4
+            Date modified: Prior to 1/1/20
+            Assistance Received: N/A
+          */
+
+        private void UpdtBtn_Click(object sender, RoutedEventArgs e)
+        {
+            SubmitIssue();
+        }
     }
 }

@@ -5,78 +5,41 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp2"
         mc:Ignorable="d"
-        Title="EDI_Add_Product" Height="1000" Width="1250" Background="#efe1b3">
+        Title="EDI_Add_Product" Height="600" Width="600" Background="#efe1b3">
     <Grid>
+        <StackPanel Orientation="Vertical" Margin="20,20,0,0">
             <TextBlock Text="Add Product" FontSize="26" />
-            <StackPanel Orientation="Horizontal">
-            <StackPanel Orientation="Vertical" Margin="0,40,0,0">
-                <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
-                    <Label HorizontalAlignment="Left" Content="Company Name" Width="250" FontSize="20"/>
-                    <TextBox x:Name="CompanyName" Style="{StaticResource Textbox1}"  Width="250" FontSize="20"/>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
-                    <Label HorizontalAlignment="Left" Content="Implementor" Width="250" FontSize="20"/>
-                    <ComboBox x:Name="Implementor" Width="250" FontSize="20"/>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
-                    <Label HorizontalAlignment="Left" Content="Company Contact Name" Width="250" FontSize="20"/>
-                    <TextBox x:Name="CompanyContactName" Style="{StaticResource Textbox1}" Width="250" FontSize="20"/>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
-                    <Label HorizontalAlignment="Left" Content="Third Party" Width="250" FontSize="20"/>
-                    <TextBox x:Name="ThirdParty" Style="{StaticResource Textbox1}" Width="250" FontSize="20"/>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
-                    <Label HorizontalAlignment="Left" Content="Projected Production Date" Width="250" FontSize="20"/>
-                    <TextBox x:Name="ProjProdDate" Style="{StaticResource Textbox1}" Width="250" FontSize="20"/>
-                </StackPanel>
-              
-                <StackPanel Orientation="Horizontal">
-                    <Button Name="Add" Content="Add Company" Style="{StaticResource btnBrown}" Width="125"/>
-                </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
+                <Label HorizontalAlignment="Left" Content="Company Name" Width="250" FontSize="20"/>
+                <TextBox x:Name="CompanyName" Style="{StaticResource Textbox1}"  Width="250" FontSize="20"/>
             </StackPanel>
-            <StackPanel Orientation="Vertical">
-                <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
-                    <Label HorizontalAlignment="Left" Content="Technical Contact" Width="250" FontSize="20"/>
-                    <TextBox x:Name="TechContact" Style="{StaticResource Textbox1}" Width="250" FontSize="20"/>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
-                    <Label HorizontalAlignment="Left" Content="Phone Number" Width="250" FontSize="20"/>
-                    <TextBox x:Name="PhoneNum" Style="{StaticResource Textbox1}" Width="250" FontSize="20"/>
-                </StackPanel>
-
-                <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
-                    <Label HorizontalAlignment="Left" Content="Technical Contact Email 1" Width="250" FontSize="20"/>
-                    <TextBox x:Name="TechContEmailOne" Style="{StaticResource Textbox1}" Width="250" FontSize="20"/>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
-                    <Label HorizontalAlignment="Left" Content="Technical Contact Email 1" Width="250" FontSize="20"/>
-                    <TextBox x:Name="TechContEmailTwo" Style="{StaticResource Textbox1}" Width="250" FontSize="20"/>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
-                    <Label HorizontalAlignment="Left" Content="Technical Contact Email 1" Width="250" FontSize="20"/>
-                    <TextBox x:Name="TechContEmailThree" Style="{StaticResource Textbox1}" Width="250" FontSize="20"/>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal" Margin="20,20,0,0">
-                    <CheckBox x:Name="MultiVan" VerticalContentAlignment="Center" FontSize="20" Content="Multi Van"/>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal" Margin="20,20,0,0">
-                    <CheckBox x:Name="CustomMap" VerticalContentAlignment="Center" FontSize="20" Content="Custom Map"/>
-                </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
+                <Label HorizontalAlignment="Left" Content="Implementor" Width="250" FontSize="20"/>
+                <ComboBox x:Name="Implementor" Width="250" FontSize="20" Style="{StaticResource ComboBox1}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
+                <Label HorizontalAlignment="Left" Content="Tech Contact Name" Width="250" FontSize="20"/>
+                <TextBox x:Name="TechContactName" Style="{StaticResource Textbox1}" Width="250" FontSize="20"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
+                <Label HorizontalAlignment="Left" Content="Tech Phone Number" Width="250" FontSize="20"/>
+                <TextBox x:Name="TechPhoneNum" Style="{StaticResource Textbox1}" Width="250" FontSize="20"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
+                <Label HorizontalAlignment="Left" Content="Tech Email 1" Width="250" FontSize="20"/>
+                <TextBox x:Name="Customer_Email_1" Style="{StaticResource Textbox1}" Width="250" FontSize="20"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
+                <Label HorizontalAlignment="Left" Content="Tech Email 2" Width="250" FontSize="20"/>
+                <TextBox x:Name="Customer_Email_2" Style="{StaticResource Textbox1}" Width="250" FontSize="20"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
+                <Label HorizontalAlignment="Left" Content="Tech Email 3" Width="250" FontSize="20"/>
+                <TextBox x:Name="Customer_Email_3" Style="{StaticResource Textbox1}" Width="250" FontSize="20"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Button Name="Add" Content="Add Tech" Style="{StaticResource btnBrown}" Width="125"/>
             </StackPanel>
         </StackPanel>
-        <DataGrid Name="SourceReport" Height="200" Width="600" Margin="0,20,0,0" Background="#efe1b3"
-                                AutoGenerateColumns="False" RowHeaderWidth="0.1" FontSize="16" BorderBrush="WhiteSmoke"
-                                CanUserAddRows="False" CanUserResizeColumns="True" CanUserResizeRows="True"
-                                TextOptions.TextFormattingMode="Ideal" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Date" Binding="{Binding INTERIM_TEST_CASE_CRITERIA}" Width="Auto" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Phase" Binding="{Binding INTERIM_BILL_TYPE}" Width="Auto" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Updated By" Binding="{Binding INTERIM_CC}" Width="Auto" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Type" Binding="{Binding INTERIM_TYPE}" Width="Auto" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Comments" Binding="{Binding INTERIM_DAILY_ASSIGN}" Width="Auto" IsReadOnly="True"/>
-            </DataGrid.Columns>
-        </DataGrid>
     </Grid>
 </Window>

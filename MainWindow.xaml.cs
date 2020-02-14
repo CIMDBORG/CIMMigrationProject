@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -26,26 +26,17 @@ using KeyEventArgs = System.Windows.Input.KeyEventArgs;
 
 namespace WpfApp1
 {
+    //*******************************************************************
+    // DESCRIPTION: 	The main login screen that appears when the application starts.
+    //                  Identifies if login information is valid. Throws a message box if not, and asks user to try again.
+    //                  Passes login-based information about user to Main Menu on successful login.
+    //*******************************************************************
     public partial class MainWindow : Window
     {
         public string connectionString = ConfigurationManager.ConnectionStrings["conString"].ConnectionString;
         private int x;
         private string[] user_data;
 
-      
-        /*         
-        Name: Mike Figueroa
-        Function Name: Mainwindow()           
-        Purpose: constructor for Main window class   
-        Parameters: NA                        
-        Return Value: NA
-        Local Variables: 
-                  Version version returns the assembly verion number
-        Algorithm: NA 
-        Version: NA
-        Date modified: NA
-        Assistance Received:NA
-        */
         public MainWindow()
         {
             InitializeComponent();
@@ -53,35 +44,12 @@ namespace WpfApp1
             lblVersion.Text = "Version: " + version.ToString();
         }
 
-        /*         
-        Name: Mike Figueroa
-        Function Name: void Cancelbutton_click(object sender, RoutedEventArgs e)              
-        Purpose: closes the application down (used in the main login screen)
-        Parameters: ( auto-generated )
-        Return Value: closes app
-        Local Variables: na
-        Algorithm: NA 
-        Version: NA
-        Date modified: NA
-        Assistance Received:NA
-        */
         private void Cancelbutton_click(object sender, RoutedEventArgs e)
         {
             this.Close();
         }
-
-        /*    
-        Name: Mike Figueroa
-        Function Name: void Submitbutton_Click(object sender, RoutedEventArgs e)
-        Purpose: login button in the main menu(used in the main login screen)
-        Parameters: ( auto-generated )
-        Return Value: either user logs in or fails
-        Local Variables: na
-        Algorithm: NA 
-        Version: NA
-        Date modified: NA
-        Assistance Received:NA
-        */
+        
+        
 
         private void Submitbutton_Click(object sender, RoutedEventArgs e)
         {
@@ -89,18 +57,7 @@ namespace WpfApp1
         }
 
 
-        /*     
-        Name: Mike Figueroa
-        Function Name: void Text_KeyDown(object sender, KeyEventArgs e)
-        Purpose: event handler! for entry key..google it(used in the main login screen)
-        Parameters: ( auto-generated )
-        Return Value: either user logs in or fails
-        Local Variables: na
-        Algorithm: NA 
-        Version: NA
-        Date modified: NA
-        Assistance Received:NA
-        */
+        
         // Checks if the user presses Return (Enter) key in ADID or Password box, which then triggers AttemptLogin to start login verification.
         private void Text_KeyDown(object sender, KeyEventArgs e)
         {
@@ -109,22 +66,7 @@ namespace WpfApp1
                 AttemptLogin();
             }
         }
-        /*         
-        Name: Mike Figueroa
-        Function Name: static string EncodePasswordToBase64(string password)              
-        Purpose: to encrytped passwords into sql
-        Parameters: 
-        string password - contains users password
-        Return Value: returns excrypted version of password 
-        Local Variables: 
-            byte[] bytes - stores bytes of of password 
-            byte[] inArray - stores the hashform in an array
-            Version version - returns the assembly verion number
-        Algorithm: NA 
-        Version: NA
-        Date modified: NA
-        Assistance Received:NA
-        */
+
         public static string EncodePasswordToBase64(string password)
         {
             byte[] bytes = Encoding.Unicode.GetBytes(password);
@@ -132,25 +74,11 @@ namespace WpfApp1
             return Convert.ToBase64String(inArray);
         }
 
-        /*          
-        Name: Mike Figueroa
-        Function Name: void AttemptLogin() 
-        Purpose: validates user credientials resulting in user logging in or being displayed with an error message.
-        Parameters: NA
-        Return Value: NA
-        Local Variables: 
-        Algorithm: 
-        1.looks to see if password length == to 4 
-                      1a. if password length == 4 -- applicatoin calls ResetPassword followed by exiting login screen
-                      1B. take user new password and assign to user_data
-        2. else if user password != 4 characters long
-                      2b. checks to see if password is valid by calling AdidPass_IsValid()
-        3c. if not valid, show error message and exit screen
-        Version: NA
-        Date modified: NA
-        Assistance Received:NA
-        */
-
+        //*******************************************************************
+        //  Runs on any attempt the user makes to log into the application.
+        //  Captures the user data and passes it to Subwindow1 if login is valid. Closes current window and opens main menu window.
+        //  On an invalid login, prompts the user to try again.
+        //*******************************************************************
         private void AttemptLogin()
         {
 
@@ -171,7 +99,6 @@ namespace WpfApp1
                 {
                     user_data = FillUserData();
 
-                    // check later 
                     if (isEDI(user_data))
                     {
                         MenuScreen menuScreen = new MenuScreen(user_data);
@@ -197,18 +124,6 @@ namespace WpfApp1
         }
 
         // Opens a SQL connection. Returns true if there is exactly 1 valid ADID/pw combination
-        /*          
-        Name: Mike Figueroa
-        Function Name:AdidPass_IsValid()
-        Purpose: Opens a SQL connection. Returns true if there is exactly 1 valid ADID/pw combination
-        Parameters:
-        Return Value: false or true, based on if password is valid
-        Local Variables: 
-        Algorithm: 
-        Version: 
-        Date modified: 
-        Assistance Received: 
-        */
         public bool AdidPass_IsValid()
         {
             using (SqlConnection con = new SqlConnection(connectionString))
@@ -233,22 +148,6 @@ namespace WpfApp1
         // Takes an open SQL connection as input, and queries the New_Contacts table using SQL parameters for security.
         // Returns the number of valid ADID/PW combos as an int based on user input of ADID and Password.
         //*******************************************************************
-
-        /*          
-        Name: Mike Figueroa
-        Function Name:ExecuteLogin_GetADIDPasswordCombos(SqlConnection con)
-        Purpose: Returns the number of valid ADID/PW combos as an int based on user input of ADID and Password.
-        Parameters:
-        Return Value: 
-        Local Variables: 
-         * var adid - holds username content to be used in query 
-         * var pass - holds password content to be used in query 
-         * string query1 - holds the query to be ran in sql
-        Algorithm: 
-        Version: 
-        Date modified: 
-        Assistance Received: 
-        */
         private int ExecuteLogin_GetADIDPasswordCombos(SqlConnection con)
         {
             string query1 = "select count(*) from New_Contacts where ADID = @ADID  and Password = @Pass";
@@ -271,46 +170,17 @@ namespace WpfApp1
             return y;
         }
 
-        /*          
-    Name: Mike Figueroa
-    Function Name: private string[] ReturnSysArr(string systemString)
-    Purpose: Returns the parsed version of the string passed 
-    Parameters:
-    Return Value: 
-    Local Variables: 
-     * char delimiter - The delimiter used to parse the string passed
-     * string sys - will hold the parsed string as an array 
-    Algorithm: 
-    Version: 
-    Date modified: 
-    Assistance Received: 
-    */
         private string[] ReturnSysArr(string systemString)
         {
             char delimiter = '/';
             string[] sys = systemString.Split(delimiter);
             return sys;
         }
-        /*          
-    Name: Mike Figueroa
-    Function Name: private bool isEDI(string[] user_data)
-    Purpose: returns true or false based on if the user is an EDI user or not
-    Parameters: 
-         * string[] user_data - holds the array of user objects to be checked
-    Return Value: 
-         * returns a boolean based on if user is edi or not
-    Local Variables: 
-     * string[] sys - will hold the item returned by ReturnSysArr
-    Algorithm: 
-    Version: 
-    Date modified: 
-    Assistance Received: 
-    */
+
         private bool isEDI(string[] user_data)
         {
-            // passing the 8th item into returnsysarr and assigning the parsed string back to sys 
             string[] sys = ReturnSysArr(user_data[7]);
-            for (int i = 0; i < sys.Length; i++)
+            for(int i = 0; i < sys.Length; i++)
             {
                 if (sys[i] == "EDI")
                     return true;
@@ -322,22 +192,6 @@ namespace WpfApp1
         // Queries the New_Contacts table and pulls several data fields on particular user.
         // Returns a string[] containing the data on the user.
         //*******************************************************************
-
-        /*          
-    Name: Mike Figueroa
-    Function Name: private string[] FillUserData()
-    Purpose: Queries the New_Contacts table and pulls several data fields on particular user
-    Parameters: 
-    Return Value: 
-         * returns a string array containg the First_Name, Last_Name, Manager, Director, [Group], Role, Systems of user
-    Local Variables: 
-        * string[] query_results - will hold the First_Name, Last_Name, Manager, Director, [Group], Role, Systems
-        *  string query2 - holds the query to be ran in the function 
-    Algorithm: 
-    Version: 
-    Date modified: 
-    Assistance Received: 
-    */
         private string[] FillUserData()
         {
             string[] query_results;
@@ -347,20 +201,20 @@ namespace WpfApp1
                     con.Open();
                     string query2 = "select top 1 ADID, First_Name, Last_Name, Manager, Director, [Group], Role, Systems from New_Contacts where ADID = @ADID and Password = @Pass";
                     SqlCommand cmd2 = new SqlCommand(query2, con);
-
+                    
                     var Adid2 = new SqlParameter("@ADID", SqlDbType.VarChar, 50);
                     var Pass2 = new SqlParameter("@Pass", SqlDbType.VarChar, 100);
                     Adid2.Value = ADIDtext.Text.ToString();
                     Pass2.Value = EncodePasswordToBase64(Passwordtext.Password.ToString());
                     cmd2.Parameters.Add(Adid2);
                     cmd2.Parameters.Add(Pass2);
-
+                    
                     SqlDataReader reader2;
                     reader2 = cmd2.ExecuteReader();
 
                     query_results = PullDataFromReader(reader2);
                 }
-                catch (Exception ex)
+                catch(Exception ex)
                 {
                     MessageBox.Show(ex.ToString());
                     query_results = new string[1];
@@ -374,7 +228,7 @@ namespace WpfApp1
         }
 
 
-
+        
         // Reads from a SqlDataReader and stores each field as an element of a string[], and returns that string[] when it is finished reading.
         private string[] PullDataFromReader(SqlDataReader reader2)
         {

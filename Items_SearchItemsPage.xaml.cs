@@ -18,35 +18,56 @@ using System.Configuration;
 
 namespace WpfApp1
 {
-    // Will be used for Search Items functionality, did not have add anything to this page yet.
     public partial class Items_SearchItemsPage : Page
     {
         public string connectionString = ConfigurationManager.ConnectionStrings["conString"].ConnectionString;
         private string[] arr;                       //local variable to store login-based user data
         private DataRowView priorBySystemRow;       //local variable to store the row of data in the 'Prioritization by System' DataGrid
-        private string reportQuery;
-        private string title_;
-        private string cat_;
-        private string bid_;
-        private string user_;
-        private string system_;
-        private string status_;
-        private string statusFilter;
-        private DataTable searchResults;
+        private string reportQuery; //query used for excel export
+        private string title_; //title
+        private string cat_; //category
+        private string bid_; //BCTI number
+        private string user_; //Last name
+        private string system_; //Sys_Impact
+        private string status_; //status
+        private string statusFilter; //string that stores the [Status] part of the WHERE clause
+        private DataTable searchResults; //DataGrid that has the search results
 
+
+        /*Name: Michael Figueroa
+        Function Name: Items_SearchItemsPage
+        Purpose: Constructor for the Items_SearchItemsPage form
+        Parameters: string[] user_data
+        Return Value: None
+        Local Variables: None
+        Algorithm: Calls FillSystemComboBox, collapses the Report datagrid
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         public Items_SearchItemsPage(string[] user_data)
         {
             InitializeComponent();
-
             arr = user_data;
-
             Report.Visibility = Visibility.Collapsed;
-
         }
 
+        /*Name: Michael Figueroa
+        Function Name: Search
+        Purpose: Builds query for search, then calls BindDataGrid
+        Parameters: string[] user_data
+        Return Value: None
+        Local Variables: None
+        Algorithm: first, the member variables are assigned such as title and cat_.; then, if index 0 ("Open) is chosen from status combobox, then the statuses that are closed are excluded out in the WHERE clause; else
+        the closed issues are chosen. Then BindDataGrid is called
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private void Search()
         {
             title_ = TitleBox.Text.ToString();
+            //if null, then the cat_ string is empty to avoid exception error; else value vhosen from combobox is assigned to cat_ variable
             if (CategoryComboBox.SelectedItem == null)
             {
                 cat_ = "";
@@ -101,6 +122,17 @@ namespace WpfApp1
 
         }
 
+        /*Name: Michael Figueroa
+        Function Name: Search
+        Purpose: Event handler for search button
+        Parameters: Auto-Generated
+        Return Value: None
+        Local Variables: None
+        Algorithm: Calls Search()
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         public void SearchButton_Click(object sender, RoutedEventArgs e)
         {
             Search();
@@ -108,6 +140,18 @@ namespace WpfApp1
 
         //Query process: The base of the query is instantiated as a string object, which is then used to instantiate a stringbuilder object
         //From the stringbuilder object, we append to the query based on whether certain filters are applied to the search or not i.e system, status, etc.
+        /*Name: Michael Figueroa
+        Function Name: Search
+        Purpose: Builds query for search, then calls BindDataGrid
+        Parameters: string[] user_data
+        Return Value: None
+        Local Variables: query, queryBuilder, endQuery
+        Algorithm: first, the base of the query is assigned onto variable string query; query is used to instantiate a stringbuilder object; then the if clauses determine whether or not title, TFS_BC_HDFS_Num, etc. are
+        included in the WHERE clause; endQuery then stores the complete query. Then the query results are binded to the datagrid to provide user search results.
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         public void BindDataGrid(string title, string category, string bid, string user, string system, string status)
         {
             using (SqlConnection con = new SqlConnection(connectionString))
@@ -204,6 +248,18 @@ namespace WpfApp1
                     con.Close();
                 }
         }
+
+        /*Name: Michael Figueroa
+         Function Name: EditButton_Click
+         Purpose: Event handler for edit button click
+         Parameters: Auto-generated
+         Return Value: None
+         Local Variables: DataRowView priorBySystemRow
+         Algorithm: The DataRow in which the Edit button was clicked is retrieved, and the EditRecord form is opened using that DataRowView in the constructor
+         Version: 2.0.0.4
+         Date modified: Prior to 1/1/20 - This method will be simplified by Mike at a later date
+         Assistance Received: N/A
+         */
         public void EditButton_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -223,6 +279,18 @@ namespace WpfApp1
             }
         }
 
+
+        /*Name: Michael Figueroa
+         Function Name: Window_Loaded
+         Purpose: Event handler for when window loads
+         Parameters: Auto-generated
+         Return Value: None
+         Local Variables: DataRowView agingItemsRow
+         Algorithm: The DataRow in which the Edit button was clicked is retrieved, and the EditRecord form is opened using that DataRowView in the constructor
+         Version: 2.0.0.4
+         Date modified: Prior to 1/1/20 - This method will be simplified by Mike at a later date
+         Assistance Received: N/A
+         */
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             CategoryComboBox.Items.Add("BC/TI");
@@ -239,6 +307,17 @@ namespace WpfApp1
             Helper.FillSystemComboBoxNoAll(SystemComboBox);
         }
 
+        /*Name: Michael Figueroa
+         Function Name: ClearButton_Click
+         Purpose: Event handler for when window loads
+         Parameters: Auto-generated
+         Return Value: None
+         Local Variables: messageBoxResult
+         Algorithm: Clears search results
+         Version: 2.0.0.4
+         Date modified: Prior to 1/1/20 - This method will be simplified by Mike at a later date
+         Assistance Received: N/A
+         */
         private void ClearButton_Click(object sender, RoutedEventArgs e)
         {
             MessageBoxResult messageBoxResult = MessageBox.Show("Clear Search Form?", "Clear?", MessageBoxButton.YesNo);

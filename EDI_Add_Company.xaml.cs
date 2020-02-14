@@ -53,7 +53,7 @@ namespace WpfApp2
         {
             AssignValues();
             return "INSERT INTO EDI_COMPANY (COMPANY_NAME, COMPANY_ADDRESS, COMPANY_CONTACT_NAME, " +
-                   "COMPANY_PHONE_NUMBER, COMPANY_EMAIL_ONE, COMPANY_EMAIL_TWO, COMPANY_EMAIL_THREE) VALUES ('" + companyName + "', '" + companyAddress + "', '" +
+                   "COMPANY_PHONE_NUMBER, COMPANY_EMAIL_ONE, COMPANY_EMAIL_TWO, COMPANY_EMAIL_THREE) VALUES ('" + companyName.Replace("'", "\''") + "', '" + companyAddress + "', '" +
                    companyContactName + "', '" + companyPhone + "', '" + companyEmailOne + "', '" + companyEmailTwo + "', '" + companyEmailThree + "');";
         }
 
@@ -94,6 +94,7 @@ namespace WpfApp2
                         con.Close();
                     }
                 }
+                this.Close();
             }
         }
     }

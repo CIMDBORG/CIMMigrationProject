@@ -8,7 +8,7 @@
         Title="EDI_Submit_PWR" Height="700" Width="1000" Background="LightGoldenrodYellow">
     <Grid>
         <StackPanel Orientation="Horizontal">
-            <StackPanel Orientation="Vertical">
+            <StackPanel Orientation="Vertical" Margin="0,10,0,0">
             <Label HorizontalAlignment="Left" Content="Request ID: " Width="250" FontSize="20"/>
                 <StackPanel Orientation="Horizontal">
                     <Label HorizontalAlignment="Left" Content="Company " Width="150" FontSize="20"/>
@@ -36,15 +36,15 @@
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="50,25,0,0">
                     <Label HorizontalAlignment="Left" Content="EDI ID" Width="100" FontSize="20"/>
-                    <TextBox x:Name="EDIID" Style="{StaticResource Textbox1}" Width="250" Height="30" FontSize="20"/>
+                    <TextBox x:Name="TestEDIID" Style="{StaticResource Textbox1}" Width="250" Height="30" FontSize="20"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="50,25,0,0">
                     <Label HorizontalAlignment="Left" Content="EDI Qual" Width="100" FontSize="20"/>
-                    <TextBox x:Name="EDIQual" Style="{StaticResource Textbox1}" Width="250" Height="30" FontSize="20"/>
+                    <TextBox x:Name="TestEDIQual" Style="{StaticResource Textbox1}" Width="250" Height="30" FontSize="20"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="50,25,0,0">
                     <Label HorizontalAlignment="Left" Content="Remote ID" Width="100" FontSize="20"/>
-                    <TextBox x:Name="RemoteID" Style="{StaticResource Textbox1}" Width="250" Height="30" FontSize="20"/>
+                    <TextBox x:Name="TestRemoteID" Style="{StaticResource Textbox1}" Width="250" Height="30" FontSize="20"/>
                 </StackPanel>
             </StackPanel>
             <StackPanel Orientation="Vertical">
@@ -67,6 +67,22 @@
                 <StackPanel Orientation="Horizontal">
                     <Label HorizontalAlignment="Left" Content="Multi Van" Width="150" FontSize="20"/>
                     <CheckBox x:Name="MultiVan" FontSize="20"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="175,130,0,0">
+                    <Border Background="Yellow"/>
+                    <Label HorizontalAlignment="Left" Content="From" Width="60" FontSize="20"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="50,25,0,0">
+                    <Label HorizontalAlignment="Left" Content="EDI ID" Width="100" FontSize="20"/>
+                    <TextBox x:Name="ProdEDIID" Style="{StaticResource Textbox1}" Width="250" Height="30" FontSize="20"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="50,25,0,0">
+                    <Label HorizontalAlignment="Left" Content="EDI Qual" Width="100" FontSize="20"/>
+                    <TextBox x:Name="ProdEDIQual" Style="{StaticResource Textbox1}" Width="250" Height="30" FontSize="20"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="50,25,0,0">
+                    <Label HorizontalAlignment="Left" Content="Remote ID" Width="100" FontSize="20"/>
+                    <TextBox x:Name="ProdRemoteID" Style="{StaticResource Textbox1}" Width="250" Height="30" FontSize="20"/>
                 </StackPanel>
             </StackPanel>
         </StackPanel>
