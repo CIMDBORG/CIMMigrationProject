@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -32,19 +32,20 @@ namespace WpfApp1
         private int x;
         private string[] user_data;
 
-             /*         
-             Name: Mike Figueroa
-             Function Name: Mainwindow()           
-             Purpose: constructor for Main window class   
-             Parameters: NA                        
-             Return Value: NA
-             Local Variables: 
-                       Version version returns the assembly verion number
-             Algorithm: NA 
-             Version: NA
-             Date modified: NA
-             Assistance Received:NA
-             */
+      
+        /*         
+        Name: Mike Figueroa
+        Function Name: Mainwindow()           
+        Purpose: constructor for Main window class   
+        Parameters: NA                        
+        Return Value: NA
+        Local Variables: 
+                  Version version returns the assembly verion number
+        Algorithm: NA 
+        Version: NA
+        Date modified: NA
+        Assistance Received:NA
+        */
         public MainWindow()
         {
             InitializeComponent();
@@ -69,18 +70,18 @@ namespace WpfApp1
             this.Close();
         }
 
-            /*    
-       Name: Mike Figueroa
-       Function Name: void Submitbutton_Click(object sender, RoutedEventArgs e)
-       Purpose: login button in the main menu(used in the main login screen)
-       Parameters: ( auto-generated )
-       Return Value: either user logs in or fails
-       Local Variables: na
-       Algorithm: NA 
-       Version: NA
-       Date modified: NA
-       Assistance Received:NA
-       */
+        /*    
+        Name: Mike Figueroa
+        Function Name: void Submitbutton_Click(object sender, RoutedEventArgs e)
+        Purpose: login button in the main menu(used in the main login screen)
+        Parameters: ( auto-generated )
+        Return Value: either user logs in or fails
+        Local Variables: na
+        Algorithm: NA 
+        Version: NA
+        Date modified: NA
+        Assistance Received:NA
+        */
 
         private void Submitbutton_Click(object sender, RoutedEventArgs e)
         {
@@ -116,9 +117,9 @@ namespace WpfApp1
         string password - contains users password
         Return Value: returns excrypted version of password 
         Local Variables: 
-        byte[] bytes - stores bytes of of password 
-        byte[] inArray - stores the hashform in an array
-        Version version returns the assembly verion number
+            byte[] bytes - stores bytes of of password 
+            byte[] inArray - stores the hashform in an array
+            Version version - returns the assembly verion number
         Algorithm: NA 
         Version: NA
         Date modified: NA
@@ -144,13 +145,12 @@ namespace WpfApp1
                       1B. take user new password and assign to user_data
         2. else if user password != 4 characters long
                       2b. checks to see if password is valid by calling AdidPass_IsValid()
-
         3c. if not valid, show error message and exit screen
         Version: NA
         Date modified: NA
         Assistance Received:NA
         */
-        
+
         private void AttemptLogin()
         {
 
@@ -197,6 +197,18 @@ namespace WpfApp1
         }
 
         // Opens a SQL connection. Returns true if there is exactly 1 valid ADID/pw combination
+        /*          
+        Name: Mike Figueroa
+        Function Name:AdidPass_IsValid()
+        Purpose: Opens a SQL connection. Returns true if there is exactly 1 valid ADID/pw combination
+        Parameters:
+        Return Value: false or true, based on if password is valid
+        Local Variables: 
+        Algorithm: 
+        Version: 
+        Date modified: 
+        Assistance Received: 
+        */
         public bool AdidPass_IsValid()
         {
             using (SqlConnection con = new SqlConnection(connectionString))
@@ -223,17 +235,20 @@ namespace WpfApp1
         //*******************************************************************
 
         /*          
-Name:
-Function Name:
-Purpose: 
-Parameters:
-Return Value: 
-Local Variables: 
-Algorithm: 
-Version: 
-Date modified: 
-Assistance Received: 
-*/
+        Name: Mike Figueroa
+        Function Name:ExecuteLogin_GetADIDPasswordCombos(SqlConnection con)
+        Purpose: Returns the number of valid ADID/PW combos as an int based on user input of ADID and Password.
+        Parameters:
+        Return Value: 
+        Local Variables: 
+         * var adid - holds username content to be used in query 
+         * var pass - holds password content to be used in query 
+         * string query1 - holds the query to be ran in sql
+        Algorithm: 
+        Version: 
+        Date modified: 
+        Assistance Received: 
+        */
         private int ExecuteLogin_GetADIDPasswordCombos(SqlConnection con)
         {
             string query1 = "select count(*) from New_Contacts where ADID = @ADID  and Password = @Pass";
@@ -256,15 +271,44 @@ Assistance Received:
             return y;
         }
 
+        /*          
+    Name: Mike Figueroa
+    Function Name: private string[] ReturnSysArr(string systemString)
+    Purpose: Returns the parsed version of the string passed 
+    Parameters:
+    Return Value: 
+    Local Variables: 
+     * char delimiter - The delimiter used to parse the string passed
+     * string sys - will hold the parsed string as an array 
+    Algorithm: 
+    Version: 
+    Date modified: 
+    Assistance Received: 
+    */
         private string[] ReturnSysArr(string systemString)
         {
             char delimiter = '/';
             string[] sys = systemString.Split(delimiter);
             return sys;
         }
-
+        /*          
+    Name: Mike Figueroa
+    Function Name: private bool isEDI(string[] user_data)
+    Purpose: returns true or false based on if the user is an EDI user or not
+    Parameters: 
+         * string[] user_data - holds the array of user objects to be checked
+    Return Value: 
+         * returns a boolean based on if user is edi or not
+    Local Variables: 
+     * string[] sys - will hold the item returned by ReturnSysArr
+    Algorithm: 
+    Version: 
+    Date modified: 
+    Assistance Received: 
+    */
         private bool isEDI(string[] user_data)
         {
+            // passing the 8th item into returnsysarr and assigning the parsed string back to sys 
             string[] sys = ReturnSysArr(user_data[7]);
             for (int i = 0; i < sys.Length; i++)
             {
@@ -278,6 +322,22 @@ Assistance Received:
         // Queries the New_Contacts table and pulls several data fields on particular user.
         // Returns a string[] containing the data on the user.
         //*******************************************************************
+
+        /*          
+    Name: Mike Figueroa
+    Function Name: private string[] FillUserData()
+    Purpose: Queries the New_Contacts table and pulls several data fields on particular user
+    Parameters: 
+    Return Value: 
+         * returns a string array containg the First_Name, Last_Name, Manager, Director, [Group], Role, Systems of user
+    Local Variables: 
+        * string[] query_results - will hold the First_Name, Last_Name, Manager, Director, [Group], Role, Systems
+        *  string query2 - holds the query to be ran in the function 
+    Algorithm: 
+    Version: 
+    Date modified: 
+    Assistance Received: 
+    */
         private string[] FillUserData()
         {
             string[] query_results;
