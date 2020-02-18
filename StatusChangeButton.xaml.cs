@@ -15,11 +15,20 @@ using System.Windows.Shapes;
 
 namespace WpfApp1
 {
-    /// <summary>
-    /// Interaction logic for StatusChangeButton.xaml
-    /// this is a form that contains two buttons, these buttons are for the managers to use in ManagerTasks.xaml in order to update statuses to BC Submitted or BC Approved
-    /// </summary>
-    /// 
+    /*Name: Mike Figueroa 
+       Function Name: StatusChangeButton
+       Purpose:  Initializes window, declares local variables
+       Parameters: N/A
+       Return Value: N/A
+       Local Variables: approvedClicked, submittedClicked
+       Algorithm:   1. Opens Window
+                    2. Sets local variables = false
+                    3. Initializes component
+       Version: 2.0.0.4
+       Date modified: Prior to 1/1/20
+       Assistance Received: Comments by Dom Carrubba
+       */
+
     public partial class StatusChangeButton : Window
     {
         public bool approvedClicked = false;
@@ -28,14 +37,40 @@ namespace WpfApp1
         {
             InitializeComponent();
         }
-         
-        //closes form on click evens
+
+        /*Name: Mike Figueroa 
+       Function Name: BCApproved_Click
+       Purpose: Event handler for the BC Approval Button 
+       Parameters: object sender, RoutedEventArgs e
+       Return Value: N/A
+       Local Variables: approvedClicked 
+       Algorithm:   1. Looks for Button click
+                    2. Sets bool approvedClicked = true
+                    3. Closes function
+       Version: 2.0.0.4
+       Date modified: Prior to 1/1/20
+       Assistance Received: Comments by Dom Carrubba
+       */
         private void BCApproved_Click(object sender, RoutedEventArgs e)
         {
             approvedClicked = true;
             this.Close();
         }
 
+
+        /*Name: Mike Figueroa 
+       Function Name: BCSubmitted_Click
+       Purpose: Event handler for the BC Submit Button 
+       Parameters: object sender, RoutedEventArgs e
+       Return Value: N/A
+       Local Variables: submittedClicked 
+       Algorithm:   1. Looks for Button click
+                    2. Sets bool submittedClicked = true
+                    3. Closes function
+       Version: 2.0.0.4
+       Date modified: Prior to 1/1/20
+       Assistance Received: Comments by Dom Carrubba
+       */
         private void BCSubmitted_Click(object sender, RoutedEventArgs e)
         {
             submittedClicked = true;
