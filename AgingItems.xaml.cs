@@ -29,7 +29,18 @@ namespace WpfApp1
         private DataRowView agingItemsRow;       //local variable to store the row of data in the 'Prioritization by System' DataGrid
         private string reportQuery; //allows the query generated for the report to be used when exporting to excel
 
-        //We select All systems with All statuses of all items that are aging on window load
+        /*Name: Michael Figueroa
+        Function Name: AgingItems
+        Purpose: Constructor for AgingItems.xaml.cs
+        Parameters: string[] user_data
+        Return Value: None
+        Local Variables: None
+        Algorithm: user-specific info is passed onto string[] arr, then SystemComboBox is set to index 0 ("All"), then SystemComboBox is filled, ReportHelper.FillStatusComboBoxWithAll (StatusComboBox) is called, 
+        StatusComboBox is set to index 0, and the DataGrid is binded
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         public AgingItems(string[] user_data)
         {
             InitializeComponent();
@@ -40,7 +51,18 @@ namespace WpfApp1
             StatusComboBox.SelectedIndex = 0;
             BindDataGrid();
         }
-        
+
+       /*Name: Michael Figueroa
+       Function Name: FillSystemComboBox
+       Purpose: Fills SystemComboBox - this method may not be necessary as helper has the same method
+       Parameters: None
+       Return Value: None
+       Local Variables: None
+       Algorithm: None 
+       Version: 2.0.0.4
+       Date modified: Prior to 1/1/20
+       Assistance Received: N/A
+       */
         private void FillSystemComboBox()
         {
             SystemComboBox.Items.Add("All");
@@ -70,7 +92,18 @@ namespace WpfApp1
             SystemComboBox.Items.Add("Vendor");
         }
 
-        //WHenever the system and status combo boxes change, the datagrid re-binds
+        /*Name: Michael Figueroa
+        Function Name: SystemComboBox_SelectionChanged
+        Purpose: Event handler for when the SystemComboBox changes
+        Parameters: Auto-Generated
+        Return Value: None
+        Local Variables: None
+        Algorithm: AgingReport datagrid becomes visible, along with export to excel button and history toggle button; then calls BindDataGrid()
+        If exception occurs, error message is shown
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private void SystemComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             try
@@ -88,12 +121,35 @@ namespace WpfApp1
             }
         }
 
+        /*Name: Michael Figueroa
+        Function Name: StatusComboBox_SelectionChanged
+        Purpose: Event handler for when the StatusComboBox selection changes
+        Parameters: Auto-Generated
+        Return Value: None
+        Local Variables: None
+        Algorithm: Calls BindDataGrid()
+        If exception occurs, error message is shown
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private void StatusComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             BindDataGrid();
         }
 
-        //queries are customized based on what choices the user makes from the comboboxes
+        /*Name: Michael Figueroa
+        Function Name: agingQuery
+        Purpose: Sets agingQuery that will be used to generate aging report
+        Parameters: None
+        Return Value: string query
+        Local Variables: string query, string statusChosen
+        Algorithm: calls StatusChosen in order to determine what status is chosen from the ComboBox by the user, then based on the criteria the if-else clause determines the query...Note that SystemComboBox index 0 is "All"
+        If exception occurs, error message is shown
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         public string agingQuery()
         {
             string query;
@@ -107,7 +163,7 @@ namespace WpfApp1
                            "FROM New_Issues INNER JOIN(SELECT TaskNum, MAX(EntryDate) AS Latest_Status_Update FROM History " +
                            "GROUP BY TaskNum) h1 ON h1.TaskNum = New_Issues.ID WHERE((Category LIKE 'BC%' AND(DATEDIFF(day, h1.Latest_Status_Update, CONVERT(date, GETDATE())) > 180)) " +
                            "OR((Category NOT LIKE 'BC%' AND Impact NOT LIKE '%Not Billed Items%') AND(DATEDIFF(day, h1.Latest_Status_Update, CONVERT(date, GETDATE())) > 22))OR(Impact LIKE '%Not Billed Items%' AND(DATEDIFF(day, h1.Latest_Status_Update, CONVERT(date, GETDATE())) > 8)) " +
-                           "OR ((Category LIKE '%Strategic Task%' AND(DATEDIFF(day, h1.Latest_Status_Update, CONVERT(date, GETDATE())) > 14)))) AND (Sys_Impact LIKE '%" + SystemChosen() + "%') " + StatusQuery() + " ORDER BY TaskNum ASC; ";
+                           "OR ((Category LIKE '%Strategic Task%' AND(DATEDIFF(day, h1.Latest_Status_Update, CONVERT(date, GETDATE())) > 7)))) AND (Sys_Impact LIKE '%" + SystemChosen() + "%') " + StatusQuery() + " ORDER BY TaskNum ASC; ";
             }
 
             else if (SystemComboBox.SelectedIndex != 0 && ((ReportHelper.StatusChosen(StatusComboBox) != "All Opened") && (ReportHelper.StatusChosen(StatusComboBox) != "All Closed")))
@@ -118,7 +174,7 @@ namespace WpfApp1
                            "(SELECT DATEDIFF(day, Latest_Status_Update, CONVERT(date, GETDATE()))) as Status_Days, ID as ID " +
                            "FROM New_Issues INNER JOIN(SELECT TaskNum, MAX(EntryDate) AS Latest_Status_Update FROM History " +
                            "GROUP BY TaskNum) h1 ON h1.TaskNum = New_Issues.ID WHERE((Category LIKE 'BC%' AND(DATEDIFF(day, h1.Latest_Status_Update, CONVERT(date, GETDATE())) > 180)) " +
-                           "OR((Category NOT LIKE 'BC%' AND Impact NOT LIKE '%Not Billed Items%') AND(DATEDIFF(day, h1.Latest_Status_Update, CONVERT(date, GETDATE())) > 22)) OR (Category LIKE '%Strategic Task%' AND(DATEDIFF(day, h1.Latest_Status_Update, CONVERT(date, GETDATE())) > 14)) OR(Impact LIKE '%Not Billed Items%' AND(DATEDIFF(day, h1.Latest_Status_Update, CONVERT(date, GETDATE())) > 8))) " +
+                           "OR((Category NOT LIKE 'BC%' AND Impact NOT LIKE '%Not Billed Items%') AND(DATEDIFF(day, h1.Latest_Status_Update, CONVERT(date, GETDATE())) > 22)) OR (Category LIKE '%Strategic Task%' AND(DATEDIFF(day, h1.Latest_Status_Update, CONVERT(date, GETDATE())) > 7)) OR(Impact LIKE '%Not Billed Items%' AND(DATEDIFF(day, h1.Latest_Status_Update, CONVERT(date, GETDATE())) > 8))) " +
                            "AND New_Issues.[Status] = '" + ReportHelper.StatusChosen(StatusComboBox) + "' AND Sys_Impact LIKE '%" + SystemChosen() + "%' ORDER BY TaskNum ASC; ";
             }
 
@@ -130,7 +186,7 @@ namespace WpfApp1
                            "(SELECT DATEDIFF(day, Latest_Status_Update, CONVERT(date, GETDATE()))) as Status_Days, ID as ID " +
                            "FROM New_Issues INNER JOIN(SELECT TaskNum, MAX(EntryDate) AS Latest_Status_Update FROM History " +
                            "GROUP BY TaskNum) h1 ON h1.TaskNum = New_Issues.ID WHERE((Category LIKE 'BC%' AND(DATEDIFF(day, h1.Latest_Status_Update, CONVERT(date, GETDATE())) > 180)) " +
-                           "OR((Category NOT LIKE 'BC%' AND Impact NOT LIKE '%Not Billed Items%') AND(DATEDIFF(day, h1.Latest_Status_Update, CONVERT(date, GETDATE())) > 22)) OR (Category LIKE '%Strategic Task%' AND(DATEDIFF(day, h1.Latest_Status_Update, CONVERT(date, GETDATE())) > 14)) OR (Impact LIKE '%Not Billed Items%' AND(DATEDIFF(day, h1.Latest_Status_Update, CONVERT(date, GETDATE())) > 8))) " +
+                           "OR((Category NOT LIKE 'BC%' AND Impact NOT LIKE '%Not Billed Items%') AND(DATEDIFF(day, h1.Latest_Status_Update, CONVERT(date, GETDATE())) > 22)) OR (Category LIKE '%Strategic Task%' AND(DATEDIFF(day, h1.Latest_Status_Update, CONVERT(date, GETDATE())) > 7)) OR (Impact LIKE '%Not Billed Items%' AND(DATEDIFF(day, h1.Latest_Status_Update, CONVERT(date, GETDATE())) > 8))) " +
                            "AND New_Issues.[Status] = '" + ReportHelper.StatusChosen(StatusComboBox) + "' ORDER BY TaskNum ASC; ";
             }
             else 
@@ -141,12 +197,22 @@ namespace WpfApp1
                            "(SELECT DATEDIFF(day, Latest_Status_Update, CONVERT(date, GETDATE()))) as Status_Days, ID as ID " +
                            "FROM New_Issues INNER JOIN(SELECT TaskNum, MAX(EntryDate) AS Latest_Status_Update FROM History " +
                            "GROUP BY TaskNum) h1 ON h1.TaskNum = New_Issues.ID WHERE((Category LIKE 'BC%' AND(DATEDIFF(day, h1.Latest_Status_Update, CONVERT(date, GETDATE())) > 180)) " +
-                           "OR((Category NOT LIKE 'BC%' AND Impact NOT LIKE '%Not Billed Items%') AND(DATEDIFF(day, h1.Latest_Status_Update, CONVERT(date, GETDATE())) > 22)) OR (Category LIKE '%Strategic Task%' AND(DATEDIFF(day, h1.Latest_Status_Update, CONVERT(date, GETDATE())) > 14)) OR(Impact LIKE '%Not Billed Items%' AND(DATEDIFF(day, h1.Latest_Status_Update, CONVERT(date, GETDATE())) > 8))) " + StatusQuery() + " ORDER BY TaskNum ASC;";                           
+                           "OR((Category NOT LIKE 'BC%' AND Impact NOT LIKE '%Not Billed Items%') AND(DATEDIFF(day, h1.Latest_Status_Update, CONVERT(date, GETDATE())) > 22)) OR (Category LIKE '%Strategic Task%' AND(DATEDIFF(day, h1.Latest_Status_Update, CONVERT(date, GETDATE())) > 7)) OR(Impact LIKE '%Not Billed Items%' AND(DATEDIFF(day, h1.Latest_Status_Update, CONVERT(date, GETDATE())) > 8))) " + StatusQuery() + " ORDER BY TaskNum ASC;";                           
             }
             return query;
         }
 
-        //Sets status based on if All Opened or All Closed is chosen
+        /*Name: Michael Figueroa
+        Function Name: StatusQuery
+        Purpose: This is a method that determines the end of the query in agingQuery() when the StatusComboBox item selected is "All Opened" or "All Closed"
+        Parameters: None
+        Return Value: string
+        Local Variables: None
+        Algorithm: if All Opened is chosen from StatusComboBox, then all non-closed, non-implemented, non-dropped, non-deffered, not assigned, and completed items are chosen; else, all opened items are chosen
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private string StatusQuery()
         {
             if(ReportHelper.StatusChosen(StatusComboBox) == "All Opened")
@@ -160,17 +226,25 @@ namespace WpfApp1
             }
         }
 
-        //Bind information to DataGrid
+        /*Name: Michael Figueroa
+        Function Name: BindDataGrid
+        Purpose: To bind the AgingReport datagrid using agingQuery()
+        Parameters: None
+        Return Value: None
+        Local Variables: None
+        Algorithm: agingQuery() is called to assign string reportQuery a value, then the DataTable reports is filled using the query, then AgingReport is set to visible and then ItemsSource is set to the default view of reports
+        Version: 3.0.0.2
+        Date modified: 2/12/2020
+        Assistance Received: N/A
+        */
         public void BindDataGrid()
         {
-          string query = agingQuery();
-
-            reportQuery = query;
+            reportQuery = agingQuery();
             using (SqlConnection con = new SqlConnection(connectionString))
                 try
                 {
                     con.Open();
-                    SqlCommand cmd = new SqlCommand(query, con);
+                    SqlCommand cmd = new SqlCommand(reportQuery, con);
                     DataTable Reports = new DataTable();
                     SqlDataAdapter sda = new SqlDataAdapter(cmd);
                     //fill report DataGrid with the query generated
@@ -192,7 +266,17 @@ namespace WpfApp1
                 }
         }
 
-        //View issues in edit view
+        /*Name: Michael Figueroa
+        Function Name: EditButton_Click
+        Purpose: Event handler for edit button click
+        Parameters: Auto-generated
+        Return Value: None
+        Local Variables: DataRowView agingItemsRow
+        Algorithm: The DataRow in which the Edit button was clicked is retrieved, and the EditRecord form is opened using that DataRowView in the constructor
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -211,20 +295,41 @@ namespace WpfApp1
             }
         }
 
-        //returns the system currently chosen in comboBox in the form of a string
+        /*Name: Michael Figueroa
+        Function Name: SystemChosen
+        Purpose: Returns current system chosen from combobox
+        Parameters: Auto-generated
+        Return Value: returns the system currently chosen in comboBox in the form of a string
+        Local Variables: None
+        Algorithm: None
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private string SystemChosen()
         {
             return SystemComboBox.SelectedItem.ToString();
         }
 
-        //Fills history table with most recent status for each issue
+
+        /*Name: Michael Figueroa
+        Function Name: FillHistoryTable
+        Purpose: Fills history table with most recent status for each issue
+        Parameters: DataTable recentHistory
+        Return Value: None
+        Local Variables: DataColumn dc2, DataColumn dc3, DataColumn dc4, int taskNum, DataTable tabRecent
+        Algorithm: DataColumns are instantiated then added to the recentHistory DataTable. The SqlDataReader then retrieves the taskNum of the issue, then ReportHelper.FillRow is called to retrieve the most recent status for that
+        item. If FillRow returns a row count greater than zero, tabRecent[0] is imported into recentHistory; else, nulls are returned.
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private void FillHistoryTable(DataTable recentHistory)
         {
             using (SqlConnection con = new SqlConnection(connectionString))
                 try
                 {
                     con.Open();
-                    //put this in different function so excel export can use it, which returns a datatable
                     DataColumn dc2 = new DataColumn("EntryDate");
                     DataColumn dc3 = new DataColumn("LatestStatusNote");
                     DataColumn dc4 = new DataColumn("LatestStatus");
@@ -273,7 +378,17 @@ namespace WpfApp1
                 }
         }
 
-        //exports report to excel
+        /*Name: Michael Figueroa
+        Function Name: Export_Click
+        Purpose: Excel export (this method will no longer exist after the excel export method is moved to Helper class
+        Parameters: Auto-Generated
+        Return Value: None
+        Local Variables: DataTable reports, DataTable historyTable
+        Algorithm: reports and historyTable DataTables are filled, then the helper ToExcelClosedXML method completes the export.
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private void Export_Click(object sender, RoutedEventArgs e)
         { 
             using (SqlConnection con = new SqlConnection(connectionString))

@@ -11,9 +11,9 @@
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.DeepPurple.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.Lime.xaml" />
             </ResourceDictionary.MergedDictionaries>
+        
 
-
-            <Style TargetType="DataGrid">
+        <Style TargetType="DataGrid">
                 <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
             </Style>
 

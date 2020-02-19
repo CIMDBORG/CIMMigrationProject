@@ -50,7 +50,10 @@ namespace WpfApp2
                     menu.Show();
                     break;
                 case "AddRec":
-                    
+                    NewRecord nR = new NewRecord(arr);
+                    nR.WindowState = WindowState.Maximized;
+                    nR.Show();
+                    this.Close();
                     break;
                 case "GitHub":
                     System.Diagnostics.Process.Start("https://github.com/CIMDBORG/CIMMigrationProject/issues");
@@ -82,14 +85,14 @@ namespace WpfApp2
 
         private void ImportRecs_Click(object sender, RoutedEventArgs e)
         {
-            ErrorFileMenu erM = new ErrorFileMenu(arr);
-            erM.Show();
+            ErrorFile_Import erI = new ErrorFile_Import(arr);
+            erI.Show();
 
         }
 
         private void UpdateRecs_Click(object sender, RoutedEventArgs e)
         {
-            ErrorFileMenu erMe = new ErrorFileMenu(arr);
+            ErrorFile_Updates erMe = new ErrorFile_Updates(arr);
             erMe.Show();
         }
 
@@ -103,6 +106,19 @@ namespace WpfApp2
         {
             ErrorFileMenu errMe = new ErrorFileMenu(arr);
             errMe.Show();
+        }
+
+        private void DbBtn_Click(object sender, RoutedEventArgs e)
+        {
+            ButtonCloseMenu.Visibility = Visibility.Visible;
+            ButtonOpenMenu.Visibility = Visibility.Collapsed;
+        }
+
+        private void ErrFileBtn_Click(object sender, RoutedEventArgs e)
+        {
+            ErrorFileMenu erM = new ErrorFileMenu(arr);
+            erM.Show();
+            this.Close();
         }
     }
 }

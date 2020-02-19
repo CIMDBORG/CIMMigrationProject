@@ -227,10 +227,12 @@ namespace Interim
                 case "ItemHome":
                     MenuScreen menu = new MenuScreen(arr);
                     menu.Show();
+                    this.Close();
                     break;
                 case "AddRec":
                     NewRecord nR = new NewRecord(arr);
                     nR.Show();
+                    this.Close();
                     break;
                 case "GitHub":
                     System.Diagnostics.Process.Start("https://github.com/CIMDBORG/CIMMigrationProject/issues");
@@ -263,6 +265,7 @@ namespace Interim
         {
             ErrorFileMenu erm2 = new ErrorFileMenu(arr);
             erm2.Show();
+            this.Close();
         }
 
         private void HelpBtn_Click(object sender, RoutedEventArgs e)
@@ -274,6 +277,11 @@ namespace Interim
         {
             Application.Current.Shutdown();
 
+        }
+        private void DbBtn_Click(object sender, RoutedEventArgs e)
+        {
+            ButtonCloseMenu.Visibility = Visibility.Visible;
+            ButtonOpenMenu.Visibility = Visibility.Collapsed;
         }
     }
 }

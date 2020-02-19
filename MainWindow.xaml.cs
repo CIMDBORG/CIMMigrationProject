@@ -26,25 +26,17 @@ using KeyEventArgs = System.Windows.Input.KeyEventArgs;
 
 namespace WpfApp1
 {
+    //*******************************************************************
+    // DESCRIPTION: 	The main login screen that appears when the application starts.
+    //                  Identifies if login information is valid. Throws a message box if not, and asks user to try again.
+    //                  Passes login-based information about user to Main Menu on successful login.
+    //*******************************************************************
     public partial class MainWindow : Window
     {
         public string connectionString = ConfigurationManager.ConnectionStrings["conString"].ConnectionString;
         private int x;
         private string[] user_data;
 
-             /*         
-             Name: Mike Figueroa
-             Function Name: Mainwindow()           
-             Purpose: constructor for Main window class   
-             Parameters: NA                        
-             Return Value: NA
-             Local Variables: 
-                       Version version returns the assembly verion number
-             Algorithm: NA 
-             Version: NA
-             Date modified: NA
-             Assistance Received:NA
-             */
         public MainWindow()
         {
             InitializeComponent();
@@ -52,35 +44,12 @@ namespace WpfApp1
             lblVersion.Text = "Version: " + version.ToString();
         }
 
-        /*         
-        Name: Mike Figueroa
-        Function Name: void Cancelbutton_click(object sender, RoutedEventArgs e)              
-        Purpose: closes the application down (used in the main login screen)
-        Parameters: ( auto-generated )
-        Return Value: closes app
-        Local Variables: na
-        Algorithm: NA 
-        Version: NA
-        Date modified: NA
-        Assistance Received:NA
-        */
         private void Cancelbutton_click(object sender, RoutedEventArgs e)
         {
             this.Close();
         }
-
-            /*    
-       Name: Mike Figueroa
-       Function Name: void Submitbutton_Click(object sender, RoutedEventArgs e)
-       Purpose: login button in the main menu(used in the main login screen)
-       Parameters: ( auto-generated )
-       Return Value: either user logs in or fails
-       Local Variables: na
-       Algorithm: NA 
-       Version: NA
-       Date modified: NA
-       Assistance Received:NA
-       */
+        
+        
 
         private void Submitbutton_Click(object sender, RoutedEventArgs e)
         {
@@ -88,18 +57,7 @@ namespace WpfApp1
         }
 
 
-        /*     
-        Name: Mike Figueroa
-        Function Name: void Text_KeyDown(object sender, KeyEventArgs e)
-        Purpose: event handler! for entry key..google it(used in the main login screen)
-        Parameters: ( auto-generated )
-        Return Value: either user logs in or fails
-        Local Variables: na
-        Algorithm: NA 
-        Version: NA
-        Date modified: NA
-        Assistance Received:NA
-        */
+        
         // Checks if the user presses Return (Enter) key in ADID or Password box, which then triggers AttemptLogin to start login verification.
         private void Text_KeyDown(object sender, KeyEventArgs e)
         {
@@ -108,22 +66,7 @@ namespace WpfApp1
                 AttemptLogin();
             }
         }
-        /*         
-        Name: Mike Figueroa
-        Function Name: static string EncodePasswordToBase64(string password)              
-        Purpose: to encrytped passwords into sql
-        Parameters: 
-        string password - contains users password
-        Return Value: returns excrypted version of password 
-        Local Variables: 
-        byte[] bytes - stores bytes of of password 
-        byte[] inArray - stores the hashform in an array
-        Version version returns the assembly verion number
-        Algorithm: NA 
-        Version: NA
-        Date modified: NA
-        Assistance Received:NA
-        */
+
         public static string EncodePasswordToBase64(string password)
         {
             byte[] bytes = Encoding.Unicode.GetBytes(password);
@@ -131,26 +74,11 @@ namespace WpfApp1
             return Convert.ToBase64String(inArray);
         }
 
-        /*          
-        Name: Mike Figueroa
-        Function Name: void AttemptLogin() 
-        Purpose: validates user credientials resulting in user logging in or being displayed with an error message.
-        Parameters: NA
-        Return Value: NA
-        Local Variables: 
-        Algorithm: 
-        1.looks to see if password length == to 4 
-                      1a. if password length == 4 -- applicatoin calls ResetPassword followed by exiting login screen
-                      1B. take user new password and assign to user_data
-        2. else if user password != 4 characters long
-                      2b. checks to see if password is valid by calling AdidPass_IsValid()
-
-        3c. if not valid, show error message and exit screen
-        Version: NA
-        Date modified: NA
-        Assistance Received:NA
-        */
-        
+        //*******************************************************************
+        //  Runs on any attempt the user makes to log into the application.
+        //  Captures the user data and passes it to Subwindow1 if login is valid. Closes current window and opens main menu window.
+        //  On an invalid login, prompts the user to try again.
+        //*******************************************************************
         private void AttemptLogin()
         {
 
@@ -171,7 +99,6 @@ namespace WpfApp1
                 {
                     user_data = FillUserData();
 
-                    // check later 
                     if (isEDI(user_data))
                     {
                         MenuScreen menuScreen = new MenuScreen(user_data);
@@ -221,19 +148,6 @@ namespace WpfApp1
         // Takes an open SQL connection as input, and queries the New_Contacts table using SQL parameters for security.
         // Returns the number of valid ADID/PW combos as an int based on user input of ADID and Password.
         //*******************************************************************
-
-        /*          
-Name:
-Function Name:
-Purpose: 
-Parameters:
-Return Value: 
-Local Variables: 
-Algorithm: 
-Version: 
-Date modified: 
-Assistance Received: 
-*/
         private int ExecuteLogin_GetADIDPasswordCombos(SqlConnection con)
         {
             string query1 = "select count(*) from New_Contacts where ADID = @ADID  and Password = @Pass";
@@ -266,7 +180,7 @@ Assistance Received:
         private bool isEDI(string[] user_data)
         {
             string[] sys = ReturnSysArr(user_data[7]);
-            for (int i = 0; i < sys.Length; i++)
+            for(int i = 0; i < sys.Length; i++)
             {
                 if (sys[i] == "EDI")
                     return true;
@@ -287,20 +201,20 @@ Assistance Received:
                     con.Open();
                     string query2 = "select top 1 ADID, First_Name, Last_Name, Manager, Director, [Group], Role, Systems from New_Contacts where ADID = @ADID and Password = @Pass";
                     SqlCommand cmd2 = new SqlCommand(query2, con);
-
+                    
                     var Adid2 = new SqlParameter("@ADID", SqlDbType.VarChar, 50);
                     var Pass2 = new SqlParameter("@Pass", SqlDbType.VarChar, 100);
                     Adid2.Value = ADIDtext.Text.ToString();
                     Pass2.Value = EncodePasswordToBase64(Passwordtext.Password.ToString());
                     cmd2.Parameters.Add(Adid2);
                     cmd2.Parameters.Add(Pass2);
-
+                    
                     SqlDataReader reader2;
                     reader2 = cmd2.ExecuteReader();
 
                     query_results = PullDataFromReader(reader2);
                 }
-                catch (Exception ex)
+                catch(Exception ex)
                 {
                     MessageBox.Show(ex.ToString());
                     query_results = new string[1];
@@ -314,7 +228,7 @@ Assistance Received:
         }
 
 
-
+        
         // Reads from a SqlDataReader and stores each field as an element of a string[], and returns that string[] when it is finished reading.
         private string[] PullDataFromReader(SqlDataReader reader2)
         {

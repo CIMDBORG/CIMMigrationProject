@@ -43,13 +43,13 @@ namespace WpfApp2
         //Search by EDI ID
         private string SearchEDIIDQuery()
         {
-            return "SELECT COMPANY_NAME FROM EDI_COMPANY WHERE EDI_ID = '" + SearchIDComboBox.SelectedItem.ToString() + "';" ;
+            return "SELECT COMPANY_NAME FROM EDI_CUSTOMER WHERE EDI_ID = '" + SearchIDComboBox.SelectedItem.ToString() + "';" ;
         }
 
         //Search by EDI Company Name
         private string SearchCompanyQuery()
         {
-            return "SELECT COMPANY_NAME FROM EDI_COMPANY WHERE COMPANY_NAME = '" + SearchCompanyComboBox.SelectedItem.ToString() + "';";
+            return "SELECT COMPANY_NAME FROM EDI_CUSTOMER WHERE COMPANY_NAME = '" + SearchCompanyComboBox.SelectedItem.ToString() + "';";
         }
 
         private void BindDataGrid()

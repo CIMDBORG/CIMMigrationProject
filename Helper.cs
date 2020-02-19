@@ -22,16 +22,17 @@ using WpfApp2;
 using System.Windows.Forms;
 using MessageBox = System.Windows.MessageBox;
 using ComboBox = System.Windows.Controls.ComboBox;
+using TextBox = System.Windows.Controls.TextBox;
 
 //AUTHOR: Michael Figueroa
 //This class is a helper class that deals with multiple forms in the application
-//Adding test comments, testing for Git connection workaroun - ND
 
 namespace WpfApp1
 {
     public static class Helper
     {
         public static string connectionString = ConfigurationManager.ConnectionStrings["conString"].ConnectionString;//ConnectionString comes from App.config
+        public static string connection = ConfigurationManager.ConnectionStrings["connectionS"].ConnectionString;
 
         public static string GetLatestUpdateDate(string updateHistory)
         {
@@ -148,12 +149,10 @@ namespace WpfApp1
 
         public static string GetAgingHistory()
         {
-            return "SELECT DISTINCT[Timestamp], Assigned_To FROM History " +
-                    "INNER JOIN New_Issues " +
-                    "ON New_Issues.ID = History.TaskNum " +
-                    "WHERE New_StatusNote = 'Aging' AND[Timestamp] BETWEEN '1/1/2019' AND '1/1/2020' " +
-                    "GROUP BY Assigned_To, [Timestamp] " +
-                    "ORDER BY[Timestamp]";
+            return "SELECT DISTINCT TaskNum, Assigned_To, TimeStamp FROM History INNER JOIN New_Issues ON " +
+                    "New_Issues.ID = History.TaskNum " +
+                    "WHERE New_StatusNote = 'Aging' " +
+                    "ORDER BY TaskNum ";
         }
 
 

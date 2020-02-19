@@ -20,13 +20,6 @@ using MessageBox = System.Windows.MessageBox;
 
 namespace WpfApp1
 {
-    //*******************************************************************
-    // DESCRIPTION: 	This page displays the prioritization of open items by system.
-    //                  The user is given a combobox of systems they belong to, and chooses one.
-    //                  Upon choosing, a query is run to pull the necessary data and display it in the page on a datagrid.
-    //                  In each Open Item row, there is an Edit button, which on click takes the user to the EditRecord form,
-    //                      with the existing data on that specific issue.
-    //*******************************************************************
     public partial class Items_PrioritizeBySystemPage : Page
     {
         public string connectionString = ConfigurationManager.ConnectionStrings["conString"].ConnectionString;
@@ -35,23 +28,36 @@ namespace WpfApp1
         private string reportQuery;
         private bool includeStrategicTasks = false;
 
+        /*Name: Michael Figueroa
+        Function Name: Items_PrioritizeBySystemPage
+        Purpose: Constructor for the Items_PrioritizeBySystemPage form
+        Parameters: string[] user_data
+        Return Value: None
+        Local Variables: None
+        Algorithm: Calls FillSystemComboBox, collapses the Report datagrid
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         public Items_PrioritizeBySystemPage(string[] user_data)
         {
             InitializeComponent();
-            
             arr = user_data;
-
             FillSystemComboBox(arr[7]);
-
             Report.Visibility = Visibility.Collapsed;
-            
         }
 
-        //*******************************************************************
-        // DESCRIPTION: Parses the string containing the user's systems, delimited by '/',
-        //                  and fills the System combobox with these various systems.
-        //              This will become important as the system chosen here drives the results of the query on this page.
-        //*******************************************************************
+        /*Name: Michael Figueroa
+        Function Name: FillSystemComboBox
+        Purpose: Fills System Combo Box
+        Parameters: string systemString
+        Return Value: None
+        Local Variables: None
+        Algorithm: splits systemstring using delimiter, then uses for loop to add systems to ComboBox
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private void FillSystemComboBox(string systemString)
         {
             char delimiter = '/';
@@ -68,16 +74,17 @@ namespace WpfApp1
 
 
 
-        //*******************************************************************
-        // DESCRIPTION: Function that runs the Prioritization by System query and fills the data grid with the result table.
-        //              First, the SELECT query is run to pull the data on the open items. 
-        //                  The system is specified by the system chosen in the combobox.
-        //              Then, a SQLDataAdapter is used to fill the datatable with these results. 
-        //              See Items_PrioritizationBySystemPage.xaml for more on data binding. Note that the names of the result columns
-        //                  match the names of the binding columns. That is how the query result table is connected to the datagrid.
-        //
-        // INPUT:       string sys: this string specifies the system whose issues the user is trying to view. Is passed into the query
-        //*******************************************************************
+        /*Name: Michael Figueroa
+        Function Name: BindDataGrid
+        Purpose: Binds DataGrid
+        Parameters: string sys
+        Return Value: None
+        Local Variables: None
+        Algorithm: assigns query, then binds information to datagrid
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         public void BindDataGrid(string sys)
         {
             using (SqlConnection con = new SqlConnection(connectionString))
@@ -114,6 +121,17 @@ namespace WpfApp1
                 }
         }
 
+        /*Name: Michael Figueroa
+        Function Name: AppendStratTaskFilter
+        Purpose: Appends strategic task condition to where clause
+        Parameters: None
+        Return Value: None
+        Local Variables: None
+        Algorithm: if strategic task is chosen, then there is no condition added to the WHERE clause; else, then there is a condition added that excludes them
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         public string AppendStratTaskFilter()
         {
             if (includeStrategicTasks == true)
@@ -122,17 +140,21 @@ namespace WpfApp1
             }
             else
             {
-                return " AND (Category NOT LIKE '%Task%') ";
+                return " AND (Category NOT LIKE '%Strategic Task%') ";
             }
         }
 
-        //*******************************************************************
-        // DESCRIPTION: Runs when the user selects a system from the combobox.
-        //              The datagrid becomes visible on the page, and BindDataGrid(string sys) is called,
-        //                  running the Prioritization by System query and filling the datagrid with the results.
-        //                  passing the value of the ComboBox that was just chosen as the string parameter.
-        //              On the page, the user will see the datagrid with all the open items for the particular system they chose.
-        //*******************************************************************
+        /*Name: Michael Figueroa
+        Function Name: SystemComboBox_SelectionChanged
+        Purpose: refreshes datagrid when new system is selected
+        Parameters: Auto-Generated
+        Return Value: None
+        Local Variables: None
+        Algorithm: None
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private void SystemComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Report.Visibility = Visibility.Visible;
@@ -143,15 +165,17 @@ namespace WpfApp1
 
 
 
-        //*******************************************************************
-        // DESCRIPTION: Runs when the user clicks the "Edit" button in one of the datagrid rows.
-        //              On that button click, the data from that row of the datatable is pulled as a DataRowView object, named priorbySystemRow.
-        //              An instance of the EditRecord form is then created, passing:
-        //                      1) this page itself, which is so that the updates can be completed
-        //                      2) login-based user data arr (string[] object)
-        //                      3) prioritization-by-system data priorBySystemRow (DataRowView object)
-        //              The user is then taken to the EditRecord form, where the data of that particular issue auto-populates the form.
-        //*******************************************************************
+        /*Name: Michael Figueroa
+         Function Name: EditButton_Click
+         Purpose: Event handler for edit button click
+         Parameters: Auto-generated
+         Return Value: None
+         Local Variables: DataRowView agingItemsRow
+         Algorithm: The DataRow in which the Edit button was clicked is retrieved, and the EditRecord form is opened using that DataRowView in the constructor
+         Version: 2.0.0.4
+         Date modified: Prior to 1/1/20 - This method will be simplified by Mike at a later date
+         Assistance Received: N/A
+         */
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -171,6 +195,17 @@ namespace WpfApp1
             }
         }
 
+        /*Name: Michael Figueroa
+        Function Name: Export_Click
+        Purpose: Excel export event handler (this method will no longer exist after the excel export method is moved to Helper class)
+        Parameters: Auto-Generated
+        Return Value: None
+        Local Variables: DataTable reports, DataTable historyTable
+        Algorithm: reports and historyTable DataTables are filled, then the helper ToExcelClosedXML method completes the export.
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20 - Mike would like to eliminate as part of code cleanup
+        Assistance Received: N/A
+        */
         private void Export_Click(object sender, RoutedEventArgs e)
         {
             using (SqlConnection con = new SqlConnection(connectionString))
@@ -199,6 +234,17 @@ namespace WpfApp1
                 }
         }
 
+        /*Name: Michael Figueroa
+        Function Name: StratCheckBox_Click
+        Purpose: Sets whether or not the stategic task checkbox is clicked
+        Parameters: Auto-Generated
+        Return Value: None
+        Local Variables: None
+        Algorithm: if the checkBox is clicked, then includeStrategicTask equals true, else, false; then BindDataGrid is called
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20 - Mike would like to eliminate as part of code cleanup
+        Assistance Received: N/A
+        */
         private void StratCheckBox_Click(object sender, RoutedEventArgs e)
         {
             if (StratCheckBox.IsChecked.Value)

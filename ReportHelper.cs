@@ -124,14 +124,14 @@ namespace WpfApp1
         public static string OwnerAgingQuery(string owner)
         {
             string query = "SELECT Sys_Impact as [System], New_Issues.[Status], Assigned_To AS[Owner], Category, TFS_BC_HDFS_Num as BID#, Impact, " +
-                            "Title, FORMAT(Latest_Status_Update, 'MM/dd/yyyy') as Latest_Status_Update, " +
-                            "(SELECT DATEDIFF(day, Opened_Date, CONVERT(date, GETDATE())))as Open_Days,(SELECT DATEDIFF(day, Latest_Status_Update, CONVERT(date, GETDATE()))) as Status_Days, ID as ID " +
-                            "FROM New_Issues INNER JOIN(SELECT TaskNum, MAX(EntryDate) AS Latest_Status_Update FROM History " +
-                            "GROUP BY TaskNum) h1 ON h1.TaskNum = New_Issues.ID WHERE((Category LIKE 'BC%' AND(DATEDIFF(day, h1.Latest_Status_Update, CONVERT(date, GETDATE())) > 178)) " +
-                            "OR((Category NOT LIKE 'BC%' AND Impact NOT LIKE '%Not Billed Items%') AND(DATEDIFF(day, h1.Latest_Status_Update, CONVERT(date, GETDATE())) > 20)) OR(Impact LIKE '%Not Billed Items%'" +
-                            "AND(DATEDIFF(day, h1.Latest_Status_Update, CONVERT(date, GETDATE())) > 6)) OR(Category LIKE '%Strategic Task%' AND(DATEDIFF(day, h1.Latest_Status_Update, CONVERT(date, GETDATE())) > 12))) " +
-                            "AND(New_Issues.[Status] NOT LIKE '%closed%' AND New_Issues.[Status] NOT LIKE '%implemented%' AND New_Issues.[Status] NOT LIKE '%dropped%' AND New_Issues.[Status] NOT LIKE '%deferred%' " +
-                            "AND New_Issues.[Status] NOT LIKE '%Not Assigned%' AND New_Issues.[Status] NOT LIKE '%Completed%') AND(Assigned_To LIKE '%" + owner + "%') ORDER BY TaskNum ASC;";
+                           "Title, FORMAT(Latest_Status_Update, 'MM/dd/yyyy') as Latest_Status_Update, " +
+                           "(SELECT DATEDIFF(day, Opened_Date, CONVERT(date, GETDATE())))as Open_Days, " +
+                           "(SELECT DATEDIFF(day, Latest_Status_Update, CONVERT(date, GETDATE()))) as Status_Days, ID as ID " +
+                           "FROM New_Issues INNER JOIN(SELECT TaskNum, MAX(EntryDate) AS Latest_Status_Update FROM History " +
+                           "GROUP BY TaskNum) h1 ON h1.TaskNum = New_Issues.ID WHERE((Category LIKE 'BC%' AND(DATEDIFF(day, h1.Latest_Status_Update, CONVERT(date, GETDATE())) BETWEEN 178 AND 180)) " +
+                           "OR((Category NOT LIKE 'BC%' AND Impact NOT LIKE '%Not Billed Items%') AND(DATEDIFF(day, h1.Latest_Status_Update, CONVERT(date, GETDATE())) BETWEEN 20 AND 22)) OR(Impact LIKE '%Not Billed Items%' AND(DATEDIFF(day, h1.Latest_Status_Update, CONVERT(date, GETDATE())) BETWEEN 6 AND 8)) OR(Category LIKE '%Strategic Task%' AND(DATEDIFF(day, h1.Latest_Status_Update, CONVERT(date, GETDATE())) BETWEEN 5 AND 6))) " +
+                           "AND(New_Issues.[Status] NOT LIKE '%closed%' AND New_Issues.[Status] NOT LIKE '%implemented%' AND New_Issues.[Status] NOT LIKE '%dropped%' AND New_Issues.[Status] NOT LIKE '%deferred%' AND New_Issues.[Status] NOT LIKE '%Not Assigned%' AND New_Issues.[Status] NOT LIKE '%Completed%') AND (Assigned_To = '" + owner + "') " +
+                           "ORDER BY TaskNum ASC;";
             return query;
         }
 

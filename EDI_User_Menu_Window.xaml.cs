@@ -98,10 +98,13 @@ namespace WpfApp2
                 case "ItemHome":
                     MenuScreen menu = new MenuScreen(arr);
                     menu.Show();
+                    this.Close();
                     break;
                 case "AddRec":
                     NewRecord nR = new NewRecord(arr);
+                    nR.WindowState = WindowState.Maximized;
                     nR.Show();
+                    this.Close();
                     break;
                 case "GitHub":
                     System.Diagnostics.Process.Start("https://github.com/CIMDBORG/CIMMigrationProject/issues");
@@ -135,12 +138,14 @@ namespace WpfApp2
         {
             ErrorFileMenu erm1 = new ErrorFileMenu(arr);
             erm1.Show();
+            this.Close();
         }
 
         private void ErrFileBtn_Click(object sender, RoutedEventArgs e)
         {
             ErrorFileMenu erm2 = new ErrorFileMenu(arr);
             erm2.Show();
+            this.Close();
         }
         private void ReportBtn_Click(object sender, RoutedEventArgs e)
         {
@@ -155,6 +160,11 @@ namespace WpfApp2
         {
             Application.Current.Shutdown();
 
+        }
+        private void DbBtn_Click(object sender, RoutedEventArgs e)
+        {
+            ButtonCloseMenu.Visibility = Visibility.Visible;
+            ButtonOpenMenu.Visibility = Visibility.Collapsed;
         }
     }
 }

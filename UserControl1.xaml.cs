@@ -10,25 +10,19 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
-using WpfApp1;
 
 namespace WpfApp2
 {
     /// <summary>
-    /// Interaction logic for EDI_Search_Products.xaml
+    /// Interaction logic for UserControl1.xaml
     /// </summary>
-    public partial class EDI_Search_Products : Window
+    public partial class UserControl1 : UserControl
     {
-        public EDI_Search_Products()
+        public UserControl1()
         {
             InitializeComponent();
-        }
-
-        private void AddProd_Click(object sender, RoutedEventArgs e)
-        {
-            EDI_Add_Product addProd = new EDI_Add_Product();
-            addProd.Show();
         }
     }
 }

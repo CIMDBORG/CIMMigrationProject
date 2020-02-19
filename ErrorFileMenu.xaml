@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp2"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        mc:Ignorable="d"
+        mc:Ignorable="d" WindowStartupLocation="CenterScreen"
         Title="ErrorFileMenu" Height="500" Width="600">
     <Window.Resources>
         <Storyboard x:Key="OpenMenu">
@@ -20,6 +20,13 @@
                 <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="70"/>
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
+        <Storyboard x:Key="OpenMenu2">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" 
+                                           Storyboard.TargetName="GridMenu">
+                <EasingDoubleKeyFrame KeyTime="0" Value="70"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="200"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
     </Window.Resources>
     <Window.Triggers>
         <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="ButtonOpenMenu">
@@ -27,6 +34,9 @@
         </EventTrigger>
         <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="ButtonCloseMenu">
             <BeginStoryboard Storyboard="{StaticResource CloseMenu}"/>
+        </EventTrigger>
+        <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="DbBtn">
+            <BeginStoryboard Storyboard="{StaticResource OpenMenu2}"/>
         </EventTrigger>
     </Window.Triggers>
     <Grid Background="LightGoldenrodYellow">
@@ -112,13 +122,29 @@
                             <TextBlock Text="Open New Issue" VerticalAlignment="Center"  Margin="20 10" Foreground="LightGoldenrodYellow"/>
                         </StackPanel>
                     </ListViewItem>
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Height="300">
-                        <materialDesign:PackIcon Kind="Database" VerticalAlignment="Top" Height="25" Width="25" Margin="10" Foreground="LightGoldenrodYellow"/>
-                        <Expander x:Name="DBListing" ExpandDirection="Down" Header="DB List" Background="#FF644117" Foreground="LightGoldenrodYellow">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Height="300" Width="250">
+                        <Button x:Name="DbBtn" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="10"
+                            Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" 
+                            Background="{x:Null}" BorderBrush="{x:Null}" Foreground="Black" Width="25" Height="25"
+                                Click="DbBtn_Click">
+                            <materialDesign:PackIcon Kind="Database" VerticalAlignment="Top" Height="25" 
+                                 HorizontalAlignment="Left" Width="25" Foreground="LightGoldenrodYellow"/>
+                        </Button>
+                        <Expander x:Name="DBListing" ExpandDirection="Down" Header="DB List" 
+                                      Background="#FF644117" Foreground="LightGoldenrodYellow">
                             <StackPanel Orientation="Vertical">
-                                <Button x:Name="EdiBtn" Content="EDI DB" Click="EdiBtn_Click_1" Margin="0,0,0,0" Width="100" Height="30" Background="LightGoldenrodYellow" Foreground="#FF644117"/>
-                                <Button x:Name="IssuesBtn" Content="Issues DB" Click="IssuesBtn_Click_1" Margin="0,10,0,0" Width="100" Height="30" Background="LightGoldenrodYellow" Foreground="#FF644117"/>
-                                <Button x:Name="InterimBtn" Content="Interim DB" Click="InterimBtn_Click_1" Margin="0,10,0,0" Width="100" Height="30" Background="LightGoldenrodYellow" Foreground="#FF644117"/>
+                                <Button x:Name="EdiBtn" Content="EDI DB" Click="EdiBtn_Click_1" 
+                                            Margin="0,0,0,0" Width="125" Height="30" Background="LightGoldenrodYellow" 
+                                            Foreground="#FF644117"/>
+                                <Button x:Name="IssuesBtn" Content="Issues DB" Click="IssuesBtn_Click_1" 
+                                            Margin="0,10,0,0" Width="125" Height="30" Background="LightGoldenrodYellow" 
+                                            Foreground="#FF644117"/>
+                                <Button x:Name="InterimBtn" Content="Interim DB" Click="InterimBtn_Click_1" 
+                                            Margin="0,10,0,0" Width="125" Height="30" Background="LightGoldenrodYellow" 
+                                            Foreground="#FF644117"/>
+                                <Button x:Name="ErrFileBtn" Content=" CDC Error File DB" Click="ErrFileBtn_Click" 
+                                            Margin="0,10,0,0" Width="125" Height="30" Background="LightGoldenrodYellow" 
+                                            Foreground="#FF644117"/>
                             </StackPanel>
                         </Expander>
                     </StackPanel>

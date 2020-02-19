@@ -44,7 +44,7 @@
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <Button Name="PWR" Cursor="Hand" Style="{StaticResource btnBrownTwo}" Width="125" FontSize="20" 
-                                        Content="Submit PWR" Click="PWR_Click" Height="30"/>
+                                        Content="Submit PWR" Height="30"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>

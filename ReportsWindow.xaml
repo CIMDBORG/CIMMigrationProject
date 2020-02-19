@@ -186,7 +186,8 @@
                             </DataGrid>
                         </StackPanel>
                     </StackPanel>
-                <Button Name="Export"  Cursor ="Hand" Style="{StaticResource btnBrownTwo}" Width="140" FontSize="18" Margin="0,0,0,0" Content="Export To Excel" Height="25" HorizontalAlignment="Left" Click="Export_Click" Visibility="Visible"/>
+                <Button Name="Export"  Cursor ="Hand" Style="{StaticResource btnBrownTwo}" Width="140" FontSize="18" Margin="0,0,0,0" 
+                        Content="Export To Excel" Height="25" HorizontalAlignment="Left" Click="Export_Click" Visibility="Visible"/>
             </StackPanel>
         </Viewbox>
     </Grid>

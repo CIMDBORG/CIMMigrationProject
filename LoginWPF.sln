@@ -13,19 +13,31 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		WeeklyReviewApps.xaml = WeeklyReviewApps.xaml
 	EndProjectSection
 EndProject
+Project("{159641D6-6404-4A2A-AE62-294DE0FE8301}") = "ErrorFileImportPackage", "ErrorFileImportPackage\ErrorFileImportPackage.dtproj", "{445FCE43-D61B-41CF-A998-EFC164FF719A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Development|Any CPU = Development|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{44057675-ED56-4A97-BDFF-5B16A0AF4578}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{44057675-ED56-4A97-BDFF-5B16A0AF4578}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44057675-ED56-4A97-BDFF-5B16A0AF4578}.Development|Any CPU.ActiveCfg = Debug|Any CPU
+		{44057675-ED56-4A97-BDFF-5B16A0AF4578}.Development|Any CPU.Build.0 = Debug|Any CPU
 		{44057675-ED56-4A97-BDFF-5B16A0AF4578}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{44057675-ED56-4A97-BDFF-5B16A0AF4578}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B99FB05F-AE41-4D5D-B75A-1F7059CE3F20}.Debug|Any CPU.ActiveCfg = Debug
+		{B99FB05F-AE41-4D5D-B75A-1F7059CE3F20}.Development|Any CPU.ActiveCfg = Debug
 		{B99FB05F-AE41-4D5D-B75A-1F7059CE3F20}.Release|Any CPU.ActiveCfg = Release
 		{B99FB05F-AE41-4D5D-B75A-1F7059CE3F20}.Release|Any CPU.Build.0 = Release
+		{445FCE43-D61B-41CF-A998-EFC164FF719A}.Debug|Any CPU.ActiveCfg = Development
+		{445FCE43-D61B-41CF-A998-EFC164FF719A}.Debug|Any CPU.Build.0 = Development
+		{445FCE43-D61B-41CF-A998-EFC164FF719A}.Development|Any CPU.ActiveCfg = Development
+		{445FCE43-D61B-41CF-A998-EFC164FF719A}.Development|Any CPU.Build.0 = Development
+		{445FCE43-D61B-41CF-A998-EFC164FF719A}.Release|Any CPU.ActiveCfg = Development
+		{445FCE43-D61B-41CF-A998-EFC164FF719A}.Release|Any CPU.Build.0 = Development
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

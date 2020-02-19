@@ -29,6 +29,18 @@ namespace WpfApp1
         private string[] arr;                       //local variable to store login-based user data
         private DataRowView BusinessCasesRow;       //local variable to store the row of data in the 'Business Cases' DataGrid
         private string reportQuery;
+
+        /*Name: Michael Figueroa
+        Function Name: BusinessCases
+        Purpose: Constructor for the BusinessCases form
+        Parameters: string[] user_data
+        Return Value: None
+        Local Variables: None
+        Algorithm: Fills SystemComboBox, then calls FillStatusComboBoxWithAll, assigns both combo boxes to index 0 ("All"), then calls BindDataGrid
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         public BusinessCases(string[] user_data)
         {
             InitializeComponent();
@@ -39,16 +51,21 @@ namespace WpfApp1
             StatusComboBox.SelectedIndex = 0;
             BindDataGrid(ReportHelper.SystemChosen(SystemComboBox));
             //Collapses all DataGrids until a system is chosen from the Combo Box
-            
+
         }
 
-        //*******************************************************************
-        // DESCRIPTION: Function that runs the Business Cases query and fills the data grid with the result table.
-        //              First, the SELECT query is run to pull the data on the open items. 
-        //              Then, a SQLDataAdapter is used to fill the datatable with these results. 
-        //              See BusinessCases.xaml for more on data binding. Note that the names of the result columns
-        //                  match the names of the binding columns. That is how the query result table is connected to the datagrid.
-        //*******************************************************************
+        /*Name: Michael Figueroa
+        Function Name: BindDataGrid
+        Purpose: Binds data to DataGrid
+        Parameters: string[] user_data
+        Return Value: None
+        Local Variables: None
+        Algorithm: If system chosen is "All", no sys_impact in WHERE clause of query; else, query has sys_Impact = sys; ReportQuery is = query and used for excel export (this may no 
+        longer be necessary), then standard SQL-DataTable procedures follow, and DataTable is used to bind to DataGrid
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20 - Would like this method simplified or eliminated all-together at some point as part of code cleanup
+        Assistance Received: N/A
+        */
         public void BindDataGrid(string sys)
         {
             string query;
@@ -96,6 +113,18 @@ namespace WpfApp1
                 }
         }
 
+        /*Name: Michael Figueroa
+        Function Name: StatusString
+        Purpose: To set the [Status] condition in the WHERE clause of the BusinessCases query based on what option is chosen from the ComboBox
+        Parameters: None
+        Return Value: string
+        Local Variables: None
+        Algorithm: If "All Opened" chosen from StatusComboBox, then the issues that are not closed/implemented/dropped/deferred/or BC Approved are chosen; else, closed issues are 
+        chosen
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private string StatusString()
         {
             if (ReportHelper.StatusChosen(StatusComboBox) == "All Opened")
@@ -113,7 +142,18 @@ namespace WpfApp1
             else
                 return "(New_Issues.[Status] = '" + ReportHelper.StatusChosen(StatusComboBox) + "') ";
         }
-        
+
+       /*Name: Michael Figueroa
+       Function Name: FillSystemComboBox
+       Purpose: Fills SystemComboBox - this method may not be necessary as helper has the same method
+       Parameters: None
+       Return Value: None
+       Local Variables: None
+       Algorithm: None 
+       Version: 2.0.0.4
+       Date modified: Prior to 1/1/20 - Will eliminate as part of code cleanup
+       Assistance Received: N/A
+       */
         private void FillSystemComboBox()
         {
             SystemComboBox.Items.Add("All");
@@ -143,25 +183,49 @@ namespace WpfApp1
             SystemComboBox.Items.Add("Vendor");
         }
 
+        /*Name: Michael Figueroa
+       Function Name: SystemComboBox_SelectionChanged
+       Purpose: Event handler for when a new System is chosen from combobox
+       Parameters: Auto-Generated
+       Return Value: None
+       Local Variables: None
+       Algorithm: Calls BindDataGrid to refresh datagrid 
+       Version: 2.0.0.4
+       Date modified: Prior to 1/1/20
+       Assistance Received: N/A
+       */
         private void SystemComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             BindDataGrid(ReportHelper.SystemChosen(SystemComboBox));
         }
 
+        /*Name: Michael Figueroa
+        Function Name: StatusComboBox_SelectionChanged
+        Purpose: Event handler for when a new Status is chosen from combobox
+        Parameters: Auto-Generated
+        Return Value: None
+        Local Variables: None
+        Algorithm: Calls BindDataGrid to refresh datagrid 
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private void StatusComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             BindDataGrid(ReportHelper.SystemChosen(SystemComboBox));
         }
 
-        //*******************************************************************
-        // DESCRIPTION: Runs when the user clicks the "Edit" button in one of the datagrid rows.
-        //              On that button click, the data from that row of the datatable is pulled as a DataRowView object, named priorbySystemRow.
-        //              An instance of the EditRecord form is then created, passing:
-        //                      1) this page itself, which is so that the updates can be completed
-        //                      2) login-based user data arr (string[] object)
-        //                      3) prioritization-by-system data priorBySystemRow (DataRowView object)
-        //              The user is then taken to the EditRecord form, where the data of that particular issue auto-populates the form.
-        //*******************************************************************
+        /*Name: Michael Figueroa
+        Function Name: Export_Click
+        Purpose: Excel export event handler (this method will no longer exist after the excel export method is moved to Helper class)
+        Parameters: Auto-Generated
+        Return Value: None
+        Local Variables: DataTable reports, DataTable historyTable
+        Algorithm: reports and historyTable DataTables are filled, then the helper ToExcelClosedXML method completes the export.
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20 - Mike would like to eliminate as part of code cleanup
+        Assistance Received: N/A
+        */
 
         private void Export_Click(object sender, RoutedEventArgs e)
         {
@@ -195,6 +259,17 @@ namespace WpfApp1
                 }
         }
 
+        /*Name: Michael Figueroa
+        Function Name: EditButton_Click
+        Purpose: Event handler for edit button click
+        Parameters: Auto-generated
+        Return Value: None
+        Local Variables: DataRowView agingItemsRow
+        Algorithm: The DataRow in which the Edit button was clicked is retrieved, and the EditRecord form is opened using that DataRowView in the constructor
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20 - This method will be simplified by Mike at a later date
+        Assistance Received: N/A
+        */
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -215,4 +290,4 @@ namespace WpfApp1
             }
         }
     }
-}           
+}
