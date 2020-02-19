@@ -15,12 +15,17 @@ using System.Windows.Shapes;
 
 namespace WpfApp1
 {
-    /*Name: Mike Figueroa 
+       public partial class StatusChangeButton : Window
+    {
+        public bool approvedClicked = false; // set to false because the Approved button hasn't been clicked yet
+        public bool submittedClicked = false; //set to false because Submitted button hasn't been pushed yet
+        
+        /*Name: Mike Figueroa 
        Function Name: StatusChangeButton
-       Purpose:  Initializes window, declares local variables
+       Purpose:  Initializes window
        Parameters: N/A
        Return Value: N/A
-       Local Variables: approvedClicked, submittedClicked
+       Local Variables: None
        Algorithm:   1. Opens Window
                     2. Sets local variables = false
                     3. Initializes component
@@ -28,11 +33,6 @@ namespace WpfApp1
        Date modified: Prior to 1/1/20
        Assistance Received: Comments by Dom Carrubba
        */
-
-    public partial class StatusChangeButton : Window
-    {
-        public bool approvedClicked = false;
-        public bool submittedClicked = false;
         public StatusChangeButton()
         {
             InitializeComponent();
@@ -46,7 +46,7 @@ namespace WpfApp1
        Local Variables: approvedClicked 
        Algorithm:   1. Looks for Button click
                     2. Sets bool approvedClicked = true
-                    3. Closes function
+                    3. Closes form
        Version: 2.0.0.4
        Date modified: Prior to 1/1/20
        Assistance Received: Comments by Dom Carrubba
@@ -66,7 +66,7 @@ namespace WpfApp1
        Local Variables: submittedClicked 
        Algorithm:   1. Looks for Button click
                     2. Sets bool submittedClicked = true
-                    3. Closes function
+                    3. Closes form
        Version: 2.0.0.4
        Date modified: Prior to 1/1/20
        Assistance Received: Comments by Dom Carrubba
