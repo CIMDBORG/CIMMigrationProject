@@ -18,37 +18,25 @@ using System.Windows.Shapes;
 using WpfApp1;
 
 namespace WpfApp2
-{/// Author : Michael Figueroa
- /// Name: AdHoc.xaml.cs
- /// Function Name:
- /// <summary>
-    //Purpose:  Interaction logic for AdHoc.xaml
-    /// </summary>
-    /// //Parameters:
-    //Return Value: 
-    //Local Variables: 
-    //Algorithm: 
-    //Version: 
-    //Date modified: 
-    //Assistance Received: 
+{
     public partial class AdHoc : Page
-    {//Author : Michael Figueroa
-     //Name: AdHoc.xaml.cs
-     //Function Name:
-     //Purpose: local variable to store the row of data in the from a specific row in the Report DataGrid
-     //ConnectionString comes from App.config
-     //Parameters:
-     //Return Value: 
-     //Local Variables: 
-     //Algorithm: 
-     //Version: 
-     //Date modified: 
-     //Assistance Received: 
-        public string connectionString = ConfigurationManager.ConnectionStrings["conString"].ConnectionString;
-        private DataRowView reportRow;       
-        private string customQuery;
-        private string[] arr;
-
+    {
+        public string connectionString = ConfigurationManager.ConnectionStrings["conString"].ConnectionString; ////ConnectionString comes from App.config
+        private DataRowView reportRow; //stores data from row clicked
+        private string customQuery;  //variable to store query
+        private string[] arr; //variable to store login-based user data
+        
+        /*Name: Michael Figueroa
+        Function Name: AdHoc
+        Purpose: AdHoc Constructor
+        Parameters: string[] user_data
+        Return Value: N/A
+        Local Variables: None
+        Algorithm: None
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         public AdHoc(string[] user_data)
         {
             InitializeComponent();
