@@ -36,13 +36,36 @@ namespace WpfApp2
     public partial class Managers : Window
     {
         public string connectionString = ConfigurationManager.ConnectionStrings["conString"].ConnectionString;//ConnectionString comes from App.config
-        private string[] arr;
+        private string[] arr;//array containing user data
+
+        /*Name: Michael Figueroa
+        Function Name: Managers
+        Purpose: Constructor for Managers
+        Parameters: string[] user_data
+        Return Value: None
+        Local Variables: None
+        Algorithm: None
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         public Managers(string[] user_data)
         {
             InitializeComponent();
             arr = user_data;
         }
 
+        /*Name: Michael Figueroa
+        Function Name: ManagerReview_Click
+        Purpose: Opens ManagerReview form
+        Parameters: Auto-Generated
+        Return Value: None
+        Local Variables: None
+        Algorithm: None
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private void ManagerReview_Click(object sender, RoutedEventArgs e)
         {
             ManagerReview managerReview = new ManagerReview(arr);
@@ -50,12 +73,34 @@ namespace WpfApp2
             itemsWindow.Show();
         }
 
+        /*Name: Michael Figueroa
+        Function Name: MainMenubutton_Click
+        Purpose: Re-opens MainMenu form
+        Parameters: Auto-Generated
+        Return Value: None
+        Local Variables: None
+        Algorithm: None - this method has to be tweaked in future
+        Version: 3.0.0.1
+        Date modified: February 2020
+        Assistance Received: N/A
+        */
         private void MainMenubutton_Click(object sender, RoutedEventArgs e)
         {
             UserMenu_Window userM = new UserMenu_Window(arr);
             userM.Show();
         }
 
+        /*Name: Michael Figueroa
+        Function Name: BusinessCases_Click
+        Purpose: Opens BusinessCases form
+        Parameters: Auto-Generated
+        Return Value: None
+        Local Variables: None
+        Algorithm: None
+        Version: 3.0.0.1
+        Date modified: February 2020
+        Assistance Received: N/A
+        */
         private void BusinessCases_Click(object sender, RoutedEventArgs e)
         {
             BusinessCases businessCases = new BusinessCases(arr);
@@ -63,7 +108,18 @@ namespace WpfApp2
             itemsWindow.Show();
         }
 
-        //If user clicks yes, the aging items report will run with timestamps, if not, then the aging items report will run in view-only mode without marking timestamps on the report
+        /*Name: Michael Figueroa
+        Function Name: BusinessCases_Click
+        Purpose: Opens BusinessCases form
+        Parameters: Auto-Generated
+        Return Value: None
+        Local Variables: None
+        Algorithm: If user clicks yes on MessageBoxResult, the aging items report will run with timestamps, if not, 
+        then the aging items report will run in view-only mode without marking timestamps on the report
+        Version: 2.0.0.4
+        Date modified: Before 1/1/20
+        Assistance Received: N/A
+        */
         private void AgingItems_Click(object sender, RoutedEventArgs e)
         {
             MessageBoxResult result = MessageBox.Show("Run Aging Items Report With TimeStamps?", "Aging Items", MessageBoxButton.YesNoCancel);
@@ -83,6 +139,17 @@ namespace WpfApp2
             }
         }
 
+        /*Name: Michael Figueroa
+        Function Name: HotTopics_Click
+        Purpose: Opens HotTopics form
+        Parameters: Auto-Generated
+        Return Value: None
+        Local Variables: None
+        Algorithm: None
+        Version: 2.0.0.4
+        Date modified: Before 1/1/20
+        Assistance Received: N/A
+        */
         private void HotTopics_Click(object sender, RoutedEventArgs e)
         {
             HotTopics hotTopics = new HotTopics(arr);
@@ -90,6 +157,17 @@ namespace WpfApp2
             itemsWindow.Show();
         }
 
+        /*Name: Michael Figueroa
+        Function Name: RegionReview_Click
+        Purpose: Opens RegionReview form
+        Parameters: Auto-Generated
+        Return Value: None
+        Local Variables: None
+        Algorithm: None
+        Version: 2.0.0.4
+        Date modified: Before 1/1/20
+        Assistance Received: N/A
+        */
         private void RegionReview_Click(object sender, RoutedEventArgs e)
         {
             RegionReview regionReview = new RegionReview(arr);
@@ -97,16 +175,39 @@ namespace WpfApp2
             itemsWindow.Show();
         }
 
+        /*Name: Michael Figueroa
+       Function Name: ManagerTasks_Click
+       Purpose: Opens ManagerTasks form
+       Parameters: Auto-Generated
+       Return Value: None
+       Local Variables: None
+       Algorithm: None
+       Version: 2.0.0.4
+       Date modified: Before 1/1/20
+       Assistance Received: N/A
+       */
         private void ManagerTasks_Click(object sender, RoutedEventArgs e)
         {
             ManagerTasks managerTasks = new ManagerTasks(arr);
             ReportItemsWindow itemsWindow = new ReportItemsWindow(managerTasks);
             itemsWindow.Show();
         }
-        //The following methods handle the "My Talent" button
-        //These methods populate the datatables that are exported to excel as worksheets
-        //method that populates agingReport datatable
 
+        /*Name: Michael Figueroa
+        Function Name: AgingItemsExcel
+        Purpose: Populates agingReport datatable
+        Parameters: None
+        Return Value: DataTable AgingReport
+        Local Variables: DataTable agingReport, stirng aging, int rowCounter, DataTable countOwn, DateTimeFormatInfo dfi, Calendar cal,
+        DateTime currentDate, DataColumn weekNumber, DataColumn weekNumberCount, DataColumn by52Weeks
+        Algorithm: string aging is assigned by calling Helper.GetAgingHistory, countOwn is assigned using Helper.CountOfOwnerTable,
+        currentDate is set to DateTime.Now, DataColumns are added to agingReport table, then, SqlDataReader reader reads cmd;
+        if timeStamp value is not null, then values are added to agingReport table; else, values of 0 are added - look into this, make
+        sure it is working the way it should
+        Version: 2.0.0.4
+        Date modified: Before 1/1/20
+        Assistance Received: N/A
+        */
         private DataTable AgingItemsExcel()
         {
             DataTable agingReport = new DataTable();
@@ -178,7 +279,19 @@ namespace WpfApp2
 
             return agingReport;
         }
-        //prepares mangerReview datatable for excel export
+
+        /*Name: Michael Figueroa
+       Function Name: ManagerReviewOnly
+       Purpose: Shows which items have not been marked for manager review (not sure, this is a little confusing)
+       Parameters: None
+       Return Value: DataTable managerReview
+       Local Variables: DataTable managerReview, string manReview
+       Algorithm: manReview is used to create new SqlCommand, then the cmd is used to fill managerReview DataTable - used for MyTalent,
+       should be moved to MyTalent.xaml.cs
+       Version: 2.0.0.4
+       Date modified: Before 1/1/20
+       Assistance Received: N/A
+       */
         private DataTable ManagerReviewOnly()
         {
             DataTable managerReview = new DataTable();
@@ -210,6 +323,17 @@ namespace WpfApp2
             return managerReview;
         }
 
+        /*Name: Michael Figueroa
+       Function Name: ManagerReviewOnly
+       Purpose: Shows user statistics on percentage of items that they did not have an update requested by manager
+       Parameters: None
+       Return Value: DataTable managerReview
+       Local Variables: DataTable countOfManagerReview, string countofManQuery
+       Algorithm: countofManQuery is used to make a SqlCommand object, then the command fills countOfManagerReview table
+       Version: 2.0.0.4
+       Date modified: January 2020
+       Assistance Received: N/A
+       */
         private DataTable Count_Of_Manager_Review_Only()
         {
             DataTable countOfManagerReview = new DataTable();
@@ -217,11 +341,11 @@ namespace WpfApp2
             using (SqlConnection con = new SqlConnection(connectionString))
                 try
                 {
-
                     string countofManQuery = "SELECT New_Issues.Assigned_To, [Updates Done] AS[Items Not Needing An Update], COUNT(ID) AS[Total Open Items], " +
-                                                "CAST([Updates Done] as decimal(12,1))/ CAST(COUNT(ID) as decimal(12,1)) * 100 AS[% Effectiveness] " +
-                                                "FROM New_Issues INNER JOIN(SELECT COUNT(ID) AS [Updates Done], Assigned_To FROM New_Issues WHERE Manager_Update_Bit = 0 AND Opened_Date > '1/1/2019' GROUP BY Assigned_To) n1 " +
-                                                "ON New_Issues.Assigned_To = n1.Assigned_To WHERE Opened_Date > '1/1/2019' GROUP BY New_Issues.Assigned_To, [Updates Done];";
+                                            "CAST([Updates Done] as decimal(12,1))/ CAST(COUNT(ID) as decimal(12,1)) * 100 AS[% Effectiveness] " +
+                                            "FROM New_Issues INNER JOIN(SELECT COUNT(ID) AS [Updates Done], Assigned_To FROM New_Issues WHERE (LEN(Mgr_Notes) = 0 OR Mgr_Notes IS NULL) " +
+                                            "AND Opened_Date > '1/1/2020' GROUP BY Assigned_To) n1 " +
+                                            "ON New_Issues.Assigned_To = n1.Assigned_To WHERE Opened_Date > '1/1/2020' GROUP BY New_Issues.Assigned_To, [Updates Done];";
 
                     SqlCommand cmd = new SqlCommand(countofManQuery, con);
                     SqlDataAdapter sda = new SqlDataAdapter(cmd);
@@ -243,19 +367,18 @@ namespace WpfApp2
             return countOfManagerReview;
         }
 
-        //Execute this using a SQL Reader
-        private string LatestUpdateDate(string dates)
-        {
-            string latestDate;
-
-            char delimiter = ';';
-            string[] sys = dates.Split(delimiter);
-            latestDate = sys[sys.Length - 1];
-            return latestDate;
-        }
-
-
-        //Total number of user updates made per issue
+        /*Name: Michael Figueroa
+       Function Name: Updates_Per_Item
+       Purpose: Total number of user updates made per issue
+       Parameters: None
+       Return Value: DataTable updatesPerItem
+       Local Variables: DataTable updatesPerItem, DataColumn numUpdates, string updatesPer, int numUpdatesMade, string updateDates
+       Algorithm: updatesPer query contained in a string object is used fill the updatesPerItem DataTable; numUpdatesMade is a result of using a delimiter in order to count how many update dates 
+       are in a specific issue; this determines how many user updates have been made - once again, this may have to reevaluated
+       Version: 2.0.0.4
+       Date modified: January 2020
+       Assistance Received: N/A
+       */
         private DataTable Updates_Per_Item()
         {
             DataTable updatesPerItem = new DataTable();
@@ -311,12 +434,19 @@ namespace WpfApp2
             return updatesPerItem;
         }
 
-
-
-        //helper method that executes excel export
-
-
-
+        /*Name: Michael Figueroa
+       Function Name: ToExcel
+       Purpose: Exports data to excel for MyTalent
+       Parameters: None
+       Return Value: None
+       Local Variables: DataTable daysUntilFlagged, xlWorkbook wb
+       Algorithm: daysUntilFlagged is populated using Helper.FlaggedReportTable, then calls AgingItemsExcel, ManagerReviewOnly, Count_Of_Manager_Review_Only, Updates_Per_Item methods in order to 
+       fill first four sheets, with daysUntilFlagged populating data for the last. SaveFileDialog is shown, which prompts user to save worksheet where they'd like (if the file name
+       written by user is not null), and then wb is disposed.
+       Version: 2.0.0.4
+       Date modified: Before 1/1/20
+       Assistance Received: N/A
+       */
         private void ToExcel()
         {
             DataTable daysUntilFlagged = Helper.FlaggedReportTable(connectionString);
@@ -345,11 +475,33 @@ namespace WpfApp2
             wb.Dispose();
         }
 
+        /*Name: Michael Figueroa
+       Function Name: MyTalent_Click
+       Purpose: Even handler for MyTalent_Click
+       Parameters: Auto-Generated
+       Return Value: None
+       Local Variables: None
+       Algorithm: Calls ToExcel
+       Version: 2.0.0.4
+       Date modified: Before 1/1/20
+       Assistance Received: N/A
+       */
         private void MyTalent_Click(object sender, RoutedEventArgs e)
         {
             ToExcel();
         }
 
+        /*Name: Michael Figueroa
+       Function Name: StrategicTasks_Click
+       Purpose: Even handler for StrategicTasks_Click
+       Parameters: Auto-Generated
+       Return Value: None
+       Local Variables: None
+       Algorithm: Opens StrategicTasks form
+       Version: 2.0.0.4
+       Date modified: Before 1/1/20
+       Assistance Received: N/A
+       */
         private void StrategicTasks_Click(object sender, RoutedEventArgs e)
         {
             StrategicTasks strategicTasks = new StrategicTasks(arr);
@@ -357,6 +509,17 @@ namespace WpfApp2
             itemsWindow.Show();
         }
 
+        /*Name: Michael Figueroa
+      Function Name: AdHoc_Click
+      Purpose: Even handler for AdHoc_Click
+      Parameters: Auto-Generated
+      Return Value: None
+      Local Variables: None
+      Algorithm: Opens AdHoc_Click form
+      Version: 2.0.0.4
+      Date modified: Before 1/1/20
+      Assistance Received: N/A
+      */
         private void AdHoc_Click(object sender, RoutedEventArgs e)
         {
             AdHoc adhoc = new AdHoc(arr);
@@ -364,6 +527,17 @@ namespace WpfApp2
             itemsWindow.Show();
         }
 
+        /*Name: Michael Figueroa
+        Function Name: WeeklyReview_Click
+        Purpose: Even handler for WeeklyReview_Click
+        Parameters: Auto-Generated
+        Return Value: None
+        Local Variables: None
+        Algorithm: Opens WeeklyReview_Click form
+        Version: 2.0.0.4
+        Date modified: Before 1/1/20
+        Assistance Received: N/A
+        */
         private void WeeklyReview_Click(object sender, RoutedEventArgs e)
         {
             WeeklyReview weeklyReview = new WeeklyReview(arr);
@@ -371,6 +545,17 @@ namespace WpfApp2
             itemsWindow.Show();
         }
 
+        /*Name: Michael Figueroa
+        Function Name: StaffMeeting_Click
+        Purpose: Even handler for StaffMeeting_Click
+        Parameters: Auto-Generated
+        Return Value: None
+        Local Variables: None
+        Algorithm: Opens StaffMeeting_Click form
+        Version: 2.0.0.4
+        Date modified: Before 1/1/20
+        Assistance Received: N/A
+        */
         private void StaffMeeting_Click(object sender, RoutedEventArgs e)
         {
             StaffMeeting staffMeeting = new StaffMeeting(arr);

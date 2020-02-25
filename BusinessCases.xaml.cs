@@ -25,10 +25,10 @@ namespace WpfApp1
     /// 
     public partial class BusinessCases : Page
     {
-        public string connectionString = ConfigurationManager.ConnectionStrings["conString"].ConnectionString;
+        public string connectionString = ConfigurationManager.ConnectionStrings["conString"].ConnectionString; //SQL Connection string; see app.config
         private string[] arr;                       //local variable to store login-based user data
         private DataRowView BusinessCasesRow;       //local variable to store the row of data in the 'Business Cases' DataGrid
-        private string reportQuery;
+        private string reportQuery; //query used for excel export
 
         /*Name: Michael Figueroa
         Function Name: BusinessCases

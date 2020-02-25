@@ -17,15 +17,20 @@ using System.Configuration;
 
 
 namespace WpfApp1
-{
-    //*******************************************************************
-    // DESCRIPTION: 	ItemsWindow can display any page that is passed to it in the constructor.
-    //                  But for the purposes of this app, it is meant to interact with
-    //                      PrioritizeBySystemPage and SearchItemsPage.
-    //*******************************************************************
+{      
     public partial class Items_Window : Window
     {
-       
+        /*Name: Michael Figueroa
+         Function Name: Items_Window
+         Purpose: Constructor for the Items_Window form
+         Parameters: Page page
+         Return Value: None
+         Local Variables: None
+         Algorithm: Calls NavigationService.Navigate (navigates to the page defined in the constructor)
+         Version: 2.0.0.4
+         Date modified: Prior to 1/1/20
+         Assistance Received: N/A
+         */
         public Items_Window(Page page)
         {
             InitializeComponent();
@@ -33,12 +38,17 @@ namespace WpfApp1
             ItemsFrame.NavigationService.Navigate(page);
         }
 
-        private void Jefi_Click(object sender, RoutedEventArgs e)
-        {
-            Jefi jefi = new Jefi();
-            ItemsFrame.NavigationService.Navigate(jefi);
-        }
-
+        /*Name: Michael Figueroa
+         Function Name: Button_Click
+         Purpose: Event handler for UPS Logo click
+         Parameters: Auto-Generated
+         Return Value: None
+         Local Variables: None
+         Algorithm: Calls NavigationService.Navigate to navigate to the easter egg
+         Version: 2.0.0.4
+         Date modified: Prior to 1/1/20
+         Assistance Received: N/A
+         */
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             Jefi jefi = new Jefi();

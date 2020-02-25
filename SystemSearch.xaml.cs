@@ -23,6 +23,17 @@ namespace WpfApp2
         private static string[] arr;
         private bool inc_pri_num_ovr_300;
 
+        /*Name: Michael Figueroa
+        Function Name: SystemSearch
+        Purpose: Constructor for SystemSearch
+        Parameters: string[] user_data, bool inc_pri_ovr_300
+        Return Value: N/A
+        Local Variables: None
+        Algorithm: None
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         public SystemSearch(string[] user_data, bool inc_pri_ovr_300)
         {
             InitializeComponent();
@@ -31,6 +42,17 @@ namespace WpfApp2
             inc_pri_num_ovr_300 = inc_pri_ovr_300;
         }
 
+        /*Name: Michael Figueroa
+        Function Name: Submit_Click
+        Purpose: Event handler for submit button click
+        Parameters: Auto-Generated
+        Return Value: N/A
+        Local Variables: string sysString, string query, List<int> id_List, WeeklyReviewApps editRecord
+        Algorithm: Assigns values to local variables, then in try block, WeeklyReviewApps form is opened up
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private void Submit_Click(object sender, RoutedEventArgs e)
         {
             string sysString = SysFilter.Text.ToString();
@@ -52,7 +74,17 @@ namespace WpfApp2
             }
         }
 
-        //allows user to hit enter after inputting into texbox and moving to next page if viable
+        /*Name: Michael Figueroa
+        Function Name: SysFilter_KeyDown
+        Purpose: Event handler for when Enter key is pressed
+        Parameters: Auto-Generated
+        Return Value: N/A
+        Local Variables: string sysString, string query, List<int> id_List, WeeklyReviewApps editRecord
+        Algorithm: if Enter is pressed Assigns values to local variables, then in try block, WeeklyReviewApps form is opened up
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private void SysFilter_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Return)

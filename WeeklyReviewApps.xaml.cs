@@ -22,19 +22,34 @@ namespace WpfApp2
     /// <summary>
     /// Interaction logic for WeeklyReviewApps.xaml
     /// </summary>
+    /// 
+    /*PLS NOTE: WeeklyReviewApps form has two fold use: it is used for when the users have their weekly review with apps as the name suggests, and it is also used for the weekly meeting (WeeklyReview form)
+      with supervisors and managers
+     */ 
     public partial class WeeklyReviewApps : Window
     {
         public static string connectionString = ConfigurationManager.ConnectionStrings["conString"].ConnectionString;//ConnectionString comes from App.config
-        public static DataTable firstIssue;
+        public static DataTable firstIssue; //DataTable storing the first issue in WeeklyReviewApps
         private string[] arr;                           //holds login-based user data
-        public static string[] systems;
+        public static string[] systems; //used to pull the report using all user's systems
         private string[] issue_data;                    //Holds the data about the issue, that will be used to populate the form when it loads
-        private List<int> IDList;
+        private List<int> IDList; //ID List containing every ID number from each item in DataRowView priorRow
         private DataRowView priorBySystemRow;           //holds data sent here by row that was clicked 
-        private string sys;
-        private bool include_300s;
+        private string sys; //stores system user would like to use in report
+        private bool include_300s; //bool that determines whether or not priority numbers over 300 are included
 
-        //This is a weekly review w/apps constructor for users that chose to do weekly review w/apps without choosing a system
+        /*Name: Michael Figueroa
+        Function Name: WeeklyReviewApps
+        Purpose: This is a weekly review w/apps constructor for users that 
+        chose to do weekly review w/apps without choosing a system
+        Parameters: string[] user_data, bool include_pri_ovr_300, List<int> IDListOriginal
+        Return Value: N/A
+        Local Variables: None
+        Algorithm: None
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         public WeeklyReviewApps(string[] user_data, bool include_pri_ovr_300, List<int> IDListOriginal)
         {
             InitializeComponent();
@@ -59,6 +74,17 @@ namespace WpfApp2
         }
 
         //weekly review w/apps with a system chosen
+        /*Name: Michael Figueroa
+        Function Name: WeeklyReviewApps
+        Purpose: This is a weekly review w/apps constructor with a system chosen
+        Parameters: string[] user_data, bool include_pri_ovr_300, List<int> IDListOriginal, bool include_300_pri
+        Return Value: N/A
+        Local Variables: None
+        Algorithm: None
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         public WeeklyReviewApps(string[] user_data, string system, List<int> IDListOriginal, bool include_300_pri)
         {
             InitializeComponent();
@@ -82,7 +108,18 @@ namespace WpfApp2
             Updated.Visibility = Visibility.Collapsed;
         }
 
-        //weekly review for managers (wednesday meeting)
+        /*Name: Michael Figueroa
+        Function Name: WeeklyReviewApps
+        Purpose: This is a weekly review w/apps constructor specifically for when this form is accessed through
+        edit button click event on WeeklyReview.xaml.cs
+        Parameters: string[] user_data, DataRowView priorRow, List<int> IDListOriginal
+        Return Value: N/A
+        Local Variables: None
+        Algorithm: None
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         public WeeklyReviewApps(string[] user_data, DataRowView priorRow, List<int> IDListOriginal)
         {
             InitializeComponent();
@@ -102,7 +139,16 @@ namespace WpfApp2
             Updated.Visibility = Visibility.Collapsed;
         }
 
-        //combobox fill methods
+        /*Name: Michael Figueroa
+        Function Name: FillStatusComboBox
+        Purpose: Fills Status combobox
+        Parameters: None
+        Return Value: None
+        Local Variables: None
+        Algorithm: None 
+        Date modified: Prior to 1/1/20 - May no longer be needed, Mike may want to get rid of it idk 
+        Assistance Received: N/A
+        */
         private void FillStatusComboBox()
         {
             StatusComboBox.Items.Add("BC Approved");
@@ -116,6 +162,16 @@ namespace WpfApp2
             StatusComboBox.Items.Add("App Review");
         }
 
+        /*Name: Michael Figueroa
+        Function Name: FillCategoryComboBox
+        Purpose: Fills Category combobox
+        Parameters: None
+        Return Value: None
+        Local Variables: None
+        Algorithm: None 
+        Date modified: Prior to 1/1/20 - May no longer be needed, Mike may want to get rid of it idk 
+        Assistance Received: N/A
+        */
         private void FillCategoryComboBox()
         {
             CategoryComboBox.Items.Add("BC/TI");
@@ -126,7 +182,17 @@ namespace WpfApp2
             CategoryComboBox.Items.Add("Strategic Task");
             CategoryComboBox.Items.Add("Task");
         }
-        
+
+        /*Name: Michael Figueroa
+        Function Name: FillImpactComboBox
+        Purpose: Fills Impact combobox
+        Parameters: None
+        Return Value: None
+        Local Variables: None
+        Algorithm: None 
+        Date modified: Prior to 1/1/20 - May no longer be needed, Mike may want to get rid of it idk 
+        Assistance Received: N/A
+        */
         private void FillImpactComboBox()
         {
             ImpacttypeComboBox.Items.Add("Cost Savings");
@@ -147,8 +213,20 @@ namespace WpfApp2
             ImpacttypeComboBox.Items.Add("Other");
         }
 
-        //these are the results of the weekly apps query
-        //query builder based on two things: system chosen (if applicable), OR, if no system chosen, then the collection of all of the user's systems is chosen
+        /*Name: Michael Figueroa
+        Function Name: GetWeeklyAppsQuery
+        Purpose: GetWeeklyAppsQuery when no is clicked upon WeeklyReviewApps button click on the menu screen (MessageBoxResult messageBoxResult in UserMenu_Window 
+        WeeklyReviewApps_Click
+        Parameters: string[] systems, bool include_300s
+        Return Value: string
+        Local Variables: stringQuery, stringbuilder sb
+        Algorithm: if include_300s is true, then there is no condition in WHERE clause for priority_number; sb appends the values from
+        string[] systems onto stringQuery, and then sb.ToString() is returned; else, there is condition in WHERE clause that excludes priority_numbers over 300 from the results, sb appends string[] systems
+        values onto stringQuery, and sb.ToString() is returned.
+        then the collection of all of the user's systems
+        Date modified: Prior to 1/1/20 
+        Assistance Received: N/A
+        */
         public static string GetWeeklyAppsQuery(string[] systems, bool include_300s)
         {
             if (include_300s)
@@ -202,7 +280,57 @@ namespace WpfApp2
             }
         }
 
-        //gets first issue in the report when no system is chosen; this is used when the form is not opened from a datagrid
+        //Weekly apps query when single system is chosen
+        /*Name: Michael Figueroa
+        Function Name: GetWeeklyAppsQuery
+        Purpose: GetWeeklyAppsQuery when single system is chosen when Yes is clicked upon WeeklyReviewApps button click on the menu screen (MessageBoxResult messageBoxResult in UserMenu_Window 
+        WeeklyReviewApps_Click
+        Parameters: string system, bool include_300s
+        Return Value: string
+        Local Variables: stringQuery, stringbuilder sb
+        Algorithm: if include_300s is true, then there is no condition in WHERE clause for priority_number; sb appends the values from; else, Priority_Numbers above 300 are excluded; Sys_Impact is set
+        to string system
+        Date modified: Prior to 1/1/20 
+        Assistance Received: N/A
+        */
+        public static string GetWeeklyAppsQuery(string system, bool include_300s)
+        {
+            if (include_300s)
+            {
+                return "SELECT ID, Sys_Impact, Priority_Number, Assigned_To AS [Owner], [Status], Category, Title, Supporting_Details AS Details, Bus_Impact, Internal_Notes, TFS_BC_HDFS_Num AS BID#, Impact, " +
+                              "AnnualBenefit, OneTimeBenefit, Req_Dept AS ReqDept, Req_Name AS RequestedBy, Opened_Date AS InquiryDate, Due_Date AS PlannedDate, " +
+                              "Completed_Date, DATEDIFF(day, Opened_Date, Completed_Date) AS #Days " +
+                               "FROM New_Issues WHERE (New_Issues.[Status] NOT LIKE '%closed%' " +
+                                "AND New_Issues.[Status] NOT LIKE '%implemented%' " +
+                                 "AND New_Issues.[Status] NOT LIKE '%dropped%' AND New_Issues.[Status] NOT LIKE '%deferred%') AND (Category != 'Strategic Task') AND (ManagerMeeting = 0) AND (Sys_Impact = '" + system + "') ORDER BY Sys_Impact ASC, Priority_Number ASC;";
+            }
+
+            else
+            {
+                return "SELECT ID, Sys_Impact, Priority_Number, Assigned_To AS [Owner], [Status], Category, Title, Supporting_Details AS Details, Bus_Impact, Internal_Notes, TFS_BC_HDFS_Num AS BID#, Impact, " +
+                              "AnnualBenefit, OneTimeBenefit, Req_Dept AS ReqDept, Req_Name AS RequestedBy, Opened_Date AS InquiryDate, Due_Date AS PlannedDate, " +
+                              "Completed_Date, DATEDIFF(day, Opened_Date, Completed_Date) AS #Days " +
+                               "FROM New_Issues WHERE (New_Issues.[Status] NOT LIKE '%closed%' " +
+                                "AND New_Issues.[Status] NOT LIKE '%implemented%' " +
+                                 "AND New_Issues.[Status] NOT LIKE '%dropped%' AND New_Issues.[Status] NOT LIKE '%deferred%') AND (Category != 'Strategic Task') AND (ManagerMeeting = 0) AND (Priority_Number < 300) AND (Sys_Impact = '" + system + "') ORDER BY Sys_Impact ASC, Priority_Number ASC;";
+            }
+        }
+
+        /*Name: Michael Figueroa
+        Function Name: GetFirstWeeklyAppsIssue
+        Purpose: GetFirstWeeklyAppsIssue retrieves the first issue when no is clicked upon WeeklyReviewApps button click on the menu screen (MessageBoxResult messageBoxResult in UserMenu_Window 
+        WeeklyReviewApps_Click
+        Parameters: string[] systems, bool include_300s
+        Return Value: string
+        Local Variables: stringQuery, stringbuilder sb
+        Algorithm: if include_300s is true, then there is no condition in WHERE clause for priority_number; sb appends the values from
+        string[] systems onto stringQuery, and then sb.ToString() is returned; else, there is condition in WHERE clause that excludes priority_numbers over 300 from the results, 
+        sb appends string[] systems
+        values onto stringQuery, and sb.ToString() is returned.
+        then the collection of all of the user's systems
+        Date modified: Prior to 1/1/20 
+        Assistance Received: N/A
+        */
         public static string GetFirstWeeklyAppsIssue(string[] systems, bool include_300s)
         {
             if (include_300s)
@@ -254,7 +382,19 @@ namespace WpfApp2
             }
         }
 
-        //gets first issue in the report when system is chosen; this is used when the form is not opened from a datagrid
+        /*Name: Michael Figueroa
+        Function Name: GetFirstWeeklyAppsIssue 
+        Purpose: GetFirstWeeklyAppsIssue retrieves the first issue when YES is clicked upon WeeklyReviewApps button click on the menu screen (MessageBoxResult messageBoxResult in UserMenu_Window 
+        WeeklyReviewApps_Click - note that this method has been overloaded
+        Parameters: string system, bool include_300s
+        Return Value: string
+        Local Variables: None
+        Algorithm: if include_300s is true, then there is no condition in WHERE clause for priority_number; else, there is condition in WHERE clause that excludes priority_numbers over 300 from the results
+        Sys_impact in WHERE clause is set equal to string system
+        then the collection of all of the user's systems
+        Date modified: Prior to 1/1/20 
+        Assistance Received: N/A
+        */
         public static string GetFirstWeeklyAppsIssue(string system, bool include_300s)
         {
             if (include_300s)
@@ -277,30 +417,19 @@ namespace WpfApp2
             }
         }
 
-        //Weekly apps query when single system is chosen
-        public static string GetWeeklyAppsQuery(string system, bool include_300s)
-        {
-            if (include_300s)
-            {
-                return "SELECT ID, Sys_Impact, Priority_Number, Assigned_To AS [Owner], [Status], Category, Title, Supporting_Details AS Details, Bus_Impact, Internal_Notes, TFS_BC_HDFS_Num AS BID#, Impact, " +
-                              "AnnualBenefit, OneTimeBenefit, Req_Dept AS ReqDept, Req_Name AS RequestedBy, Opened_Date AS InquiryDate, Due_Date AS PlannedDate, " +
-                              "Completed_Date, DATEDIFF(day, Opened_Date, Completed_Date) AS #Days " +
-                               "FROM New_Issues WHERE (New_Issues.[Status] NOT LIKE '%closed%' " +
-                                "AND New_Issues.[Status] NOT LIKE '%implemented%' " +
-                                 "AND New_Issues.[Status] NOT LIKE '%dropped%' AND New_Issues.[Status] NOT LIKE '%deferred%') AND (Category != 'Strategic Task') AND (ManagerMeeting = 0) AND (Sys_Impact = '" + system + "') ORDER BY Sys_Impact ASC, Priority_Number ASC;";
-            }
-
-            else
-            {
-                return "SELECT ID, Sys_Impact, Priority_Number, Assigned_To AS [Owner], [Status], Category, Title, Supporting_Details AS Details, Bus_Impact, Internal_Notes, TFS_BC_HDFS_Num AS BID#, Impact, " +
-                              "AnnualBenefit, OneTimeBenefit, Req_Dept AS ReqDept, Req_Name AS RequestedBy, Opened_Date AS InquiryDate, Due_Date AS PlannedDate, " +
-                              "Completed_Date, DATEDIFF(day, Opened_Date, Completed_Date) AS #Days " +
-                               "FROM New_Issues WHERE (New_Issues.[Status] NOT LIKE '%closed%' " +
-                                "AND New_Issues.[Status] NOT LIKE '%implemented%' " +
-                                 "AND New_Issues.[Status] NOT LIKE '%dropped%' AND New_Issues.[Status] NOT LIKE '%deferred%') AND (Category != 'Strategic Task') AND (ManagerMeeting = 0) AND (Priority_Number < 300) AND (Sys_Impact = '" + system + "') ORDER BY Sys_Impact ASC, Priority_Number ASC;";
-            }
-        }              
-
+        /*Name: Michael Figueroa
+       Function Name: FillWeeklyRow 
+       Purpose: FillWeeklyRow returns a DataTable containing the first WeeklyReviewApps item from GetFirstWeeklyAppsIssue - this method in particular is used
+       when the user does not specify a system to filter by upon WeeklyReviewApps button click on the menu screen (MessageBoxResult messageBoxResult in UserMenu_Window 
+        WeeklyReviewApps_Click - note that this method has been overloaded
+       Parameters: string[] systems, bool include_300s
+       Return Value: DataTable weeklyRow
+       Local Variables: string firstWeekly, DataTable weeklyRow
+       Algorithm: firsyWeekly is assigned by calling GetFirstWeeklyAppsIssue, then weeklyRow is filled through Sql Command constructed using firstWeekly, then
+       weeklyRow is returned.
+       Date modified: Prior to 1/1/20 
+       Assistance Received: N/A
+       */
         public static DataTable FillWeeklyRow(string[] systems, bool include_300s)
         {
             string firstWeekly = GetFirstWeeklyAppsIssue(systems, include_300s);
@@ -317,6 +446,19 @@ namespace WpfApp2
             return weeklyRow;
         }
 
+        /*Name: Michael Figueroa
+       Function Name: FillWeeklyRow 
+       Purpose: FillWeeklyRow returns a DataTable containing the first WeeklyReviewApps item from GetFristWeeklyAppsIssue - this method in particular is used
+       when the user does specify a system to filter by upon WeeklyReviewApps button click on the menu screen (MessageBoxResult messageBoxResult in UserMenu_Window 
+        WeeklyReviewApps_Click - note that this method has been overloaded
+       Parameters: string[] systems, bool include_300s
+       Return Value: DataTable weeklyRow
+       Local Variables: string firstWeekly, DataTable weeklyRow
+       Algorithm: firsyWeekly is assigned by calling GetFirstWeeklyAppsIssue, then weeklyRow is filled through Sql Command constructed using firstWeekly, then
+       weeklyRow is returned.
+       Date modified: Prior to 1/1/20 
+       Assistance Received: N/A
+       */
         public static DataTable FillWeeklyRow(string system, bool include_300s)
         {
             string firstWeekly = GetFirstWeeklyAppsIssue(system, include_300s);
@@ -333,6 +475,18 @@ namespace WpfApp2
             return weeklyRow;
         }
 
+        /*Name: Michael Figueroa
+        Function Name: BindDataGrid
+        Purpose: Binds the History DataGrid which shows the status history for the current issue
+        Parameters: string TaskNum
+        Return Value: None
+        Local Variables: string query, DataTable dt
+        Algorithm: query is assigned based on the issue ID number (the TaskNum variable here is equivalent to the Issue ID), the DataTable is filled using the query, and then the
+        DataGrid ItemSource (ItemSource is basically the information that will binded to the front-end) is set equal to the information from DataTable dt
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         public void BindDataGrid(string TaskNum)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -361,7 +515,17 @@ namespace WpfApp2
                 }
         }
 
-        //this sets the index of the initial id textbox (displayed as "Issue X of _")
+        /*Name: Michael Figueroa
+       Function Name: SetInitialIDTextBox
+       Purpose: Setter Method - sets CurrentIssue.Text
+       Parameters: None
+       Return Value: N/A
+       Local Variables: None
+       Algorithm: int parses GetIssueID value, then returns the value of that + 1
+       Version: 2.0.0.4
+       Date modified: Prior to 1/1/20
+       Assistance Received: N/A
+       */
         private void SetInitialIDTextBox()
         {
             int issueID = Int32.Parse(GetIssueID());
@@ -370,25 +534,66 @@ namespace WpfApp2
         }
 
 
-
+        /*Name: Michael Figueroa
+       Function Name: FirstRow
+       Purpose: Getter method; returns first value in firstIssues array
+       Parameters: None
+       Return Value: DataRow
+       Local Variables: None
+       Algorithm: None
+       Version: 2.0.0.4
+       Date modified: Prior to 1/1/20
+       Assistance Received: N/A
+       */
         public static DataRow FirstRow()
         {
             return firstIssue.Rows[0];
         }
 
-        //this gets the initial issue id that is clicked on in the report grid 
+        /*Name: Michael Figueroa
+       Function Name: GetIssueID
+       Purpose: this gets the initial issue id that is clicked on in the report grid
+       Parameters: None
+       Return Value: string
+       Local Variables: None
+       Algorithm: None
+       Version: 2.0.0.4
+       Date modified: Prior to 1/1/20
+       Assistance Received: N/A
+       */
         private string GetIssueID()
         {
 
             return priorBySystemRow["ID"].ToString();
         }
 
-
+        /*Name: Michael Figueroa
+       Function Name: SetTotalIssuesText
+       Purpose: Setter method that sets TotalIssues.Text
+       Parameters: None
+       Return Value: None
+       Local Variables: None
+       Algorithm: Uses GetTotalNumIssues() in order to set TotalIssues.Text
+       Version: 2.0.0.4
+       Date modified: Prior to 1/1/20
+       Assistance Received: N/A
+       */
         private void SetTotalIssuesText()
         {
             TotalIssues.Text = "Of " + GetTotalNumIssues().ToString();
         }
 
+        /*Name: Michael Figueroa
+        Function Name: FillInForm
+        Purpose: Fills out the XAML EditRecord form with the information specific to the current issue
+        Parameters: None
+        Return Value: None
+        Local Variables: string query, string data[], int cols, DateTime myStartDate, DateTime myDueDate, DateTime myCompDate
+        Algorithm: Fills in the appropriate fields on the EditRecord.xaml form using the issue_data array filled in SelectIssueData()
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private void FillInForm()
         {
             TitleText.Text = issue_data[0].ToString();
@@ -522,6 +727,19 @@ namespace WpfApp2
             Owner.Text = issue_data[25].ToString();
         }
 
+        /*Name: Michael Figueroa
+        Function Name: SelectIssueData
+        Purpose: Fills out the global variable string[] issue_data with the appropriate data of the particular ID
+        Parameters: string ID
+        Return Value: None
+        Local Variables: string query, string data[], int cols
+        Algorithm: query is assigned, then the reader goes through the query in a for loop equal to the length of how many cols there are; approriate data is written into the array
+        (Title, Req_Dept, Req_Name, etc. etc.) - the reader is then closed.
+        IF there is an exception: Error message is displayed, issue_data remains empty
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private void SelectIssueData(string ID)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -564,6 +782,17 @@ namespace WpfApp2
                 }
         }
 
+        /*Name: Michael Figueroa
+        Function Name: SetMgrNotesRights
+        Purpose: Sets who can edit managerNotesText, ManagerReview, UpdateRequired, and managerMeeting checkboxes
+        Parameters: None
+        Return Value: None
+        Local Variables: none
+        Algorithm: if arr[6] is equal to "User", then the user cannot edit Manager notes, manager review update required and manager meeting checkboxes.
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private void SetMgrNotesRights()
         {
             if(arr[6] == "User")
@@ -575,8 +804,19 @@ namespace WpfApp2
             }
         }
 
-        //event handler for back arrow
-        //subtract one for the current issue id text, subtract current index from list
+        /*Name: Michael Figueroa
+         Function Name: BackArrow_Click
+         Purpose: Event Handler that allows user to scroll through the issues (in a backwards manner) in the report the EditRecord form was accessed from
+         Parameters: Auto-Generated
+         Return Value: None
+         Local Variables: string current, int currentID
+         Algorithm: currentID is the index of the List<int> IDLIst array; if the currentID value subtracted by 1 is greater or equal to zero, then the currentID is decremented by 1,
+         The History DataGrid and Form are all re-binded with the ID of the previous issue in the report; else, nothing happens, in order to avoid and indexOutofBounds exception in
+         IDList array.
+         Version: 2.0.0.4
+         Date modified: Prior to 1/1/20
+         Assistance Received: N/A
+         */
         private void BackArrow_Click(object sender, RoutedEventArgs e)
         {
             string current = CurrentIssue.Text.ToString();
@@ -592,7 +832,18 @@ namespace WpfApp2
             }
         }
 
-        //allows user to jump to an issue by typing in a number
+        /*Name: Michael Figueroa
+        Function Name: CurrentIssue_KeyDown
+        Purpose: Event Handler that allows user to use enter button to jump issues on the report (so user can go from the first issue to the ninth issue, for instance)
+        Parameters: Auto-Generated
+        Return Value: None
+        Local Variables: string current, int currentID
+        Algorithm: currentID is the index of the List<int> IDLIst array; if the currentID value is less than the length of the IDList List, then the re-binds using the informaton with
+        issue ID of IDList[currentID]
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private void CurrentIssue_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
@@ -613,13 +864,35 @@ namespace WpfApp2
             }
         }
 
-        //this gets the total number of issues that the report contains; this is used for display purposes 
+        /*Name: Michael Figueroa
+        Function Name: GetTotalNumIssues
+        Purpose: Getter method that retrieves the total number of issues that are in the report the Edit Record form was accessed from
+        Parameters: None
+        Return Value: Returns count of List<int> IDList
+        Local Variables: None
+        Algorithm: None
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private int GetTotalNumIssues()
         {
             return IDList.Count;
         }
 
-        //event handler for forward arrow
+        /*Name: Michael Figueroa
+        Function Name: ForwardArrow_Click
+        Purpose: Event Handler that allows user to scroll through the issues (in a forwards manner) in the report the EditRecord form was accessed from
+        Parameters: Auto-Generated
+        Return Value: None
+        Local Variables: string current, int currentID
+        Algorithm: currentID is the index of the List<int> IDLIst array; if the currentID value subtracted by 1 is greater or equal to zero, then the currentID is decremented by 1,
+        The History DataGrid and Form are all re-binded with the ID of the previous issue in the report; else, nothing happens, in order to avoid and indexOutofBounds exception in
+        IDList array.
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private void ForwardArrow_Click(object sender, RoutedEventArgs e)
         {
             //Submit();
@@ -639,6 +912,18 @@ namespace WpfApp2
             }
         }
 
+        /*Name: Michael Figueroa
+        Function Name: Submit
+        Purpose: This executes the update query. 
+        Parameters: None
+        Return Value: None
+        Local Variables: None
+        Algorithm: Opens SqlConnection, then executes string query, calls SelectIssueData, FillInForm, and BindDataGrid. Updates Updated to visible in order to let
+        user know the issue has been updated
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private void Submit()
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -671,6 +956,18 @@ namespace WpfApp2
                 }
         }
 
+        /*Name: Michael Figueroa
+        Function Name: UpdateQuery
+        Purpose: Returns string that will be used in method Submit()
+        Parameters: None
+        Return Value: string
+        Local Variables: string plannedDate
+        Algorithm: is PlannedDate has not been chosen by user, then plannedDate = null, else, it is equal to ToString value.
+        Returns values user has chosen as an UPDATE query.
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private string UpdateQuery()
         {
             string plannedDate;
@@ -689,8 +986,34 @@ namespace WpfApp2
                 " Hot_Topic='" + HotTopicCheckBox.IsChecked.ToString() + "', [Control] = '" + ControlEnhancementCheckBox.IsChecked.ToString() + "', " + "Proc_Imp='" + ProcessImprovementCheckBox.IsChecked.ToString() +
                 "', Cim_Val = '" + CIMValueAddedCheckBox.IsChecked.ToString() + "', ManagerMeeting= '" + managerMeetingCheckBox.IsChecked.ToString() + "', CIM_Know = '" + CIMKnowCheckBox.IsChecked.ToString() + "'" +
                 ", ManagerReview = '" + ManagerReviewCheckBox.IsChecked.ToString() + "' WHERE ID = " + GetCurrentID() + ";";
-        }                                                   
-                                                            
+        }
+
+        /*Name: Brandon Cox
+        Function Name: UpdateQuery
+        Purpose: Updates priority numbers after user has closed current issue
+        Parameters: None
+        Return Value: None
+        Local Variables: int priority_num
+        Algorithm: for loop: if int i is not equal to GetCurrentIndex(), then the priority_number is updated, and priority_num is incremented by 1; 
+        else, nothing happens. - this method needs to be finished
+        Version: 2.0.0.4
+        Date modified: February 2020
+        Assistance Received: Michael Figueroa suggests the following:
+        the current if statement is fine; however, I suggest we make a int array full of the possible priority numbers and update through that; 
+        this array would hold values from 101-109,201-209, 301-309, and 401-409. This way, you keep from going into 110, 111, and etc.
+        int[] priority_num_values = {101,102,103,104,105,106,107,108,109,201,202, etc. <pseudocode>} 
+                    for (int i = 0; i < IDList.Count; i++)
+                    {
+                        if (i != GetCurrentIndex())
+                        {
+                            string updated = "UPDATE New_Issues SET Priority_Number = '" + priority_num_values[i] + "' WHERE ID = " + IDList[i] + ";";
+                            SqlCommand cmd = new SqlCommand(updated, connection);
+                            cmd.ExecuteNonQuery();
+                            priorty_num++;
+                        }
+                    }
+        I think this will work and the method will execute faster without extra condition statements
+        */
         private void UpdatePriorityNums()
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -720,12 +1043,17 @@ namespace WpfApp2
                 }
         }
 
-        //*******************************************************************
-        // DESCRIPTION: Runs when a row of Report datagrid is double-clicked. This pulls the data from that row and opens an AddEditRecord window,
-        //                  passing that data along in the constructor so it can auto-populate upon loading.
-        //              Also passes this window itself to that form, so that this EditRecord Window can update once the status is edited,
-        //                  as well as PBS DataRowView.
-        //*******************************************************************
+        /*Name: Michael Figueroa
+        Function Name: Report_MouseDoubleClick
+        Purpose: DoubleClick even handler for the history form that allows user to edit status
+        Parameters: Auto-Generated
+        Return Value: None
+        Local Variables: DataGrid dg, DataRowView dataRow
+        Algorithm: When a specific row on the History table is double-clicked, the editStatus screen comes up.
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private void Report_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             try
@@ -748,24 +1076,67 @@ namespace WpfApp2
             }
         }
 
-        //Gets current index in List
+        /*Name: Michael Figueroa
+        Function Name: GetCurrentID()
+        Purpose: Getter method that retrieves the ID of the current issue being displayed on screen
+        Parameters: None
+        Return Value: The ID of the current issue being displayed on screen
+        Local Variables: None
+        Algorithm: Assigns global variables based on values passed by parameters in the constructor, calls methods, then collapses the blue updated label
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private int GetCurrentID()
         {
             int current = Int32.Parse(CurrentIssue.Text.ToString()) - 1;
             return IDList[current];
-        }       
+        }
 
+        /*Name: Michael Figueroa
+        Function Name: GetCurrentIndex()
+        Purpose: Getter method that retrieves the Index from IDList array of the current issue being displayed on screen
+        Parameters: None
+        Return Value: The current index of array IDList of the current issue being displayed on screen
+        Local Variables: None
+        Algorithm: None
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private int GetCurrentIndex()
         {
             return Int32.Parse(CurrentIssue.Text.ToString()) - 1;
         }
 
+        /*Name: Michael Figueroa
+        Function Name: AddStatus_Click
+        Purpose: Event handler for Add Status button
+        Parameters: Auto Generated
+        Return Value: None
+        Local Variables: None
+        Algorithm: If the Add Status button is clicked, then the EditRecord_AddEditStatus form is shown
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private void AddStatus_Click(object sender, RoutedEventArgs e)
         {
             EditRecord_AddEditStatus addStatus = new EditRecord_AddEditStatus(this, GetCurrentID());
             addStatus.Show();
         }
 
+        /*Name: Brandon Cox
+          Function Name: UpdtBtn_Click
+          Purpose: Event Handler that saves updates the user made to the current issue
+          Parameters: 
+          Return Value: None
+          Local Variables: 
+          Algorithm: calls SubmitIssue()
+             Version: 2.0.0.4
+            Date modified: Prior to 1/1/20
+            Assistance Received: N/A
+          */
         private void UpdatBtn_Click(object sender, RoutedEventArgs e)
         {
             Submit();

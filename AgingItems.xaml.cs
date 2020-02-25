@@ -24,7 +24,7 @@ namespace WpfApp1
     /// </summary>
     public partial class AgingItems : Page
     {
-        public string connectionString = ConfigurationManager.ConnectionStrings["conString"].ConnectionString;
+        public string connectionString = ConfigurationManager.ConnectionStrings["conString"].ConnectionString; //SQL Connection String
         private string[] arr;                       //local variable to store login-based user data
         private DataRowView agingItemsRow;       //local variable to store the row of data in the 'Prioritization by System' DataGrid
         private string reportQuery; //allows the query generated for the report to be used when exporting to excel

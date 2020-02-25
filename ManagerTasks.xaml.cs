@@ -28,9 +28,19 @@ namespace WpfApp1
         public string connectionString = ConfigurationManager.ConnectionStrings["conString"].ConnectionString;//ConnectionString comes from App.config
         private string[] arr;                       //local variable to store login-based user data
         private DataRowView priorBySystemRow;       //local variable to store the row of data in the 'ManagerTasks' DataGrid
-        private string reportQuery;
         private static DataTable Reports = new DataTable();
 
+        /*Name: Michael Figueroa
+        Function Name: ManagerTasks
+        Purpose: ManagerTasks Constructor
+        Parameters: string[] user_data
+        Return Value: N/A
+        Local Variables: None
+        Algorithm: BindDataGrid, UpdatedToday are called
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         public ManagerTasks(string[] user_data)
         {
             InitializeComponent();
@@ -39,21 +49,38 @@ namespace WpfApp1
             UpdatedToday();
         }
 
+        /*Name: Michael Figueroa
+       Function Name: BindDataGrid
+       Purpose: Binds DataGrid with ManagerTasksQuery results
+       Parameters: None
+       Return Value: N/A
+       Local Variables: query, managerTasks, historyTable
+       Algorithm: calls ManagerTasksQuery to assign query a value, assigns reportQuery = query, then calls FillManTasksTable and FillHistoryTable
+       Version: 2.0.0.4
+       Date modified: Prior to 1/1/20
+       Assistance Received: N/A
+       */
         public void BindDataGrid()
         {
-            string query = ManagerTasksQuery();
-            DataTable managerTasks = new DataTable();
-            
-            reportQuery = query;
-     
+            string query = ManagerTasksQuery();                 
             //History query from which rows will be extracted to display most recent status updates for each item in the report 
             DataTable historyTable = new DataTable();
 
-            FillManTasksTable(managerTasks);
+            FillManTasksTable();
             FillHistoryTable(historyTable);
         }
-        
 
+        /*Name: Michael Figueroa
+       Function Name: ManagerTasksQuery
+       Purpose: Returns query that will fill the ManagerTasks datagrid
+       Parameters: None
+       Return Value: N/A
+       Local Variables: query 
+       Algorithm: None
+       Version: 2.0.0.4
+       Date modified: Prior to 1/1/20
+       Assistance Received: N/A
+       */
         private string ManagerTasksQuery()
         {
             string query = "SELECT New_Issues.ID as ID, TFS_BC_HDFS_Num AS BID#, [Status] AS Status, FORMAT(Opened_Date, 'MM/dd/yyyy') AS Opened_Date, FORMAT(Due_Date, 'MM/dd/yyyy') AS Due_Date, Assigned_To, Supporting_Details, Internal_Notes, " +
@@ -64,6 +91,19 @@ namespace WpfApp1
             return query;
         }
 
+        /*Name: Michael Figueroa
+       Function Name: FillRow
+       Purpose: Returns a DataTable consisting of one row with the most recent status for the issue
+       Parameters: int taskNum
+       Return Value: DataTable
+       Local Variables: string mostRecent, historyRow 
+       Algorithm: defines mostRecent with Query containing one row with most recent status for issue ID taskNum, 
+       then SQL fills historyRow datatable which is then returned -this is a duplicate also contained in ReportHelper.cs, 
+       can be deleted.
+       Version: 2.0.0.4
+       Date modified: Prior to 1/1/20
+       Assistance Received: N/A
+       */
         private DataTable FillRow(int taskNum)
         {
             string mostRecent = "SELECT TOP 1 TaskNum, FORMAT(EntryDate, 'MM/dd/yyyy') as EntryDate, New_StatusNote as LatestStatusNote, [Status] AS LatestStatus FROM History " +
@@ -82,6 +122,19 @@ namespace WpfApp1
             return historyRow;
         }
 
+      /*Name: Michael Figueroa
+      Function Name: FillHistoryTable
+      Purpose: Fills full history columns in datagrid; use for when someone wants to see mos recent status for each issue; this keeps the HistoryRecent and ManTasks dataGrids in sync
+      Parameters: DataTable recentHistory
+      Return Value: None
+      Local Variables: int taskNum, DataTable tabRecent 
+      Algorithm: Adds DataColumns to recentHistory table, then reads ManagerTasksQuery using reader, extracts each ID from each record in the query and assigns to taskNum, then calls FillRow with taskNum as a parameter; if the
+      row count is 1, the row is added to recentHistory, else, nulls are added - duplicate, also in ReportHelper.cs, can
+      be deleted.
+      Version: 2.0.0.4
+      Date modified: Prior to 1/1/20
+      Assistance Received: N/A
+      */
         private void FillHistoryTable(DataTable recentHistory)
         {
             using (SqlConnection con = new SqlConnection(connectionString))
@@ -135,8 +188,19 @@ namespace WpfApp1
                 }
         }
 
-            private void FillManTasksTable(DataTable managerTasks)
-            {
+        /*Name: Michael Figueroa
+      Function Name: FillManTasksTable
+      Purpose: Fills ManTasks DataGrid using task table
+      Parameters: DataTable recentHistory
+      Return Value: None
+      Local Variables: None 
+      Algorithm: ManagerTasksQuery is executed, then it fills DataTable Reports, which is then used to bind data to ManTaks
+      Version: 2.0.0.4
+      Date modified: Prior to 1/1/20
+      Assistance Received: N/A
+      */
+        private void FillManTasksTable()
+        {
                 using (SqlConnection con = new SqlConnection(connectionString))
                 try
                 {
@@ -160,8 +224,19 @@ namespace WpfApp1
                 {
                     con.Close();
                 }
-            }
+        }
 
+        /*Name: Michael Figueroa
+      Function Name: UpdatedToday
+      Purpose: Keeps track of what items have been updated today
+      Parameters: None
+      Return Value: None
+      Local Variables: updated, todaysDate, updatedQuery 
+      Algorithm: todays date is retrieved and assigned to todaysDate, then updatedQuery is assigned, then executed, and binded to Updated datagrid
+      Version: 2.0.0.4
+      Date modified: Prior to 1/1/20
+      Assistance Received: N/A
+      */
         private void UpdatedToday()
         {
             DataTable updated = new DataTable();
@@ -190,8 +265,22 @@ namespace WpfApp1
             Updated.ItemsSource = updated.DefaultView;
         }
 
-      
-        //allows manager to change the status of an issue
+        /*Name: Michael Figueroa
+       Function Name: UpdatedToday
+       Purpose: allows manager to change the status of an issue
+       Parameters: Auto-Generated
+       Return Value: None
+       Local Variables: StatusChangeButton statusChange, DialogResult changeStatusResult, string updatedDateString, string checkQuery, DataTable status, string query, string queryHistory
+       Algorithm: if the user clicks yes in response to changeStatusResult, then updatedDateString is assigned by calling Helper.GetUpdatedDateString, checkQuery takes the BC number
+       and is used to check whether or not the item is BC Submitted or BC Approved already in this session; if not, then if user has clicked BC Approved button on statusChange form
+       (check out StatusChangeButton form for more about approvedClicked variable), then the issue is updated to BC Approved; else it is updated to BC Submitted;
+       If the issue is BC Submitted, then it will update to BC Approved if user clicks approvedClicked; else user will be prompted that item has been update to BC Submitted already
+       Then, table consisting of items that have been updated today is refreshed by calling UpdatedToday().
+       NOTE: This method can definitely be broken down into smaller methods; is this ManagerTasks form ever used? If so, how can it be improved?
+       Version: 2.0.0.4
+       Date modified: Prior to 1/1/20
+       Assistance Received: N/A
+       */
         private void ChangeStatus_Click(object sender, RoutedEventArgs e)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -226,8 +315,6 @@ namespace WpfApp1
                         if (status.Rows[0].Field<String>("Status") != "BC Approved" && status.Rows[0].Field<String>("Status") != "BC Submitted")
                         {
                             statusChange.ShowDialog();
-                            //this adds ID to the table that shows which statuses have been updated during that session
-                            //the buttons come from another form called StatusChangeButton.xaml, which then closes upon click
                             if ((statusChange.approvedClicked))
                             {
                                 //Updates both status and the entrydate simultaneously
@@ -302,6 +389,17 @@ namespace WpfApp1
                 }
         }
 
+        /*Name: Michael Figueroa
+       Function Name: EditButton_Click
+       Purpose: Event handler for edit button click
+       Parameters: Auto-generated
+       Return Value: None
+       Local Variables: DataRowView agingItemsRow
+       Algorithm: The DataRow in which the Edit button was clicked is retrieved, and the EditRecord form is opened using that DataRowView in the constructor
+       Version: 2.0.0.4
+       Date modified: Prior to 1/1/20
+       Assistance Received: N/A
+       */
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -321,7 +419,21 @@ namespace WpfApp1
             }
         }
 
-        //The rest of the methods allow for the scrolling of both datagrids to be in sync
+        /*Name: Michael Figueroa
+       Function Name: GetDescendantByType
+       Purpose: This method helps access the scrollview of a visual element - in this case, the visual element is a DataGrid, and the Type is a
+       scrollviewer. This is needed so the History and ManTasks DataGrids are in sync.
+       Parameters: Visual Element, Type type
+       Return Value: Visual foundElement
+       Local Variables: Visual visual, Visual foundElement
+       Algorithm: if there is no Visual with name element, then null is returned; if element is the same Type as type, then the element is returned;
+       credit user punker76 on Stack Overflow (https://stackoverflow.com/questions/10293236/accessing-the-scrollviewer-of-a-listbox-from-c-sharp)
+       with method and for more details on algorithm.
+       NOTE: This is also used in other windows such as ReportsWindow, so this may be better off in the helper.
+       Version: 2.0.0.4
+       Date modified: Prior to 1/1/20
+       Assistance Received: N/A
+       */
         public Visual GetDescendantByType(Visual element, Type type)
             {
                 if (element == null) return null;
@@ -341,21 +453,60 @@ namespace WpfApp1
                 return foundElement;
             }
 
-            private void lbx1_ScrollChanged(object sender, ScrollChangedEventArgs e)
+        /*Name: Michael Figueroa
+        Function Name: lbx1_ScrollChanged
+        Purpose: Method 
+        Parameters: Auto-generated
+        Return Value: None
+        Local Variables: _listboxScrollViewer1 and _listboxScrollViewer2
+        Algorithm: ManTasks and HistoryRecent scrollviewers retrieved using GetDescendantByType; then vertical offset of _listboxScrollViewer2 is set to offset of _listboxScrollViewer1
+        in order to keep DataGrids in sync when scrolling
+        NOTE: This is also used in other windows such as ReportsWindow, so this may be better off in the helper.
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
+        private void lbx1_ScrollChanged(object sender, ScrollChangedEventArgs e)
+        {
+            ScrollViewer _listboxScrollViewer1 = GetDescendantByType(ManTasks, typeof(ScrollViewer)) as ScrollViewer;
+            ScrollViewer _listboxScrollViewer2 = GetDescendantByType(HistoryRecent, typeof(ScrollViewer)) as ScrollViewer;
+            _listboxScrollViewer2.ScrollToVerticalOffset(_listboxScrollViewer1.VerticalOffset);
+        }
+
+        /*Name: Michael Figueroa
+        Function Name: ManTasks_ScrollChanged
+        Purpose: Event handler for ManTasks scrollChanged that keeps DataGrids in sync when scrolling 
+        Parameters: Auto-generated
+        Return Value: None
+        Local Variables: _listboxScrollViewer1 and _listboxScrollViewer2
+        Algorithm: ManTasks and HistoryRecent scrollviewers retrieved using GetDescendantByType; then vertical offset of _listboxScrollViewer2 is set to offset of _listboxScrollViewer1
+        in order to keep DataGrids in sync when scrolling
+        NOTE: This is also used in other windows such as ReportsWindow, so this may be better off in the helper.
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
+        private void ManTasks_ScrollChanged(object sender, ScrollChangedEventArgs e)
             {
                 ScrollViewer _listboxScrollViewer1 = GetDescendantByType(ManTasks, typeof(ScrollViewer)) as ScrollViewer;
                 ScrollViewer _listboxScrollViewer2 = GetDescendantByType(HistoryRecent, typeof(ScrollViewer)) as ScrollViewer;
                 _listboxScrollViewer2.ScrollToVerticalOffset(_listboxScrollViewer1.VerticalOffset);
             }
 
-            private void ManTasks_ScrollChanged(object sender, ScrollChangedEventArgs e)
-            {
-                ScrollViewer _listboxScrollViewer1 = GetDescendantByType(ManTasks, typeof(ScrollViewer)) as ScrollViewer;
-                ScrollViewer _listboxScrollViewer2 = GetDescendantByType(HistoryRecent, typeof(ScrollViewer)) as ScrollViewer;
-                _listboxScrollViewer2.ScrollToVerticalOffset(_listboxScrollViewer1.VerticalOffset);
-            }
-
-            private void HistoryRecent_ScrollChanged(object sender, ScrollChangedEventArgs e)
+        /*Name: Michael Figueroa
+        Function Name: HistoryRecent_ScrollChanged
+        Purpose: Event handler for HistoryRecent scrollchanged that keeps DataGrids in sync when scrolling 
+        Parameters: Auto-generated
+        Return Value: None
+        Local Variables: _listboxScrollViewer1 and _listboxScrollViewer2
+        Algorithm: ManTasks and HistoryRecent scrollviewers retrieved using GetDescendantByType; then vertical offset of _listboxScrollViewer2 is set to offset of _listboxScrollViewer1
+        in order to keep DataGrids in sync when scrolling
+        NOTE: This is also used in other windows such as ReportsWindow, so this may be better off in the helper.
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
+        private void HistoryRecent_ScrollChanged(object sender, ScrollChangedEventArgs e)
             {
                 ScrollViewer _listboxScrollViewer1 = GetDescendantByType(HistoryRecent, typeof(ScrollViewer)) as ScrollViewer;
                 ScrollViewer _listboxScrollViewer2 = GetDescendantByType(ManTasks, typeof(ScrollViewer)) as ScrollViewer;

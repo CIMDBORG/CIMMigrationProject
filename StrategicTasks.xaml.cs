@@ -26,8 +26,19 @@ namespace WpfApp1
         private string[] arr;     //local variable to store login-based user data
         public string connectionString = ConfigurationManager.ConnectionStrings["conString"].ConnectionString;//ConnectionString comes from App.config
         private DataRowView StrategicRow;       //local variable to store the row of data in the 'Business Cases' DataGrid
-        private string reportQuery;
+        private string reportQuery; //query used for excel export
 
+        /*Name: Michael Figueroa
+        Function Name: StrategicTasks
+        Purpose: StrategicTasks Constructor
+        Parameters: string[] user_data
+        Return Value: N/A
+        Local Variables: None
+        Algorithm: Calls FillStatusComboBox, sets StatusComboBox to index 0 and BindDataGrid
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         public StrategicTasks(string[] user_data)
         {
             InitializeComponent();
@@ -37,6 +48,19 @@ namespace WpfApp1
             BindDataGrid();
         }
 
+        /*Name: Michael Figueroa
+        Function Name: BindDataGrid
+        Purpose: Binds results from string query to the DataGrid
+        Parameters: string[] user_data
+        Return Value: N/A
+        Local Variables: string query, DataTable dt
+        Algorithm: if Status combobox is set to Open, then all Open strat tasks are queried; else if Completed is queried, all completed
+        are queried; else, the ones that are Not Assigned are queried; reportQuery is set equal to query; then, Sql binding occurs;
+        query results are used to fill DataTable dt, then Report DataGrid is binded to DataTable dt
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private void BindDataGrid()
         {
             using (SqlConnection con = new SqlConnection(connectionString))
@@ -91,6 +115,17 @@ namespace WpfApp1
                 }
         }
 
+        /*Name: Michael Figueroa
+        Function Name: FillStatusComboBox
+        Purpose: FillsStatusComboBox with strategic task statuses
+        Parameters: None
+        Return Value: N/A
+        Local Variables: None
+        Algorithm: None
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private void FillStatusComboBox()
         {
             StatusComboBox.Items.Add("Open");
@@ -98,6 +133,17 @@ namespace WpfApp1
             StatusComboBox.Items.Add("Not Assigned");
         }
 
+        /*Name: Michael Figueroa
+        Function Name: EditButton_Click
+        Purpose: Event handler for edit button click
+        Parameters: Auto-generated
+        Return Value: None
+        Local Variables: DataRowView agingItemsRow
+        Algorithm: The DataRow in which the Edit button was clicked is retrieved, and the EditRecord form is opened using that DataRowView in the constructor
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -116,12 +162,34 @@ namespace WpfApp1
             }
         }
 
+        /*Name: Michael Figueroa
+        Function Name: AddRecord_Click
+        Purpose: Event handler for add record button click
+        Parameters: Auto-generated
+        Return Value: None
+        Local Variables: None
+        Algorithm: None
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private void AddRecord_Click(object sender, RoutedEventArgs e)
         {
             NewRecord newRecord = new NewRecord(arr);
             newRecord.Show();
         }
 
+        /*Name: Michael Figueroa
+        Function Name: StatusComboBox_SelectionChanged
+        Purpose: Event handler for Status ComboBox selection changed event
+        Parameters: Auto-generated
+        Return Value: None
+        Local Variables: None
+        Algorithm: Calls BindDataGrid
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private void StatusComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             BindDataGrid();

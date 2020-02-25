@@ -25,7 +25,7 @@ namespace WpfApp2
         private DataRowView reportRow; //stores data from row clicked
         private string customQuery;  //variable to store query
         private string[] arr; //variable to store login-based user data
-        
+
         /*Name: Michael Figueroa
         Function Name: AdHoc
         Purpose: AdHoc Constructor
@@ -41,57 +41,32 @@ namespace WpfApp2
         {
             InitializeComponent();
             arr = user_data;
-
         }
-        //Author : Michael Figueroa
-        //Name: AdHoc.xaml.cs
-        //Function Name:
-        //Purpose: This is where the query is generated
-        //First, we determine where the query starts
-        //then, we append the appropriate conditions to the query based on what criteria are checked off (we add sys_impact to the where clause if systems are checked, same with 
-        //Category and etc.
-        //Parameters:
-        //Return Value: 
-        //Local Variables: 
-        //Algorithm: 
-        //Version: 
-        //Date modified: 
-        //Assistance Received: 
 
+        /*Name: Michael Figueroa
+        Function Name: AdHoc
+        Purpose: Returns ad hoc query based on user choices
+        Parameters: string[] user_data
+        Return Value: N/A
+        Local Variables: None
+        Algorithm: first, we determine where the query starts then, we append the appropriate conditions to the query based on what criteria are checked off (we add sys_impact to the where clause 
+        if systems are checked, same with Category and etc.
+        Get list of all categories that are checked, and then add to the query based on that
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private string ConstructCustomQuery()
         {
             string query = "SELECT ID, Priority_Number, Sys_Impact, [Status], Title, Supporting_Details, Internal_Notes, Mgr_Notes, Assigned_To FROM New_Issues WHERE " + DetermineQueryStart();
-            //Author : Michael Figueroa
-            //Name: AdHoc.xaml.cs
-            //Function Name:
-            //Purpose: the assigned_to textbox text is Parsed here, allowing the manager to filter by more than one user
-            //Parameters:
-            //Return Value: 
-            //Local Variables: 
-            //Algorithm: 
-            //Version: 
-            //Date modified: 
-            //Assistance Received: 
-
             string[] assigned = ParseString();
 
             StringBuilder sb = new StringBuilder(query);
-            //Author : Michael Figueroa
-            //Name: AdHoc.xaml.cs
-            //Function Name:
-            //Purpose: if assigned_to is more than one person, then we append OR keyword in the query in order to keep syntax correct
-            //Parameters:
-            //Return Value: 
-            //Local Variables: 
-            //Algorithm: 
-            //Version: 
-            //Date modified: 
-            //Assistance Received: 
             if (Assigned_ToCheckBox.IsChecked == true)
             {
-                for(int i = 0; i < assigned.Length; i++)
+                for (int i = 0; i < assigned.Length; i++)
                 {
-                    if(i != 0)
+                    if (i != 0)
                     {
                         sb.Append(" OR Assigned_To = ");
                     }
@@ -102,26 +77,16 @@ namespace WpfApp2
 
             if (StatusCheckBox.IsChecked == true)
             {
-                    sb.Append(" " + StatusQuery());
+                sb.Append(" " + StatusQuery());
             }
-            //Author : Michael Figueroa
-            //Name: AdHoc.xaml.cs
-            //Function Name:
-            //Purpose: Get list of all categories that are checked, and then add to the query based on that
-            //Parameters:
-            //Return Value: 
-            //Local Variables: 
-            //Algorithm: 
-            //Version: 
-            //Date modified: 
-            //Assistance Received: 
+           
             if (CategoryCheckBox.IsChecked == true)
             {
                 List<string> categoryFilters = CategoryQuery();
 
                 for (int i = 0; i < categoryFilters.Count; i++)
                 {
-                    if((DetermineQueryStart() != "(Category = ") && (i == 0))
+                    if ((DetermineQueryStart() != "(Category = ") && (i == 0))
                     {
                         sb.Append("AND (Category = ");
                     }
@@ -155,10 +120,10 @@ namespace WpfApp2
 
             if (ManagerMeetingCheckBox.IsChecked == true)
             {
-                    if ((DetermineQueryStart() != "(ManagerMeeting = 1"))
-                    {
-                        sb.Append("AND (ManagerMeeting = 1");
-                    }
+                if ((DetermineQueryStart() != "(ManagerMeeting = 1"))
+                {
+                    sb.Append("AND (ManagerMeeting = 1");
+                }
                 sb.Append(") ");
             }
 
@@ -185,17 +150,17 @@ namespace WpfApp2
             return sb.ToString();
         }
 
-        //Author : Michael Figueroa
-        //Name: AdHoc.xaml.cs
-        //Function Name:
-        //Purpose: Table is filled using the data from the customQuery
-        //Parameters:
-        //Return Value: 
-        //Local Variables: 
-        //Algorithm: 
-        //Version: 
-        //Date modified: 
-        //Assistance Received: 
+        /*Author : Michael Figueroa
+        Function Name: FillReportTable
+        Purpose: Table is filled using the data from the customQuery
+        Parameters: DataTable table
+        Return Value: None
+        Local Variables: None 
+        Algorithm: Table is filled using the data from the customQuery, then Report DataGrid filled with info from query generated
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/2020
+        Assistance Received: N/A
+        */
         private void FillReportTable(DataTable table)
         {
             using (SqlConnection con = new SqlConnection(connectionString))
@@ -204,25 +169,15 @@ namespace WpfApp2
                     con.Open();
                     SqlCommand cmd = new SqlCommand(ConstructCustomQuery(), con);
                     SqlDataAdapter sda = new SqlDataAdapter(cmd);
-                    //Author : Michael Figueroa
-                    //Name: AdHoc.xaml.cs
-                    //Function Name:
-                    //Purpose: fill report DataGrid with the query generated
-                    //Parameters:
-                    //Return Value: 
-                    //Local Variables: 
-                    //Algorithm: 
-                    //Version: 
-                    //Date modified: 
-                    //Assistance Received: 
+                  
                     using (sda)
                     {
                         sda.Fill(table);
                         Report.ItemsSource = table.DefaultView;
                         Report.Visibility = Visibility.Visible;
-                    }                                           
+                    }
                 }
-               
+
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.ToString());
@@ -233,32 +188,33 @@ namespace WpfApp2
                     con.Close();
                 }
         }
-        //Author : Michael Figueroa
-        //Name: AdHoc.xaml.cs
-        //Function Name:
-        //Purpose: Determine where the query should start after the WHERE keyword
-        //Parameters:
-        //Return Value: 
-        //Local Variables: 
-        //Algorithm: 
-        //Version: 
-        //Date modified: 
-        //Assistance Received: 
+        /*Author : Michael Figueroa
+        Function Name: DetermineQueryStart
+        Purpose: Determines start of the query
+        Parameters: None
+        Return Value: string
+        Local Variables: None 
+        Algorithm: if assigned_to is checked, then Assigned_to is the start of the query; else if status is checked, empty string is returned; else if category is checked, then category portion is returned;
+        else etc. etc.
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/2020
+        Assistance Received: N/A
+        */
         private string DetermineQueryStart()
         {
-            if(Assigned_ToCheckBox.IsChecked == true)
+            if (Assigned_ToCheckBox.IsChecked == true)
             {
                 return "(Assigned_To = ";
             }
-            else if(StatusCheckBox.IsChecked == true)
+            else if (StatusCheckBox.IsChecked == true)
             {
                 return "";
             }
-            else if(CategoryCheckBox.IsChecked == true)
+            else if (CategoryCheckBox.IsChecked == true)
             {
                 return "(Category = ";
             }
-            else if(SystemCheckBox.IsChecked == true)
+            else if (SystemCheckBox.IsChecked == true)
             {
                 return "(Sys_Impact = ";
             }
@@ -283,20 +239,22 @@ namespace WpfApp2
                 return null;
             }
         }
-        //Author : Michael Figueroa
-        //Name: AdHoc.xaml.cs
-        //Function Name:
-        //Purpose: Sets Visibility of the checkboxes that are under assigned_to, status, category, and system
-        //Parameters:
-        //Return Value: 
-        //Local Variables: 
-        //Algorithm: 
-        //Version: 
-        //Date modified: 
-        //Assistance Received: 
+
+        /*Author : Michael Figueroa
+        Function Name: SetVisiblity
+        Purpose: Sets Visibility of the checkboxes that are under assigned_to, status, category, and system
+        Parameters: None
+        Return Value: string
+        Local Variables: None 
+        Algorithm: if assigned_to is checked, then Assigned_to is the start of the query; else if status is checked, empty string is returned; else if category is checked, then category portion is returned;
+        else etc. etc.
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/2020
+        Assistance Received: N/A
+        */
         private void SetVisibility(CheckBox checkBox, StackPanel stack)
         {
-            if(checkBox.IsChecked == true)
+            if (checkBox.IsChecked == true)
             {
                 stack.Visibility = Visibility.Visible;
             }
@@ -307,6 +265,17 @@ namespace WpfApp2
             }
         }
 
+        /*Author : Michael Figueroa
+        Function Name: SetVisiblity
+        Purpose: Sets Visibility of a TextBox 
+        Parameters: None
+        Return Value: string
+        Local Variables: None 
+        Algorithm: if the checkbox for the appropriate TextBox text is checked, then text is visible; else, it is not
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/2020
+        Assistance Received: N/A
+        */
         private void SetVisibility(CheckBox checkBox, TextBox text)
         {
             if (checkBox.IsChecked == true)
@@ -318,26 +287,38 @@ namespace WpfApp2
                 text.Visibility = Visibility.Collapsed;
             }
         }
-        //Author : Michael Figueroa
-        //Name: AdHoc.xaml.cs
-        //Function Name:
-        //Purpose: Assigned_To textbox is parsed into an array of strings in order to be able to generate a report of more than one person
-        //Parameters:
-        //Return Value: 
-        //Local Variables: 
-        //Algorithm: 
-        //Version: 
-        //Date modified: 
-        //Assistance Received: 
+
+        /*Author : Michael Figueroa
+        Function Name: ParseString
+        Purpose: parses the Assigned_To_Text string using char[] delimiter 
+        Parameters: None
+        Return Value: string[]
+        Local Variables: string assignedToString, char [] delimter, string[] assignedTo
+        Algorithm: assignedToString is split using delimiter
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/2020
+        Assistance Received: N/A
+        */
         private string[] ParseString()
         {
             string assignedToString = Assigned_To_Text.Text.ToString();
-            char[] delimiter = new char[] { '/', ';', ',', ' '};
+            char[] delimiter = new char[] { '/', ';', ',', ' ' };
             string[] assignedTo = assignedToString.Split(delimiter);
             return assignedTo;
         }
 
-       
+        /*Author : Michael Figueroa
+        Function Name: StatusFilters
+        Purpose: returns a list of StatusFilters; I don't feel this is necessary, this may be better off as a variable 
+        Parameters: None
+        Return Value: List<string> statusesChosen
+        Local Variables: List<string> statusesChosen
+        Algorithm: assignedToString is split using delimiter
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/2020
+        Assistance Received: N/A
+        */
+
         private List<string> StatusFilters()
         {
             List<string> statusesChosen = new List<string>();
@@ -347,18 +328,19 @@ namespace WpfApp2
             statusesChosen.Add("Deferred");
             return statusesChosen;
         }
-        //Author : Michael Figueroa
-        //Name: AdHoc.xaml.cs
-        //Function Name:
-        //Purpose: Both system and category filter methods check the system checkboxes and add whichever ones are checked to the report
-        //System has two stackpanels, thus we have to check both SystemStack and SystemStackTwo to see which systems shall be included in the report
-        //Parameters:
-        //Return Value: 
-        //Local Variables: 
-        //Algorithm: 
-        //Version: 
-        //Date modified: 
-        //Assistance Received: 
+
+        /*Author : Michael Figueroa
+        Function Name: SystemFilter
+        Purpose: returns a list of systemFilters
+        Parameters: None
+        Return Value: List<string> statusesChosen
+        Local Variables: None
+        Algorithm: checkBox content added to systemFilters if var item is a CheckBox that is checked - there are two columns on the form with System combobox options,
+        so there are two foreach loops for each seperate column
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/2020
+        Assistance Received: N/A
+        */
         private List<string> SystemFilter()
         {
             List<string> systemFilters = new List<string>();
@@ -367,7 +349,7 @@ namespace WpfApp2
             foreach (var item in children)
             {
                 var checkBox = item as CheckBox;
-                if(checkBox.IsChecked == true)
+                if (checkBox.IsChecked == true)
                 {
                     systemFilters.Add(checkBox.Content.ToString());
                 }
@@ -386,6 +368,17 @@ namespace WpfApp2
             return systemFilters;
         }
 
+        /*Author : Michael Figueroa
+        Function Name: CategoryQuery
+        Purpose: returns a list of category filters for the query
+        Parameters: None
+        Return Value: List<string> categoryFilters
+        Local Variables: List<string> categoryFilters
+        Algorithm: foreach checkbox item in children (children in this case is StackPanel named CategoryStack), if the checkbox is checked, the category string is added
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/2020
+        Assistance Received: N/A
+        */
         private List<string> CategoryQuery()
         {
             List<string> categoryFilters = new List<string>();
@@ -402,38 +395,40 @@ namespace WpfApp2
             }
             return categoryFilters;
         }
-        //Author : Michael Figueroa
-        //Name: AdHoc.xaml.cs
-        //Function Name:
-        //Purpose: If the user would like to generate a report with closed or open, then this would be done here
-        //statuses list is a list of implemented, dropped, deferred, closed
-        //If assigned_to is also checked, then we need to add the AND keyword before beginning the query to avoid sql error
-        //Parameters:
-        //Return Value: 
-        //Local Variables: 
-        //Algorithm: 
-        //Version: 
-        //Date modified: 
-        //Assistance Received: 
+
+        /*Author : Michael Figueroa
+        Function Name: StatusQuery
+        Purpose: returns string used for Status condition in where clause
+        Parameters: None
+        Return Value: string
+        Local Variables: List<string> statuses
+        Algorithm: if both OpenedCheckBox and Assigned_ToCheckBox are checked, then the items that are not closed are queried; else, the items that are closed
+        are queried. Else if both closed and assigned to checkboxes are checked, the closed issues are queried; else if opened is checked but assigned_to are closed,
+        then the closed ones are not queried, else if closed is checked but assigned to is not checked, then all closed issues are queried; else, null returned.
+        This if-else clause can definitely be simplified.
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/2020
+        Assistance Received: N/A
+        */
         private string StatusQuery()
         {
             List<string> statuses;
             statuses = StatusFilters();
-            if(OpenedCheckBox.IsChecked == true && Assigned_ToCheckBox.IsChecked == true)
+            if (OpenedCheckBox.IsChecked == true && Assigned_ToCheckBox.IsChecked == true)
             {
                 return "AND (New_Issues.[Status] != '" + statuses[0] + "' AND New_Issues.[Status] != '" + statuses[1] + "' AND New_Issues.[Status] != '" + statuses[2] + "' AND New_Issues.[Status] != '" + statuses[3] + "') ";
             }
 
-            else if(ClosedCheckBox.IsChecked == true && Assigned_ToCheckBox.IsChecked == true)
+            else if (ClosedCheckBox.IsChecked == true && Assigned_ToCheckBox.IsChecked == true)
             {
                 return "AND (New_Issues.[Status] = '" + statuses[0] + "' OR New_Issues.[Status] = '" + statuses[1] + "' OR New_Issues.[Status] = '" + statuses[2] + "' OR New_Issues.[Status] = '" + statuses[3] + "') ";
             }
 
             else if (OpenedCheckBox.IsChecked == true && Assigned_ToCheckBox.IsChecked == false)
             {
-                return " (New_Issues.[Status] != '" + statuses[0] + "' AND New_Issues.[Status] != '" + statuses[1] + "' AND New_Issues.[Status] != '" + statuses[2] + "' AND New_Issues.[Status] != '" + statuses[3] + "') "; 
+                return " (New_Issues.[Status] != '" + statuses[0] + "' AND New_Issues.[Status] != '" + statuses[1] + "' AND New_Issues.[Status] != '" + statuses[2] + "' AND New_Issues.[Status] != '" + statuses[3] + "') ";
             }
-            else if(ClosedCheckBox.IsChecked == true && Assigned_ToCheckBox.IsChecked == false)
+            else if (ClosedCheckBox.IsChecked == true && Assigned_ToCheckBox.IsChecked == false)
             {
                 return " (New_Issues.[Status] = '" + statuses[0] + "' OR New_Issues.[Status] = '" + statuses[1] + "' OR New_Issues.[Status] = '" + statuses[2] + "' OR New_Issues.[Status] = '" + statuses[3] + "') ";
             }
@@ -442,47 +437,52 @@ namespace WpfApp2
                 return null;
             }
         }
-        //Author : Michael Figueroa
-        //Name: AdHoc.xaml.cs
-        //Function Name:
-        //Purpose: Sets checkbox value = false if the user accidently leaves it checked AND the user has not selected an option below it i.e system or category
-        //Parameters:
-        //Return Value: 
-        //Local Variables: 
-        //Algorithm: 
-        //Version: 
-        //Date modified: 
-        //Assistance Received: 
+
+        /*Author : Michael Figueroa
+        Function Name: SetCheckboxes
+        Purpose: returns string used for Status condition in where clause
+        Parameters: None
+        Return Value: string
+        Local Variables: List<string> statuses
+        Algorithm: if both OpenedCheckBox and Assigned_ToCheckBox are checked, then the items that are not closed are queried; else, the items that are closed
+        are queried. Else if both closed and assigned to checkboxes are checked, the closed issues are queried; else if opened is checked but assigned_to are closed,
+        then the closed ones are not queried, else if closed is checked but assigned to is not checked, then all closed issues are queried; else, null returned.
+        This if-else clause can definitely be simplified.
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/2020
+        Assistance Received: N/A
+        */
         private void SetCheckboxes()
         {
-            if(SystemFilter().Count == 0)
+            if (SystemFilter().Count == 0)
             {
                 SystemCheckBox.IsChecked = false;
             }
-            if(CategoryQuery().Count == 0)
+            if (CategoryQuery().Count == 0)
             {
                 CategoryCheckBox.IsChecked = false;
             }
-            if(String.IsNullOrWhiteSpace(Assigned_To_Text.ToString()))
+            if (String.IsNullOrWhiteSpace(Assigned_To_Text.ToString()))
             {
                 Assigned_ToCheckBox.IsChecked = false;
             }
-            if(StatusQuery() == null)
+            if (StatusQuery() == null)
             {
                 StatusCheckBox.IsChecked = false;
             }
         }
-        //Author : Michael Figueroa
-        //Name: AdHoc.xaml.cs
-        //Function Name:
-        //Purpose: Button collapses the report wizard, and brings up the report that the user wanted generated
-        //Parameters:
-        //Return Value: 
-        //Local Variables: 
-        //Algorithm: 
-        //Version: 
-        //Date modified: 
-        //Assistance Received: 
+
+        /*Author : Michael Figueroa
+        Function Name: GenerateReport_Click
+        Purpose: Event handler for the generate report click button
+        Parameters: None
+        Return Value: None
+        Local Variables: DataTable report
+        Algorithm: Calls SetCheckboxes, FillReportTable, then sets Back.Visibility to visible and collapses the generate report button
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/2020
+        Assistance Received: N/A
+        */
         private void GenerateReport_Click(object sender, RoutedEventArgs e)
         {
             ReportGenerator.Visibility = Visibility.Collapsed;
@@ -492,45 +492,24 @@ namespace WpfApp2
             Back.Visibility = Visibility.Visible;
             GenerateReport.Visibility = Visibility.Collapsed;
         }
-        //Author : Michael Figueroa
-        //Name: AdHoc.xaml.cs
-        //Function Name:
-        //Purpose: This leads to edit record, allows user to scroll through each status in the report using arrows
-        //Parameters:
-        //Return Value: 
-        //Local Variables: 
-        //Algorithm: 
-        //Version: 
-        //Date modified: 
-        //Assistance Received: 
+
+        /*Name: Michael Figueroa
+        Function Name: EditButton_Click
+        Purpose: Event handler for edit button click
+        Parameters: Auto-generated
+        Return Value: None
+        Local Variables: DataRowView agingItemsRow
+        Algorithm: The DataRow in which the Edit button was clicked is retrieved, and the EditRecord form is opened using that DataRowView in the constructor
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private void EditRecord_Click(object sender, RoutedEventArgs e)
         {
             try
-            {//Author : Michael Figueroa
-             //Name: AdHoc.xaml.cs
-             //Function Name:
-             //Purpose: On Edit Button click, pulls the data from that row of the datagrid, and stores it as a DataRowView object
-             //Parameters:
-             //Return Value: 
-             //Local Variables: 
-             //Algorithm: 
-             //Version: 
-             //Date modified: 
-             //Assistance Received: 
+            {
                 reportRow = (DataRowView)((Button)e.Source).DataContext;
                 List<int> IDArray = Helper.FillIDList(customQuery);
-                //Author : Michael Figueroa
-                //Name: AdHoc.xaml.cs
-                //Function Name:
-                //Purpose: this PrioritizeBySystemPage, is being passed so it can be updated
-                //priorBySystemRow is a DataRowView object containing the data from that row of PBS datagrid
-                //Parameters:
-                //Return Value: 
-                //Local Variables: 
-                //Algorithm: 
-                //Version: 
-                //Date modified: 
-                //Assistance Received: 
                 EditRecord editRecord = new EditRecord(this, arr, reportRow, IDArray);
                 editRecord.Show();
             }
@@ -539,48 +518,83 @@ namespace WpfApp2
                 MessageBox.Show(ex.Message.ToString());
             }
         }
-        //Author : Michael Figueroa
-        //Name: AdHoc.xaml.cs
-        //Function Name:
-        //Purpose: Rest of these methods set visibility of the checkboxes under Assigned_To, Status, Category, and System
-        //Parameters:
-        //Return Value: 
-        //Local Variables: 
-        //Algorithm: 
-        //Version: 
-        //Date modified: 
-        //Assistance Received: 
+
+        /*Author : Michael Figueroa
+        Function Name: StatusCheckBox_Click
+        Purpose: Event handler for statuscheckboxclick
+        Parameters: Auto-Generated
+        Return Value: None
+        Local Variables: None
+        Algorithm: Calls SetVisibility
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/2020
+        Assistance Received: N/A
+        */
         private void StatusCheckBox_Click(object sender, RoutedEventArgs e)
         {
             SetVisibility(StatusCheckBox, StatusCheckBoxes);
         }
 
+        /*Author : Michael Figueroa
+        Function Name: Assigned_ToCheckBox_Click
+        Purpose: Event handler for Assigned_ToCheckBox
+        Parameters: Auto-Generated
+        Return Value: None
+        Local Variables: None
+        Algorithm: Calls SetVisibility
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/2020
+        Assistance Received: N/A
+        */
         private void Assigned_ToCheckBox_Click(object sender, RoutedEventArgs e)
         {
             SetVisibility(Assigned_ToCheckBox, Assigned_To_Text);
         }
 
+        /*Author : Michael Figueroa
+        Function Name: CategoryCheckBox_Click
+        Purpose: Event handler for CategoryCheckBox
+        Parameters: Auto-Generated
+        Return Value: None
+        Local Variables: None
+        Algorithm: Calls SetVisibility
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/2020
+        Assistance Received: N/A
+        */
         private void CategoryCheckBox_Click(object sender, RoutedEventArgs e)
         {
             SetVisibility(CategoryCheckBox, CategoryStack);
         }
 
+        /*Author : Michael Figueroa
+        Function Name: SystemCheckBox_Click
+        Purpose: Event handler for SystemCheckBox
+        Parameters: Auto-Generated
+        Return Value: None
+        Local Variables: None
+        Algorithm: Calls SetVisibility twice (once for the first stackpanel of systems, once for the other)
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/2020
+        Assistance Received: N/A
+        */
         private void SystemCheckBox_Click(object sender, RoutedEventArgs e)
         {
             SetVisibility(SystemCheckBox, SystemsStack);
             SetVisibility(SystemCheckBox, SystemStackTwo);
         }
-        //Author : Michael Figueroa
-        //Name: AdHoc.xaml.cs
-        //Function Name:
-        //Purpose: Manager clicks this to go back to the report wizard
-        //Parameters:
-        //Return Value: 
-        //Local Variables: 
-        //Algorithm: 
-        //Version: 
-        //Date modified: 
-        //Assistance Received: 
+
+        /*Author : Michael Figueroa
+        Function Name: Back_Click
+        Purpose: Event handler for Back button click
+        Parameters: None
+        Return Value: None
+        Local Variables: None
+        Algorithm: Sets the form back to default values
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/2020
+        Assistance Received: N/A
+        */
         private void Back_Click(object sender, RoutedEventArgs e)
         {
             ReportGenerator.Visibility = Visibility.Visible;
@@ -589,6 +603,18 @@ namespace WpfApp2
             GenerateReport.Visibility = Visibility.Visible;
         }
 
+        /*Author : Michael Figueroa
+        Function Name: ManagerMeetingCheckBox_Click
+        Purpose: Event handler for ManagerMeetingCheckBox click event
+        Parameters: Auto-Generated
+        Return Value: None
+        Local Variables: var childrenTwo - contains the list of elements within StatusCheckBoxes stackpanel
+        Algorithm: Sets stauscheckbox to checked, StatusCheckBoxes becomes visible, then foreach item in childrenTwo, is checkBox.name
+        is OpenedCheckBox, then openedcheckbox is checked. - Not sure why I set it this way, pls look into this.
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/2020
+        Assistance Received: N/A
+        */
         private void ManagerMeetingCheckBox_Click(object sender, RoutedEventArgs e)
         {
             StatusCheckBox.IsChecked = true;
@@ -604,16 +630,6 @@ namespace WpfApp2
                     checkBox.IsChecked = true;
                 }
             }
-        }
-
-        private void UpdateNeeded_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void ManagerReview_Click(object sender, RoutedEventArgs e)
-        {
-
         }
     }
 }

@@ -32,20 +32,23 @@ namespace WpfApp1
         private DataRowView histRow;    //DataRowView variable that stores the row from the History data that is displayed on the edit form. It is sent here on row double-click.
         private bool isNewStatus;       //Local boolean value that checks if the user is trying to add a new status (true) or edit an existing status (false)
         private EditRecord form;        //Holds the parent EditRecord window currently Open in the applicaiton, which will be updated once the status is added/edited
-        private WeeklyReviewApps weeklyReviewForm;
+        private WeeklyReviewApps weeklyReviewForm; 
         private int IDnum;                      //local variable to store issue ID number
-        private bool isWeekly;
+        private bool isWeekly; //bool that determines whether this form is being accessed from a WeeklyReviewApps form
         private int currentID;    //DataRowView variable that stores the row from the History data that is displayed on the edit form. It is sent here on row double-click.
 
 
-        //*******************************************************************
-        // DESCRIPTION: Constructor for AddEditStatus that can only be called when "Add a Status" is clicked in the EditRecord form.
-        //              Does not pre-populate any fields aside from today's date.
-        //              Sets isNewStatus to true.
-        //
-        // INPUT:       EditRecord editRecord: this is the parent EditRecord Window on which the "Add a status" button was clicked.
-        //              DataRowView priorBySystemRow: this is the prioritizationBysystem row that contains the data used to query for & populate the parent EdiRecord form
-        //*******************************************************************
+        /*Name: Michael Figueroa
+        Function Name: EditRecord_AddEditStatus
+        Purpose: EditRecord_AddEditStatus Constructor for
+        Parameters: EditRecord editRecord, int ID
+        Return Value: None
+        Local Variables: None
+        Algorithm: None
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         public EditRecord_AddEditStatus(EditRecord editRecord, int ID)
         {
             InitializeComponent();
@@ -61,6 +64,17 @@ namespace WpfApp1
             Updated.Visibility = Visibility.Collapsed;
         }
 
+        /*Name: Michael Figueroa
+        Function Name: EditRecord_AddEditStatus
+        Purpose: EditRecord_AddEditStatus Constructor when accessed from WeeklyReviewApps form
+        Parameters: WeeklyReviewApps weeklyReview, int ID
+        Return Value: None
+        Local Variables: None
+        Algorithm: None
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         public EditRecord_AddEditStatus(WeeklyReviewApps weeklyReview, int ID)
         {
             InitializeComponent();
@@ -76,16 +90,17 @@ namespace WpfApp1
             Updated.Visibility = Visibility.Collapsed;
         }
 
-
-        //*******************************************************************
-        // DESCRIPTION: Constructor for AddEditStatus that can only be called when an existing row in the datagrid of the EditRecord form is double-clicked.
-        //              Does not pre-populate any fields aside from today's date.
-        //              Sets isNewStatus to false.
-        //
-        // INPUT:       EditRecord editRecord: this is the parent EditRecord Window on which the "Add a status" button was clicked.
-        //              DataRowView priorBySystemRow: this is the prioritizationBysystem row that contains the data used to query for & populate the parent EdiRecord form
-        //              DataRowView statusDataRow: this is the row in EditRecord form that was double-clicked on to call this constructor and pre-populate this form.
-        //*******************************************************************
+        /*Name: Michael Figueroa
+        Function Name: EditRecord_AddEditStatus
+        Purpose: EditRecord_AddEditStatus Constructor when accessed from a double-click on the history datagrid on the EditRecord form
+        Parameters: EditRecord editRecord, int ID, DataRowView statusDataRow
+        Return Value: None
+        Local Variables: None
+        Algorithm: None
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         public EditRecord_AddEditStatus(EditRecord editRecord, int ID, DataRowView statusDataRow)
         {
             InitializeComponent();
@@ -113,6 +128,17 @@ namespace WpfApp1
             Updated.Visibility = Visibility.Collapsed;
         }
 
+        /*Name: Michael Figueroa
+        Function Name: EditRecord_AddEditStatus
+        Purpose: EditRecord_AddEditStatus Constructor when accessed from a double-click on the history datagrid on the WeeklyReviewApps form
+        Parameters: WeeklyReviewApps weeklyReview, int ID, DataRowView statusDataRow
+        Return Value: None
+        Local Variables: None
+        Algorithm: None
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         public EditRecord_AddEditStatus(WeeklyReviewApps weeklyReview, int ID, DataRowView statusDataRow)
         {
             InitializeComponent();
@@ -140,7 +166,17 @@ namespace WpfApp1
             Updated.Visibility = Visibility.Collapsed;
         }
 
-
+        /*Name: Michael Figueroa
+        Function Name: Fill_HistoryStatusComboBox
+        Purpose: Fills HistoryStatusComboBox
+        Parameters: None
+        Return Value: None
+        Local Variables: None
+        Algorithm: None
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private void Fill_HistoryStatusComboBox()
         {
             HistoryStatusComboBox.Items.Add("Item Not Assigned");
@@ -155,8 +191,17 @@ namespace WpfApp1
             HistoryStatusComboBox.Items.Add("Resolved");
         }
 
-
-        // Asks user to confirm that they wish to leave the form if they click 'Cancel'
+        /*Name: Michael Figueroa
+        Function Name: CancelButton_Click
+        Purpose: Event Handler for cancel button
+        Parameters: Auto-Generated
+        Return Value: None
+        Local Variables: MessageBoxResult messageBoxResult
+        Algorithm: If OK is selected, then the form is closed
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
             MessageBoxResult messageBoxResult = MessageBox.Show("Exit form? All information entered will be cleared.", "Cancel Confirmation", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
@@ -167,12 +212,19 @@ namespace WpfApp1
         }
 
 
-
-        //*******************************************************************
-        // DESCRIPTION: Runs when the user clicks the 'Submit' button. Checks if isNewStatus is true or false.
-        //              If isNewStatus is true, it will run an insert query into the History table since the user is adding a new status.
-        //              if isNewStatus is false, it will run an update query to the History table since the user is editing an existing status.
-        //*******************************************************************
+        /*Name: Michael Figueroa
+        Function Name: SubmitIssueButton_Click
+        Purpose: Event Handler for Submit button
+        Parameters: Auto-Generated
+        Return Value: None
+        Local Variables: insertQuery
+        Algorithm: If this is a new status, then insertQuery is initialzied and the SQL connection is established; try-catch block; if not accessed from weeklyReviewApps, then SQL insertQuery is executed and form.BindDataGrid
+        is called using the TaskNum of this issue (form being an EditRecord object); else, BindDataGrid is called using the weeklyReviewForm object 
+        Else, if not a new status, updateQuery is executed instead on the already existing History record
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private void SubmitIssueButton_Click(object sender, RoutedEventArgs e)
         {
             if (isNewStatus)
@@ -249,11 +301,33 @@ namespace WpfApp1
             }
         }
 
+        /*Name: Michael Figueroa
+       Function Name: GetStatus
+       Purpose: Getter that retrieves the current Status chosen from the HistoryStatusComboBox
+       Parameters: None
+       Return Value: None
+       Local Variables: None
+       Algorithm: None
+       Version: 2.0.0.4
+       Date modified: Prior to 1/1/20
+       Assistance Received: N/A
+       */
         private string GetStatus()
         {
             return HistoryStatusComboBox.SelectedItem.ToString();
         }
 
+        /*Name: Michael Figueroa
+       Function Name: Update_Planned_Date
+       Purpose: Sets planned date to today's date; this is used when Status is changed to resolved
+       Parameters: string TaskNum
+       Return Value: None
+       Local Variables: query
+       Algorithm: Sets Due_Date to today's date for the specified New_Issues record
+       Version: 2.0.0.4
+       Date modified: Prior to 1/1/20
+       Assistance Received: N/A
+       */
         private void Update_Planned_Date(string TaskNum)
         {
             string query = "UPDATE New_Issues SET Due_Date = GETDATE() WHERE ID = " + TaskNum + ";";
@@ -264,7 +338,19 @@ namespace WpfApp1
             dateUpdate.ExecuteNonQuery();
         }
 
-        // Runs the Insert query to the history table for the new status being added
+      /*Name: Michael Figueroa
+      Function Name: Insert_HistoryTable
+      Purpose: Runs the Insert query to the history table for the new status being added
+      Parameters: string TaskNum
+      Return Value: None
+      Local Variables: TaskNum, date, stusnt, query
+      Algorithm: Sets Due_Date to today's date for the specified New_Issues record if the Status is set to Scheduled Implementation, then DataGrid is re-binded by calling BindDataGrid (if the status is not accessed through weekly
+      form, then the BindDataGrid from the edit form is used, else, the weeklyReviewApps one is used
+      Catch block: if not a null reference exception, then user is notified they must choose a status from dropdown
+      Version: 2.0.0.4
+      Date modified: Prior to 1/1/20
+      Assistance Received: N/A
+      */
         private string Insert_HistoryTable()
         {              
             try
@@ -276,9 +362,6 @@ namespace WpfApp1
                 string query = "INSERT INTO History (TaskNum, EntryDate, [Status], New_StatusNote) " +
                             "VALUES (" + TaskNum + ", '" + date + "','" + stusnt.Replace("'", "\''") + "','" + GetStatus() + "');";
 
-
-                //Automatically changes Planned Date to current date if scheduled implementation is chosen as status
-                //CHanges back to null otherwise
                 if (GetStatus() == "Scheduled Implementation")
                 {
                     Update_Planned_Date(TaskNum);
@@ -307,8 +390,20 @@ namespace WpfApp1
             }
             return null;
          }
-        
-        // Runs an uodate query to the history table to make changes to the already-existing status
+
+        /*Name: Michael Figueroa
+        Function Name: Update_HistoryTable
+        Purpose: Runs the Update query to the history table for the current status being edited
+        Parameters: none
+        Return Value: string
+        Local Variables: TaskNum, date, stusnt, histID, query
+        Algorithm: assigns values to local variables, then, Sets Due_Date to today's date for the specified New_Issues record if the Status is set to Scheduled Implementation, then DataGrid is re-binded by calling 
+        BindDataGrid (if the status is not accessed through weekly form, then the BindDataGrid from the edit form is used, else, the weeklyReviewApps one is used) 
+        Catch block: if not a null reference exception, then user is notified they must choose a status from dropdown
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private string Update_HistoryTable()
         {
                     string TaskNum = currentID.ToString();
@@ -348,6 +443,18 @@ namespace WpfApp1
             }
         }
 
+
+        /*Name: Michael Figueroa
+        Function Name: DeleteIssueButton_Click
+        Purpose: Deletes current status chosen
+        Parameters: Auto-Generated
+        Return Value: None
+        Local Variables: TaskNum, query
+        Algorithm: Routine SQL execution, then if not accessed through weekly, BindDataGrid EditRecord method used, else, the one from weekly is used.
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private void DeleteIssueButton_Click(object sender, RoutedEventArgs e)
         {
             try

@@ -23,10 +23,10 @@ namespace WpfApp1
     /// </summary>
     public partial class BrowseOpenItems : Page
     {
-        public string connectionString = ConfigurationManager.ConnectionStrings["conString"].ConnectionString;
+        public string connectionString = ConfigurationManager.ConnectionStrings["conString"].ConnectionString; //sql connectionstring; see app.config for details
         private string[] arr;                       //local variable to store login-based user data
         private DataRowView priorBySystemRow;       //local variable to store the row of data in the 'Prioritization by System' DataGrid
-        private string reportQuery;
+        private string reportQuery; //query used for excel export
 
         /*Name: Michael Figueroa
         Function Name: BrowseOpenItems

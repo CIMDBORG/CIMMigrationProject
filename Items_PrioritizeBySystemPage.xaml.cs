@@ -22,11 +22,11 @@ namespace WpfApp1
 {
     public partial class Items_PrioritizeBySystemPage : Page
     {
-        public string connectionString = ConfigurationManager.ConnectionStrings["conString"].ConnectionString;
+        public string connectionString = ConfigurationManager.ConnectionStrings["conString"].ConnectionString; //SQL Connection string; see App.config
         private string[] arr;                       //local variable to store login-based user data
         private DataRowView priorBySystemRow;       //local variable to store the row of data in the 'Prioritization by System' DataGrid
         private string reportQuery;
-        private bool includeStrategicTasks = false;
+        private bool includeStrategicTasks = false; //bool used to determine if strat tasks are included or not
 
         /*Name: Michael Figueroa
         Function Name: Items_PrioritizeBySystemPage

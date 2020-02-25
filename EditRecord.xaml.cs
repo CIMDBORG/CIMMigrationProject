@@ -26,13 +26,12 @@ namespace WpfApp1
     //*******************************************************************
     public partial class EditRecord : Window
     {
-        public String connectionString = ConfigurationManager.ConnectionStrings["conString"].ConnectionString;
+        public String connectionString = ConfigurationManager.ConnectionStrings["conString"].ConnectionString; //SQL Connection string; see app.config
         private DataRowView priorBySystemRow;           //holds data sent here by row that was clicked 
         private string[] arr;                           //holds login-based user data
         private string[] issue_data;                    //Holds the data about the issue, that will be used to populate the form when it loads
         private Page page;      //Holds the parent prioritization by system page currenty open in the application, which will be updated when the issue is edited.
-        private List<int> IDList;
-
+        private List<int> IDList; //ID List containing every ID number from each item in DataRowView priorRow
         //*******************************************************************
         // DESCRIPTION: Initializes the EditRecord window, using login-based and PBS data. It calls other functions that fill in the form with existing data.
         //              Also takes as parameter the parent PBS page, where updates will be visible after the edits are made.
@@ -153,11 +152,11 @@ namespace WpfApp1
 
        /*Name: Michael Figueroa
        Function Name: SetInitialIDTextBox
-       Purpose: Setter Method
-       Parameters: string[] user_data, DataRowView priorRow, List<int> IDListOriginal
+       Purpose: Setter Method - sets CurrentIssue.Text
+       Parameters: None
        Return Value: N/A
        Local Variables: None
-       Algorithm: Assigns global variables based on values passed by parameters in the constructor, calls methods, then collapses the blue updated label
+       Algorithm: int parses GetIssueID value, then returns the value of that + 1
        Version: 2.0.0.4
        Date modified: Prior to 1/1/20
        Assistance Received: N/A
@@ -1247,7 +1246,6 @@ namespace WpfApp1
         Date modified: Prior to 1/1/20
         Assistance Received: N/A
         */
-        //*******************************************************************
         public void BindDataGrid(string TaskNum)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))

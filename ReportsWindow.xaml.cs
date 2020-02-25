@@ -33,10 +33,21 @@ namespace WpfApp1
         private string[] arr;                       //local variable to store login-based user data
         private DataRowView reportRow;       //local variable to store the row of data in the from a specific row in the Report DataGrid
         private bool fullHistoryChosen = false; //hides the FullHistory DataGrid by default 
-        private bool includeCIM;
-        private bool includeStratTasks;
+        private bool includeCIM; //bool that indicates whether to include CIM issues on report
+        private bool includeStratTasks; //bool that indicates whether to include Strategic Tasks on report
 
-        //Fills comboBox information, sets default report to Aging Items/All Systems, generates query to produce report
+        /*Name: Michael Figueroa
+        Function Name: ReportsWindow
+        Purpose: Constructor for ReportsWindow
+        Parameters: string[] user_data
+        Return Value: N/A
+        Local Variables: None
+        Algorithm: Calls FillReportComboBox, FillSystemComboBox, FillStatusComboBox, sets all three comboboxes to index 0,
+        Collapses Report DataGrid, because aging items report is first report that pops up when form loads
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         public ReportsWindow(string[] user_data)
         {
             InitializeComponent();
@@ -47,7 +58,6 @@ namespace WpfApp1
             SystemComboBox.SelectedIndex = 0;
             ReportComboBox.SelectedIndex = 0;
             StatusComboBox.SelectedIndex = 0;
-            //Collapses all DataGrids until a system is chosen from the Combo Box
             Report.Visibility = Visibility.Collapsed;
         }
 
@@ -57,13 +67,35 @@ namespace WpfApp1
         //              This will become important as the system chosen here drives the results of the query on this page.
         //*******************************************************************
 
-        //Fills the ReportComboBox with the appropriate report options that the user has
+        /*Name: Michael Figueroa
+        Function Name: FillReportComboBox
+        Purpose: Fills the ReportComboBox with the appropriate report options that the user has
+        Parameters: None
+        Return Value: N/A
+        Local Variables: None
+        Algorithm: None
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private void FillReportComboBox()
         {
             ReportComboBox.Items.Add("Aging Items");
             ReportComboBox.Items.Add("Application Priority Report");
         }
 
+        /*Name: Michael Figueroa
+        Function Name: FillStatusComboBox
+        Purpose: Fills the StatusComboBox with the appropriate status options
+        Parameters: None
+        Return Value: N/A
+        Local Variables: None
+        Parameters: None
+        Algorithm: None - This is no longer needed, same method is in ReportHelper.cs
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private void FillStatusComboBox()
         {
             StatusComboBox.Items.Add("All");
@@ -74,6 +106,18 @@ namespace WpfApp1
             StatusComboBox.Items.Add("BC Approved");
         }
 
+        /*Name: Michael Figueroa
+        Function Name: StatusComboBox_SelectionChanged
+        Purpose: Event handler for StatusComboBox selectionChanged
+        Parameters: Auto-Generated
+        Return Value: N/A
+        Local Variables: None
+        Parameters: None
+        Algorithm: Calls BindDataGrid
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private void StatusComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             try
@@ -94,7 +138,20 @@ namespace WpfApp1
             }
         }
 
-        //Controls the visibility settings for the datagrids and buttons as the combo box is changed
+        /*Name: Michael Figueroa
+        Function Name: StatusComboBox_SelectionChanged
+        Purpose: Event handler for StatusComboBox selectionChanged;Controls the visibility settings for the datagrids
+        and buttons as the combo box is changed
+        Parameters: Auto-Generated
+        Return Value: N/A
+        Local Variables: None
+        Parameters: None
+        Algorithm: Calls BindDataGrid; if the report chosen is agingItems, then the HistoryRecent column width is set at 600;
+        else, it is set to 490. 
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private void ReportComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             try
@@ -123,9 +180,19 @@ namespace WpfApp1
             }
         }
 
-        //fills the system combobox based on the systems that the current user logged in works in i.e CRIS, eBilling, etc.
-        //everyone is allowed access to reports with issues in CIM
-
+        /*Name: Michael Figueroa
+        Function Name: FillSystemComboBox
+        Purpose: fills the system combobox based on the systems that the current user logged in works in i.e CRIS, eBilling, etc.
+        Parameters: string systemString
+        Return Value: N/A
+        Local Variables: char delimiter, string[] sys, int len
+        Parameters: None
+        Algorithm: if arr[6] equals user, Fills SystemComboBox with the systems that user is assigned to in Systems column
+        in New_Contacts table.
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private void FillSystemComboBox(string systemString)
         {
             if (arr[6] == "User")
@@ -146,18 +213,50 @@ namespace WpfApp1
             }
         }
 
-        //accessor method that returns a string that says what current system the user has chosen from the SystemComboBox
+        /*Name: Michael Figueroa
+        Function Name: SystemChosen
+        Purpose: accessor method that returns a string that says what current system the user has chosen from the SystemComboBox
+        Return Value: string
+        Local Variables: None
+        Parameters: None
+        Algorithm: None - This method may not even be necessary as it is already in ReportHelper.cs
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private string SystemChosen()
         {
             return SystemComboBox.SelectedItem.ToString();
         }
 
-        //accessor method that returns a string that says the current report that has been chosen by the user
+        /*Name: Michael Figueroa
+        Function Name: ReportChosen
+        Purpose: accessor method that returns a string that says the current report that has been chosen by the user
+        Return Value: N/A
+        Local Variables: None
+        Parameters: None
+        Algorithm: None
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private string ReportChosen()
         {
             return ReportComboBox.SelectedItem.ToString();
         }
 
+        /*Name: Michael Figueroa
+        Function Name: SetStratTasksVis
+        Purpose: Sets visibility both StratCheckBox and PriorityCheckBox
+        Return Value: N/A
+        Local Variables: None
+        Parameters: None
+        Algorithm: If the report chosen is Application Priority Report, then the CheckBoxes are enabled; else, they are
+        disabled. The reason is that the Aging Report does not utilize these checkboxes in any way
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private void SetStratTasksVis()
         {
             if(ReportComboBox.SelectedItem.ToString() == "Application Priority Report")
@@ -172,6 +271,17 @@ namespace WpfApp1
             }
         }
 
+        /*Name: Michael Figueroa
+        Function Name: StatusChosen
+        Purpose: Returns the current status chosen in the comboBox
+        Return Value: string
+        Local Variables: None
+        Parameters: None
+        Algorithm: if the selectedItem is null, selected index is set to 0; else, ToString value is returned
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private string StatusChosen()
         {
             if (StatusComboBox.SelectedItem == null)
@@ -182,11 +292,18 @@ namespace WpfApp1
             return StatusComboBox.SelectedItem.ToString();
         }
 
-        //This refreshes the page when the system menu is changed so the appropriate issues are filtered based on the system chosen
-        //Hides full history by default when a system is chosen
-        //DataGrid pops up with most recent statuses for each item by default
-        //Collapses the button that allows you to return to the recent history by default
-
+        /*Name: Michael Figueroa
+        Function Name: SystemComboBox_SelectionChanged
+        Purpose: Event handler for SystemComboBox SelectionChanged; refreshes the page.
+        Return Value: N/A
+        Local Variables: None
+        Parameters: None
+        Algorithm: Calls BindDataGrid in order to refresh datagrid; the catch part of the try-catch block avoids exception
+        by setting ReportComboBox index to 0
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private void SystemComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             try
@@ -208,6 +325,17 @@ namespace WpfApp1
             }
         }
 
+        /*Name: Michael Figueroa
+        Function Name: SetCIM
+        Purpose: Setter that determines whether CIM issues are included in the report or not
+        Return Value: N/A
+        Local Variables: None
+        Parameters: None
+        Algorithm: If the CIM Checkbox is checked, includeCIM is set to true; else it is false
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private void SetCIM()
         {
             if(CIMCheckBox.IsChecked.Value)
@@ -220,6 +348,17 @@ namespace WpfApp1
             }
         }
 
+        /*Name: Michael Figueroa
+        Function Name: SetStratTasks
+        Purpose: Setter that determines whether Strategic Tasks are included in the report or not
+        Return Value: N/A
+        Local Variables: None
+        Paramters: None
+        Algorithm: if StratCheckBox is checked, then strat tasks are included; else, they are not.
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private void SetStratTasks()
         {
             if (StratCheckBox.IsChecked.Value)
@@ -232,6 +371,18 @@ namespace WpfApp1
             }
         }
 
+        /*Name: Michael Figueroa
+        Function Name: AppendTasks
+        Purpose: This is the part of the query in either report that determines whether Strategic Tasks are excluded or not
+        Return Value: string N/A
+        Local Variables: None
+        Parameters: None
+        Algorithm: if includeStratTasks is set to value of True, no strategic task condition is included in the query;
+        else, Strategic Tasks are excluded
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private string AppendTasks()
         {
             if(includeStratTasks)
@@ -243,9 +394,22 @@ namespace WpfApp1
                 return " AND (Category != 'Strategic Task') ";
             }
         }
-    
-        //this generates the appropriate report query needed based on what options are chosen in the dropdown menus
 
+        /*Name: Michael Figueroa
+        Function Name: GenerateReportQuery
+        Purpose: Returns the query that will be used to populate data in DataGrid
+        Return Value: string stringQuery
+        Local Variables: None
+        Parameters: None
+        Algorithm: if the report chosen is the application priority report and the comboboxes have values other than "All"
+        chosen, then StatusChosen() and SystemChosen() are used to set Status and Sys_Impact conditions in the WHERE
+        clause; when user choses All systems, then ReportHelper.AllSystemsQuery is used to set Sys_Impact condition in WHERE
+        clause. When Status chosen is "All," then issues that have status that is not dropped, implemented, closed or deferred are
+        queried. IncludeLowPriority and AppendTasks are also called to complete the query
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private string GenerateReportQuery()
         {
             string stringQuery;
@@ -365,10 +529,6 @@ namespace WpfApp1
             }
             else
             {
-                /*selects all items from New Issues where Category "BC/TI" and the last status update was more than 180 days ago, SELECT CAST(GETDATE() AS DATE)
-                Impact "Billed Items" and the last status update was more than 22 days ago, and Impact "Not Billed Items" and 
-                last status update was more than 8 days ago.*/
-
                 stringQuery = "SELECT New_Issues.ID AS ID, Sys_Impact as [System], New_Issues.[Status], Assigned_To AS[Owner], Priority_Number, Category, TFS_BC_HDFS_Num as BID, Impact, (SELECT DATEDIFF(day, Opened_Date, CONVERT(date, GETDATE()))) as Open_Days, " +
                         "Title, FORMAT(Latest_Status_Update, 'MM/dd/yyyy') as Latest_Status_Update,  (SELECT DATEDIFF(day, Opened_Date, CONVERT(date, GETDATE())))as Opened_Date,  " +
                         "(SELECT DATEDIFF(day, Latest_Status_Update, CONVERT(date, GETDATE()))) as Status_Days FROM New_Issues INNER JOIN(SELECT TaskNum, MAX(EntryDate) AS Latest_Status_Update " +
@@ -384,7 +544,20 @@ namespace WpfApp1
             return stringQuery;
         }
 
-        //this is a query that determines whether or not items with a priority over 300 are shown
+        /*Name: Michael Figueroa
+        Function Name: IncludeLowPriority
+        Purpose: This is the part of the query in either report that determines whether items with priority over 300
+        are excluded or not
+        Return Value: string
+        Local Variables: None
+        Parameters: None
+        Algorithm: PriorityCheckBox is checked, then empty string is returned; else, string containing condition that 
+        excludes issues with Priority_Number less than 300 is returned
+        else, Strategic Tasks are excluded
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private string IncludeLowPriority()
         {
             if (PriorityCheckBox.IsChecked.Value.ToString() == "True")
@@ -397,9 +570,21 @@ namespace WpfApp1
             }
         }
 
-
-        //Fills the report datagrid with the appropriate information from SQL using data binding 
-
+       /*Name: Michael Figueroa
+       Function Name: FillReportTable
+       Purpose: Fills the report datagrid with the appropriate information from SQL using data binding
+       Return Value: None
+       Local Variables: SqlCommand cmd, SqlDataAdapter sda
+       Parameters: DataTable table
+       Algorithm: cmd and sda are used to fill DataTable table; after filled, if ReportChosen isn't aging items, Report
+       datagrid is set to visible, data is binded to datagrid using table and ItemSource, and AgingReport is collapsed;
+       else, Report is collapsed and AgingReport is Visible.
+       If no aging items on report, exception is caught and user is notified.
+       else, Strategic Tasks are excluded
+       Version: 2.0.0.4
+       Date modified: Prior to 1/1/20
+       Assistance Received: N/A
+       */
         private void FillReportTable(DataTable table)
         {
             using (SqlConnection con = new SqlConnection(connectionString))
@@ -448,9 +633,20 @@ namespace WpfApp1
 
 
 
-    //Fills the right side of the table (the recent history datagrid)
-
-            private DataTable FillRow(int taskNum)
+        /*Name: Michael Figueroa
+        Function Name: FillRow
+        Purpose: Returns a DataTable consisting of one row with the most recent status for the issue
+        Parameters: int taskNum
+        Return Value: DataTable
+        Local Variables: string mostRecent, historyRow 
+        Algorithm: defines mostRecent with Query containing one row with most recent status for issue ID taskNum, 
+        then SQL fills historyRow datatable which is then returned -this is a duplicate also contained in ReportHelper.cs, 
+        can be deleted.
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */    
+        private DataTable FillRow(int taskNum)
             {
             string mostRecent = "SELECT TOP 1 TaskNum, CONVERT(date, EntryDate) AS EntryDate, New_StatusNote as LatestStatusNote, [Status] AS LatestStatus FROM History " +
                                 "WHERE TaskNum = " + taskNum +
@@ -468,8 +664,20 @@ namespace WpfApp1
             return historyRow;
         }
 
-
-    private void FillHistoryTable(DataTable recentHistory)
+        /*Name: Michael Figueroa
+        Function Name: FillHistoryTable
+        Purpose: Fills full history columns in datagrid; use for when someone wants to see mos recent status for each issue; this keeps the HistoryRecent and ManTasks dataGrids in sync
+        Parameters: DataTable recentHistory
+        Return Value: None
+        Local Variables: int taskNum, DataTable tabRecent 
+        Algorithm: Adds DataColumns to recentHistory table, then reads ManagerTasksQuery using reader, extracts each ID from each record in the query and assigns to taskNum, then calls FillRow with taskNum as a parameter; if the
+        row count is 1, the row is added to recentHistory, else, nulls are added - Also in ReportHelper.cs, probably
+        no longer needed in here
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
+        private void FillHistoryTable(DataTable recentHistory)
         {
             using (SqlConnection con = new SqlConnection(connectionString))
                 try
@@ -525,30 +733,44 @@ namespace WpfApp1
                 }
         }
 
-        //Binds both the report and history datatables with queries to display recent history for each item in the report
-        //Also binds the table that shows the full history for each item, using the appropriate supporting methods
-       
-
+        /*Name: Michael Figueroa
+        Function Name: BindDataGrid
+        Purpose: Binds both the report and history datatables with queries to display recent history for each item in the report
+        Also binds the table that shows the full history for each item, using the appropriate supporting methods
+        Return Value: None
+        Local Variables: int taskNum, DataTable tabRecent 
+        Parameters: None
+        Algorithm: Calls FillReportTable and FillHistoryTable
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         public void BindDataGrid()
         {
-            string query = GenerateReportQuery();
-
-            //Fills the reports table (or the aging items table if aging items is chosen)
             DataTable reports = new DataTable();
             FillReportTable(reports);
 
-            //Fills the recent history table to be displayed to user
             DataTable history = new DataTable();
             FillHistoryTable(history);
-        } 
-        
-        //loads the data into the history grid so the user sees it in the front-end when they want
+        }
+
+        /*Name: Michael Figueroa
+        Function Name: BindHistoryGrid
+        Purpose: loads the data into the history grid so the user sees it in the front-end when they want
+        Return Value: None
+        Local Variables: string query, SqlCommand command, DataTable dt, SqlDataAdapter sda 
+        Parameters: string TaskNum
+        Algorithm: Goes through typical Data binding methods using SqlCommand, SqlDataAdapter, and string query to fill
+        DataTable dt and bind data to FullHistory
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private void BindHistoryGrid(string TaskNum)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
                 try
                 {
-                    //Query that generates individual full status history, to be displayed if the user wishes
                     string query = "SELECT format(EntryDate, 'MM/dd/yyyy') AS EntryDateHistory, New_StatusNote AS NewStatus, [Status] AS History_Status, History.TaskNum AS TaskNum " +
                                    "FROM History WHERE TaskNum = " + TaskNum + " AND New_StatusNote != 'Aging' ORDER BY History.EntryDate DESC;";
 
@@ -580,7 +802,20 @@ namespace WpfApp1
             //Only displays the full history table if the user clicks the Status History button
         }
 
-        //Allows the user to access the past report statuses based on the task num that is clicked
+        /*Name: Michael Figueroa
+        Function Name: History_Click
+        Purpose: Event handler for Toggle History button
+        Return Value: None
+        Local Variables: None 
+        Parameters: Auto-Generated
+        Algorithm: Calls BindHistoryGrid; everytime button is toggled, fullHistoryChosen value is toggled as well; this
+        value determines the visibility of the FullHistory DataGrid. If fullHistoryChosen is true, the visibility of 
+        FullHistory is collapsed, and fullHistoryChosen is toggled to false; else, FullHistory is expanded and 
+        FullHistoryChosen is true
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private void History_Click(object sender, RoutedEventArgs e)
         {
             reportRow = (DataRowView)((Button)e.Source).DataContext; //Retrieves the information for the row that the user clicks
@@ -600,7 +835,17 @@ namespace WpfApp1
             }
         }
 
-        //This exports the report to Excel
+        /*Name: Michael Figueroa
+        Function Name: Export_Click
+        Purpose: Excel export (this method will no longer exist after the excel export method is moved to Helper class
+        Parameters: Auto-Generated
+        Return Value: None
+        Local Variables: DataTable reports, DataTable historyTable
+        Algorithm: reports and historyTable DataTables are filled, then the helper ToExcelClosedXML method completes the export.
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private void Export_Click(object sender, RoutedEventArgs e)
         {
             //On Excel Button click, pulls the data from that row of the datagrid, and stores it as a DataRowView object
@@ -635,6 +880,17 @@ namespace WpfApp1
                 }
         }
 
+        /*Name: Michael Figueroa
+        Function Name: EditButton_Click
+        Purpose: Event handler for edit button click
+        Parameters: Auto-generated
+        Return Value: None
+        Local Variables: DataRowView agingItemsRow
+        Algorithm: The DataRow in which the Edit button was clicked is retrieved, and the EditRecord form is opened using that DataRowView in the constructor
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private void EditRecord_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -654,7 +910,21 @@ namespace WpfApp1
             }
         }
 
-        //The following methods allow for the scrolling in both the history and report datagrids to be kept in sync
+        /*Name: Michael Figueroa
+       Function Name: GetDescendantByType
+       Purpose: This method helps access the scrollview of a visual element - in this case, the visual element is a DataGrid, and the Type is a
+       scrollviewer. This is needed so the History and ManTasks DataGrids are in sync.
+       Parameters: Visual Element, Type type
+       Return Value: Visual foundElement
+       Local Variables: Visual visual, Visual foundElement
+       Algorithm: if there is no Visual with name element, then null is returned; if element is the same Type as type, then the element is returned;
+       credit user punker76 on Stack Overflow (https://stackoverflow.com/questions/10293236/accessing-the-scrollviewer-of-a-listbox-from-c-sharp)
+       with method and for more details on algorithm.
+       NOTE: This is also used in other windows such as ReportsWindow, so this may be better off in the helper.
+       Version: 2.0.0.4
+       Date modified: Prior to 1/1/20
+       Assistance Received: N/A
+       */
         public Visual GetDescendantByType(Visual element, Type type)
         {
             if (element == null) return null;
@@ -673,6 +943,20 @@ namespace WpfApp1
             }
             return foundElement;
         }
+
+        /*Name: Michael Figueroa
+        Function Name: lbx1_ScrollChanged
+        Purpose: Method 
+        Parameters: Auto-generated
+        Return Value: None
+        Local Variables: _listboxScrollViewer1 and _listboxScrollViewer2
+        Algorithm: ManTasks and HistoryRecent scrollviewers retrieved using GetDescendantByType; then vertical offset of _listboxScrollViewer2 is set to offset of _listboxScrollViewer1
+        in order to keep DataGrids in sync when scrolling
+        NOTE: This is also used in other windows such as ReportsWindow, so this may be better off in the helper.
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private void Lbx1_ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
             ScrollViewer _listboxScrollViewer1 = GetDescendantByType(Report, typeof(ScrollViewer)) as ScrollViewer;
@@ -680,6 +964,18 @@ namespace WpfApp1
             _listboxScrollViewer2.ScrollToVerticalOffset(_listboxScrollViewer1.VerticalOffset);
         }
 
+        /*Name: Michael Figueroa
+        Function Name: Report_ScrollChanged
+        Purpose: Event handler for Report scrollChanged that keeps DataGrids in sync when scrolling 
+        Parameters: Auto-generated
+        Return Value: None
+        Local Variables: _listboxScrollViewer1 and _listboxScrollViewer2
+        Algorithm: Report and HistoryRecent scrollviewers retrieved using GetDescendantByType; then vertical offset of _listboxScrollViewer2 is set to offset of _listboxScrollViewer1
+        in order to keep DataGrids in sync when scrolling
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private void Report_ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
             ScrollViewer _listboxScrollViewer1 = GetDescendantByType(Report, typeof(ScrollViewer)) as ScrollViewer;
@@ -687,6 +983,18 @@ namespace WpfApp1
             _listboxScrollViewer2.ScrollToVerticalOffset(_listboxScrollViewer1.VerticalOffset);
         }
 
+        /*Name: Michael Figueroa
+        Function Name: HistoryRecent_ScrollChanged
+        Purpose: Event handler for HistoryRecent scrollchanged that keeps DataGrids in sync when scrolling 
+        Parameters: Auto-generated
+        Return Value: None
+        Local Variables: _listboxScrollViewer1 and _listboxScrollViewer2
+        Algorithm: Report and HistoryRecent scrollviewers retrieved using GetDescendantByType; then vertical offset of _listboxScrollViewer2 is set to offset of _listboxScrollViewer1
+        in order to keep DataGrids in sync when scrolling
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private void HistoryRecent_ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
             ScrollViewer _listboxScrollViewer1 = GetDescendantByType(HistoryRecent, typeof(ScrollViewer)) as ScrollViewer;
@@ -696,6 +1004,18 @@ namespace WpfApp1
             _listboxScrollViewer3.ScrollToVerticalOffset(_listboxScrollViewer1.VerticalOffset);
         }
 
+        /*Name: Michael Figueroa
+        Function Name: Aging_ScrollChanged
+        Purpose: Event handler for Aging scrollChanged that keeps DataGrids in sync when scrolling 
+        Parameters: Auto-generated
+        Return Value: None
+        Local Variables: _listboxScrollViewer1 and _listboxScrollViewer2
+        Algorithm: Aging and HistoryRecent scrollviewers retrieved using GetDescendantByType; then vertical offset of _listboxScrollViewer2 is set to offset of _listboxScrollViewer1
+        in order to keep DataGrids in sync when scrolling
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private void Aging_ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
             ScrollViewer _listboxScrollViewer1 = GetDescendantByType(AgingReport, typeof(ScrollViewer)) as ScrollViewer;
@@ -703,18 +1023,51 @@ namespace WpfApp1
             _listboxScrollViewer2.ScrollToVerticalOffset(_listboxScrollViewer1.VerticalOffset);
         }
 
+        /*Name: Michael Figueroa
+        Function Name: CIMCheckBox_Click
+        Purpose: Event handler for CIMCheckBox click; "refreshes" datagrid 
+        Parameters: Auto-generated
+        Return Value: None
+        Local Variables: None
+        Algorithm: Calls SetCIM and BindDataGrid
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private void CIMCheckBox_Click(object sender, RoutedEventArgs e)
         {
             SetCIM();
             BindDataGrid();
         }
 
+        /*Name: Michael Figueroa
+        Function Name: StratCheckBox_Click
+        Purpose: Event handler for StratCheckBox click; "refreshes" datagrid 
+        Parameters: Auto-generated
+        Return Value: None
+        Local Variables: None
+        Algorithm: Calls SetStratTasks and BindDataGrid
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private void StratCheckBox_Click(object sender, RoutedEventArgs e)
         {
             SetStratTasks();
             BindDataGrid();
         }
 
+        /*Name: Michael Figueroa
+        Function Name: StratCheckBox_Click
+        Purpose: Event handler for PriorityCheckBox click; "refreshes" datagrid 
+        Parameters: Auto-generated
+        Return Value: None
+        Local Variables: None
+        Algorithm: Calls indDataGrid
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private void PriorityCheckBox_Click(object sender, RoutedEventArgs e)
         {
             BindDataGrid();

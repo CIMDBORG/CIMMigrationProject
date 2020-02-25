@@ -31,16 +31,19 @@ namespace WpfApp1
         private string[] arr;
         private DataRowView reportRow;
 
-        //*******************************************************************
-        // DESCRIPTION: Constructor for Subwindow1 Class, the "Main Menu" window of this application.
-        //                  Also pre-populates login-based fields at top of form.
-        //                  UserMenuPage, the page containing the buttons of the user menu, is displayed in this window.
-        //*******************************************************************
+        /*Name: Michael Figueroa
+        Function Name: UserMenu_Window
+        Purpose: Constructor for the UserMenu_Window form
+        Parameters: string[] user_data
+        Return Value: None
+        Local Variables: None
+        Algorithm: SetAgingWarning and SetUpdateWarning are called
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         public UserMenu_Window(string[] user_data)
         {
-            InitializeComponent();
-            
-            
+            InitializeComponent();         
             arr = user_data;
             SetAgingWarning();
             SetUpdateWarning();

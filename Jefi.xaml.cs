@@ -20,11 +20,29 @@ namespace WpfApp1
     /// </summary>
     public partial class Jefi : Page
     {
+        /*Name: Michael Figueroa
+        Function Name: Jefi
+        Purpose: Constructor for Jefi form - the Jefi form is the Easter Egg which contains Jeff Wygant's face and contact info as a running gag - the Billing Center GOAT
+        Parameters: None
+        Return Value: None
+        Local Variables: None
+        Algorithm: None 
+        Date modified: Prior to 1/1/20 
+        */
         public Jefi()
         {
             InitializeComponent();
         }
 
+        /*Name: Michael Figueroa
+        Function Name: Back_Click
+        Purpose: Event Handler for back button click
+        Parameters: None
+        Return Value: None
+        Local Variables: None
+        Algorithm: None 
+        Date modified: Prior to 1/1/20 
+        */
         private void Back_Click(object sender, RoutedEventArgs e)
         {
             this.NavigationService.GoBack();

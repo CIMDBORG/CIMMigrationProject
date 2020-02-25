@@ -28,7 +28,7 @@ namespace WpfApp1
     //*******************************************************************
     public partial class NewRecord : Window
     {
-        public string connectionString = ConfigurationManager.ConnectionStrings["conString"].ConnectionString;
+        public string connectionString = ConfigurationManager.ConnectionStrings["conString"].ConnectionString; //SQL Connection string; see App.config
         private string[] arr;               //local variable to store login-based user data
         private int IDnum;                      //local variable to store issue ID number
 
