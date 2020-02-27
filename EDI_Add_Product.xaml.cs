@@ -19,6 +19,17 @@ namespace WpfApp2
     /// </summary>
     public partial class EDI_Add_Product : Window
     {
+        /*Name: Michael Figueroa
+        Function Name: EDI_Add_Product
+        Purpose: Constructor for the EDI_Add_Product form
+        Parameters: None
+        Return Value: None
+        Local Variables: None
+        Algorithm: None
+        Date modified:  1/2020
+        Assistance Received: N/A
+        Version: 2.0.0.4
+        */
         public EDI_Add_Product()
         {
             InitializeComponent();

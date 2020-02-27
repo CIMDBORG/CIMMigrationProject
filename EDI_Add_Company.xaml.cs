@@ -24,6 +24,7 @@ namespace WpfApp2
     /// </summary>
     public partial class EDI_Add_Company : Window
     {
+        //The following variables speak for themselves
         string companyName;
         string companyAddress;
         string companyContactName;
@@ -31,13 +32,36 @@ namespace WpfApp2
         string companyEmailOne;
         string companyEmailTwo;
         string companyEmailThree;
+        //Sql connection string found in App.xaml
         public string connectionString = ConfigurationManager.ConnectionStrings["conString"].ConnectionString;
 
+        /*Name: Michael Figueroa
+        Function Name: EDI_Add_Company
+        Purpose: Constructor for the EDI_Add_Company form
+        Parameters: None
+        Return Value: None
+        Local Variables: None
+        Algorithm: None
+        Date modified:  1/2020
+        Assistance Received: N/A
+        Version: 2.0.0.4
+        */
         public EDI_Add_Company()
         {
             InitializeComponent();
         }
 
+        /*Name: Michael Figueroa
+        Function Name: AssignValues
+        Purpose: Assigns values to variables for this class based on the text in the textboxes
+        Parameters: None
+        Return Value: None
+        Local Variables: None
+        Algorithm: None
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        Version: 2.0.0.4
+        */
         private void AssignValues()
         {
             companyName = CompanyName.Text.ToString();
@@ -49,6 +73,17 @@ namespace WpfApp2
             companyEmailThree = Customer_Email_3.Text.ToString();
         }
 
+        /*Name: Michael Figueroa
+        Function Name: GetAddCompanyQuery
+        Purpose: Produces an INSERT query to add a new EDI Company into the EDI_COMPANY table
+        Parameters: None
+        Return Value: None
+        Local Variables: None
+        Algorithm: Calls AssignValues()
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        Version: 2.0.0.4
+        */
         public string GetAddCompanyQuery()
         {
             AssignValues();
@@ -57,9 +92,20 @@ namespace WpfApp2
                    companyContactName + "', '" + companyPhone + "', '" + companyEmailOne + "', '" + companyEmailTwo + "', '" + companyEmailThree + "');";
         }
 
-        //Event handler for Add Company button
-        //This also prompts the user to add a product to a company upon click
-        //If Yes is chosen, then the user is taken to the Add Product screen, with the created company automatically selected from the dropdown
+        /*Name: Michael Figueroa
+        Function Name: Add_Click
+        Purpose: Event handler for Add Company button
+        Parameters: Auto-Generated
+        Return Value: None
+        Local Variables: MessageBoxResult addProduct, string query
+        Algorithm: if-else checks for empty Company Name - if Company Name field is null/empty, then MessageBox will prompt user and nothing
+        happens; else, getAddCompanyQuery is called, then routine SQL Executes AddCompanyQuery 
+        After product is added, user is asked if they want to add a product for the company; if yes, EDI_Add_Product form is opened and this form
+        is closed.
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        Version: 2.0.0.4
+        */
         private void Add_Click(object sender, RoutedEventArgs e)
         {
             //Check if the Company Name field is empty; if so, user will be notified that it is a required field

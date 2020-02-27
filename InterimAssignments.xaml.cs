@@ -28,22 +28,53 @@ namespace Interim
     /// </summary>
     public partial class InterimAssignments : Window
     {
-        public string connectionString = ConfigurationManager.ConnectionStrings["conString"].ConnectionString;
-        public List<string> names = new List<string>();
+        public string connectionString = ConfigurationManager.ConnectionStrings["conString"].ConnectionString;//SQL ConnectionString - found in App.config
+        public List<string> names = new List<string>();//List<string> containing the names of the users who will be participating in verification
 
+        /*Name: Michael Figueroa
+        Function Name: InterimAssignments
+        Purpose: InterimAssignments Constructor
+        Parameters: None
+        Return Value: N/A
+        Local Variables: None
+        Algorithm: Calls BindDataGrid()
+        Version: 2.0.0.4
+        Date modified: 1/7/20
+        Assistance Received: N/A
+        */
         public InterimAssignments()
         {
             InitializeComponent();
             BindDataGrid();
         }
 
-        //query that lists every scenario
+        /*Name: Michael Figueroa
+        Function Name: InterimAssignments
+        Purpose: query that lists every scenario
+        Parameters: None
+        Return Value: string
+        Local Variables: None
+        Algorithm: None
+        Version: 2.0.0.4
+        Date modified: 1/7/20
+        Assistance Received: N/A
+        */
         private string DailyScenarioListingQuery()
         {
              return "SELECT ID, INTERIM_CC, INTERIM_SOURCE, INTERIM_DAILY_ASSIGN, INTERIM_SAT_ASSIGN FROM INTERIM_ASSIGNMENTS;";
         }
- 
-        //Data binding
+
+        /*Name: Michael Figueroa
+        Function Name: BindDataGrid
+        Purpose: Binds Data Grid
+        Parameters: None
+        Return Value: None
+        Local Variables: string query, DataTable dailyAssignments
+        Algorithm: fills dailyAssignments with information from string query, then binds information to DataGris AssignList - this method will be obselete when we put it in Helper
+        Version: 2.0.0.4
+        Date modified: 1/7/20
+        Assistance Received: N/A
+        */
         private void BindDataGrid()
         {
                 string query = DailyScenarioListingQuery();
@@ -75,20 +106,53 @@ namespace Interim
                     }
             }
 
-        //Saturday scenario report
+        /*Name: Michael Figueroa
+            Function Name: SatReport_Click
+            Purpose: Event handler for SatReport button click
+            Parameters: Auto-Generated
+            Return Value: None
+            Local Variables: None
+            Algorithm: None
+            Version: 2.0.0.4
+            Date modified: 1/7/20
+            Assistance Received: N/A
+            */
         private void SatReport_Click(object sender, RoutedEventArgs e)
         {
             InterimSaturdayScenariosReport satReport = new InterimSaturdayScenariosReport();
             satReport.Show();
         }
 
+        /*Name: Michael Figueroa
+            Function Name: SourceDetailReport_Click
+            Purpose: Event handler for SourceDetail button click
+            Parameters: Auto-Generated
+            Return Value: None
+            Local Variables: None
+            Algorithm: None
+            Version: 2.0.0.4
+            Date modified: 1/7/20
+            Assistance Received: N/A
+            */
         private void SourceDetailReport_Click(object sender, RoutedEventArgs e)
         {
             InterimSourceDetailReport srcReport = new InterimSourceDetailReport();
             srcReport.Show();
         }
 
-        //When the combobox for the daily assignments changes, the scenario is re-assigned in the backend
+        /*Name: Michael Figueroa
+            Function Name: DailyComboBox_SelectionChanged
+            Purpose: Event handler when DailyComboBox selected item changes - this assigns scenarios to users
+            Parameters: Auto-Generated
+            Return Value: None
+            Local Variables: DataRowView reportRow, string assignment, string updateQuery
+            Algorithm: The row in which the combobox is changed is retrieved and assigned to reportRow; then string assignment is given a value based on what name the user chose
+            from DailyComboBox; then updateQuery is assigned a value using the assignment and reportRow["ID"] values (ID being the ID of the scenario); and then normal SQL 
+            C# procedure executes updateQuery in the backend, and BindDataGrid is called to refresh the datagrid.
+            Version: 2.0.0.4
+            Date modified: 1/7/20
+            Assistance Received: N/A
+            */
         private void DailyComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             DataRowView reportRow = (DataRowView)((ComboBox)e.Source).DataContext;
@@ -115,7 +179,19 @@ namespace Interim
                 }
         }
 
-        //When the weekly combobox changes, the scenario is re-assigned
+        /*Name: Michael Figueroa
+            Function Name: WeeklyAssign_SelectionChanged
+            Purpose: Event handler when WeeklyAssign combobox selected item changes - this assigns scenarios to users
+            Parameters: Auto-Generated
+            Return Value: None
+            Local Variables: DataRowView reportRow, string assignment, string updateQuery
+            Algorithm: The row in which the combobox is changed is retrieved and assigned to reportRow; then string assignment is given a value based on what name the user chose
+            from WeeklyAssign combobox; then updateQuery is assigned a value using the assignment and reportRow["ID"] values (ID being the ID of the scenario); and then normal SQL 
+            C# procedure executes updateQuery in the backend, and BindDataGrid is called to refresh the datagrid.
+            Version: 2.0.0.4
+            Date modified: 1/7/20
+            Assistance Received: N/A
+            */
         private void WeeklyAssign_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             DataRowView reportRow = (DataRowView)((ComboBox)e.Source).DataContext;

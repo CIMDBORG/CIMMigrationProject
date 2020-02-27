@@ -22,13 +22,36 @@ namespace Interim
     /// </summary>
     public partial class InterimAssignSource : Window
     {
-        public string connectionString = ConfigurationManager.ConnectionStrings["conString"].ConnectionString;
+        public string connectionString = ConfigurationManager.ConnectionStrings["conString"].ConnectionString;//Sql Connection string found in App.config
 
+        /*Name: Michael Figueroa
+        Function Name: InterimAssignSource
+        Purpose: InterimAssignSource Constructor
+        Parameters: None
+        Return Value: N/A
+        Local Variables: None
+        Algorithm: Calls BindDataGrid()
+        Version: 2.0.0.4
+        Date modified: 1/7/20
+        Assistance Received: N/A
+        */
         public InterimAssignSource()
         {
             InitializeComponent();
             BindDataGrid();
         }
+
+        /*Name: Michael Figueroa
+        Function Name: SrcReportQuery
+        Purpose: query that produces Source Report 
+        Parameters: None
+        Return Value: string
+        Local Variables: None
+        Algorithm: None
+        Version: 2.0.0.4
+        Date modified: 1/7/20
+        Assistance Received: N/A
+        */
         private string SrcReportQuery()
         { 
             return "SELECT INTERIM_ID AS ID, INTERIM_TEST_CASE_CRITERIA, INTERIM_CC AS CC, INTERIM_TYPE FROM INTERIM_TEST_CASES WHERE(INTERIM_BILL_TYPE IS NULL) AND (INTERIM_ASSIGNED_NAME IS NULL) " +
@@ -37,6 +60,17 @@ namespace Interim
                 "(INTERIM_NI_SHIP_NUM1 IS NOT NULL AND INTERIM_NI_SHIP_NUM1 != '') OR(INTERIM_NI_SHIP_NUM2 IS NOT NULL AND INTERIM_NI_SHIP_NUM2 != ''));";
         }
 
+        /*Name: Michael Figueroa
+       Function Name: BindDataGrid
+       Purpose: Binds SrcData using results from SrcReportQuery()
+       Parameters: None
+       Return Value: None
+       Local Variables: string query, DataTable srcReportTable
+       Algorithm: fills srcReportTable with information from string query, then uses standard SQL procedure to execute string query, then binds results to SrcData DataGrid
+       Version: 2.0.0.4
+       Date modified: 1/7/20
+       Assistance Received: N/A
+       */
         private void BindDataGrid()
         {
             string query = SrcReportQuery();
@@ -64,11 +98,27 @@ namespace Interim
                 }
         }
 
-        private void Source_TextChanged(object sender, TextChangedEventArgs e)
+        /*Name: Michael Figueroa
+       Function Name: AltAssign_TextChanged
+       Purpose: Event handler for AltAssign TextBox changed event
+       Parameters: Auto-Generated
+       Return Value: None
+       Local Variables: DataRowView reportRow, string name, string updateQuery
+       Algorithm: The row in which the combobox is changed is retrieved and assigned to reportRow; then string name is given a value based on what the user types
+            into AltAssign textbox; then updateQuery is assigned a value using the name and reportRow["ID"] values (ID being the ID of the scenario); and then normal SQL
+            C# procedure executes updateQuery in the backend, and BindDataGrid is called to refresh the datagrid.
+            NOTES ON updateQuery: So basically what happens here is
+            1. we set INTERIM_ASSIGNED_ALT = 1 - this is a bit value column in INTERIM_TEST_CASES SQL table that denotes whether or not a test case is assigned to an
+            alternate person (person other than the person that is assigned that source) - not the same as an alternate auditor
+            2. INTERIM_ASSIGNED_NAME is set to string name value
+       Version: 2.0.0.4
+       Date modified: 1/7/20
+       Assistance Received: N/A
+       */
+        private void AltAssign_TextChanged(object sender, TextChangedEventArgs e)
         {
             DataRowView reportRow = (DataRowView)((TextBox)e.Source).DataContext;
             string name = ((TextBox)e.Source).Text.ToString();
-            string cc = reportRow["CC"].ToString();
             string updateQuery = "UPDATE INTERIM_TEST_CASES SET INTERIM_ASSIGNED_ALT = 1, INTERIM_ASSIGNED_NAME = '"+ name + "' WHERE INTERIM_ID = '" + reportRow["ID"] + "';";
             using (SqlConnection connection = new SqlConnection(connectionString))
                 try

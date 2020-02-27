@@ -22,14 +22,36 @@ namespace Interim
     /// </summary>
     public partial class InterimSourceDetailReport : Window
     {
-        public string connectionString = ConfigurationManager.ConnectionStrings["conString"].ConnectionString;
+        public string connectionString = ConfigurationManager.ConnectionStrings["conString"].ConnectionString;//SQL Connection string from App.config
 
+        /*Name: Michael Figueroa
+        Function Name: InterimSaturdayScenariosReport
+        Purpose: InterimSaturdayScenariosReport Constructor
+        Parameters: None
+        Return Value: N/A
+        Local Variables: None
+        Algorithm: Calls BindDataGrid
+        Version: 2.0.0.4
+        Date modified: 1/7/20
+        Assistance Received: N/A
+        */
         public InterimSourceDetailReport()
         {
             InitializeComponent();
             BindDataGrid();
         }
 
+        /*Name: Michael Figueroa
+       Function Name: SrcReportQuery
+       Purpose: Returns the query that will be used to bind data to SourceReport datagrid
+       Parameters: None
+       Return Value: N/A
+       Local Variables: None
+       Algorithm: None
+       Version: 2.0.0.4
+       Date modified: 1/7/20
+       Assistance Received: N/A
+       */
         private string SrcReportQuery()
         {
             return "SELECT DISTINCT INTERIM_NI_TRACK_NUM1, [INTERIM_TEST_CASES].[INTERIM_TEST_CASE_CRITERIA] ,[INTERIM_TEST_CASES].[INTERIM_BILL_TYPE], [INTERIM_TEST_CASES].[INTERIM_CC], [INTERIM_TEST_CASES].[INTERIM_TYPE], " +
@@ -40,7 +62,17 @@ namespace Interim
                     "INNER JOIN INTERIM_HISTORY ON[INTERIM_TEST_CASES].[INTERIM_BILL_TYPE] = INTERIM_HISTORY.[INTERIM_SOURCE] " +
                     "AND[INTERIM_TEST_CASES].[INTERIM_CC] = INTERIM_HISTORY.[INTERIM_CC];";
     }
-
+        /*Name: Michael Figueroa
+      Function Name: BindDataGrid
+      Purpose: Binds results of SrcReportQuery to Source Report DataGrid - not necessary as this will be in helper
+      Parameters: None
+      Return Value: N/A
+      Local Variables: string query, DataTable srcReportTable
+      Algorithm: SrcReportQuery results fills srcReportTable, then srcReportTable info is binded to SourceReport DataGrid
+      Version: 2.0.0.4
+      Date modified: 1/7/20
+      Assistance Received: N/A
+      */
         private void BindDataGrid()
         {
             string query = SrcReportQuery();

@@ -24,6 +24,16 @@ namespace WpfApp2
     {
         private string[] arr;
 
+        /*Name: Michael Figueroa
+        Function Name: UserMenu_Window
+        Purpose: Constructor for the MenuScreen form
+        Parameters: string[] user_data
+        Return Value: None
+        Local Variables: None
+        Algorithm: Sets startup location to CenterScreen
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         public MenuScreen(string[] user_data)
         {
             InitializeComponent();
@@ -31,6 +41,16 @@ namespace WpfApp2
             WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
         }
 
+        /*Name: Michael Figueroa
+        Function Name: Issues_Click
+        Purpose: Event handler for Issues Button click
+        Parameters: Auto-Generated
+        Return Value: None
+        Local Variables: None
+        Algorithm: None
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private void Issues_Click(object sender, RoutedEventArgs e)
         {
             UserMenu_Window userMenu = new UserMenu_Window(arr);
@@ -38,6 +58,16 @@ namespace WpfApp2
             userMenu.Show();
         }
 
+        /*Name: Michael Figueroa
+        Function Name: EDI_Click
+        Purpose: Event handler for EDI Button click
+        Parameters: Auto-Generated
+        Return Value: None
+        Local Variables: None
+        Algorithm: None
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private void EDI_Click(object sender, RoutedEventArgs e)
         {
             EDI_User_Menu_Window edi_menu = new EDI_User_Menu_Window(arr);
@@ -45,6 +75,16 @@ namespace WpfApp2
             edi_menu.Show();
         }
 
+        /*Name: Michael Figueroa
+        Function Name: Interim_Click
+        Purpose: Event handler for Interim Button click
+        Parameters: Auto-Generated
+        Return Value: None
+        Local Variables: None
+        Algorithm: None
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private void Interim_Click(object sender, RoutedEventArgs e)
         {
             InterimMainMenu mainMenu = new InterimMainMenu(arr);
@@ -52,18 +92,50 @@ namespace WpfApp2
             mainMenu.Show();
         }
 
+        /*Name: Brandon Cox
+        Function Name: ButtonOpenMenu_Click
+        Purpose: Event handler for  ButtonOpenMenu button click
+        Parameters: Auto-Generated
+        Return Value: None
+        Local Variables: None
+        Algorithm: None
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private void ButtonOpenMenu_Click(object sender, RoutedEventArgs e)
         {
             ButtonCloseMenu.Visibility = Visibility.Visible;
             ButtonOpenMenu.Visibility = Visibility.Collapsed;
         }
 
+        /*Name: Brandon Cox
+         Function Name: ButtonCloseMenu_Click
+         Purpose: Runs when ButtonClose button is clicked. This collapses the hamburger menu
+         Parameters: Auto-Generated
+         Return Value: None
+         Local Variables: None
+         Algorithm: None
+         Date modified: Prior to 1/1/20
+         Assistance Received: N/A
+         */
         private void ButtonCloseMenu_Click(object sender, RoutedEventArgs e)
         {
             ButtonCloseMenu.Visibility = Visibility.Collapsed;
             ButtonOpenMenu.Visibility = Visibility.Visible;
         }
 
+        /*Name: Brandon Cox
+        Function Name: ListViewMenu_SelectionChanged
+        Purpose: Event handler for ListViewMenu selection changed 
+        Parameters: Auto-Generated
+        Return Value: None
+        Local Variables: None
+        Algorithm: Case ItemHome: MenuScreen is opened and this form is closed
+        Case AddRec: NewRecord opened, this form closed
+        Case GitHub: internet browser opens to github CIM Project repository
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private void ListViewMenu_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
@@ -87,6 +159,17 @@ namespace WpfApp2
                     break;
             }
         }
+
+        /*Name: Michael Figueroa
+        Function Name: EDI_Click
+        Purpose: Event handler for EDI Button click
+        Parameters: Auto-Generated
+        Return Value: None
+        Local Variables: None
+        Algorithm: None
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private void EdiBtn_Click_1(object sender, RoutedEventArgs e)
         {
             EDI_User_Menu_Window ediM = new EDI_User_Menu_Window(arr);
@@ -94,6 +177,16 @@ namespace WpfApp2
             this.Close();
         }
 
+        /*Name: Michael Figueroa
+        Function Name: IssuesBtn_Click_1
+        Purpose: Event handler for Issues Button click
+        Parameters: Auto-Generated
+        Return Value: None
+        Local Variables: None
+        Algorithm: None
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private void IssuesBtn_Click_1(object sender, RoutedEventArgs e)
         {
             UserMenu_Window userM = new UserMenu_Window(arr);
@@ -101,6 +194,16 @@ namespace WpfApp2
             this.Close();
         }
 
+        /*Name: Michael Figueroa
+        Function Name: InterimBtn_Click_1
+        Purpose: Event handler for Interim Button click
+        Parameters: Auto-Generated
+        Return Value: None
+        Local Variables: None
+        Algorithm: None
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
         private void InterimBtn_Click_1(object sender, RoutedEventArgs e)
         {
             InterimMainMenu intM = new InterimMainMenu(arr);
@@ -108,6 +211,16 @@ namespace WpfApp2
             this.Close();
         }
 
+        /*Name: Brandon Cox
+    Function Name: ErrorFile_Click
+    Purpose: Event handler for error file Button click
+    Parameters: Auto-Generated
+    Return Value: None
+    Local Variables: None
+    Algorithm: None
+    Date modified: Prior to 1/1/20
+    Assistance Received: N/A
+    */
         private void ErrorFile_Click(object sender, RoutedEventArgs e)
         {
             ErrorFileMenu erm1 = new ErrorFileMenu(arr);
@@ -115,27 +228,79 @@ namespace WpfApp2
             this.Close();
         }
 
+        /*Name: Brandon Cox
+    Function Name: ErrorFile_Click
+    Purpose: Event handler for error file Button click
+    Parameters: Auto-Generated
+    Return Value: None
+    Local Variables: None
+    Algorithm: None
+    Date modified: Prior to 1/1/20
+    Assistance Received: N/A
+    */
         private void ErrFileBtn_Click(object sender, RoutedEventArgs e)
         {
             ErrorFileMenu erm2 = new ErrorFileMenu(arr);
             erm2.Show();
             this.Close();
         }
+
+        /*Name: Brandon Cox
+   Function Name: ReportBtn_Click
+   Purpose: Event handler for report Button click
+   Parameters: Auto-Generated
+   Return Value: None
+   Local Variables: None
+   Algorithm: None
+   Date modified: Prior to 1/1/20
+   Assistance Received: N/A
+   */
         private void ReportBtn_Click(object sender, RoutedEventArgs e)
         {
             System.Diagnostics.Process.Start("https://github.com/CIMDBORG/CIMMigrationProject/issues");
         }
+
+        /*Name: Brandon Cox
+   Function Name: HelpBtn_Click
+   Purpose: Event handler for help Button click
+   Parameters: Auto-Generated
+   Return Value: None
+   Local Variables: None
+   Algorithm: None
+   Date modified: Prior to 1/1/20
+   Assistance Received: N/A
+   */
         private void HelpBtn_Click(object sender, RoutedEventArgs e)
         {
             System.Diagnostics.Process.Start("https://github.com/CIMDBORG/CIMMigrationProject/wiki");
         }
 
+        /*Name: Michael Figueroa
+   Function Name: LogoutBtn_Click
+   Purpose: Event handler for logout Button click
+   Parameters: Auto-Generated
+   Return Value: None
+   Local Variables: None
+   Algorithm: Calls Application.Current.Shutdown to close the application
+   Date modified: Prior to 1/1/20
+   Assistance Received: N/A
+   */
         private void LogoutBtn_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
 
         }
 
+        /*Name: Brandon Cox
+   Function Name: DbBtn_Click
+   Purpose: Event handler for logout Button click
+   Parameters: Auto-Generated
+   Return Value: None
+   Local Variables: None
+   Algorithm: Calls Application.Current.Shutdown to close the application
+   Date modified: Prior to 1/1/20
+   Assistance Received: N/A
+   */
         private void DbBtn_Click(object sender, RoutedEventArgs e)
         {
             ButtonCloseMenu.Visibility = Visibility.Visible;
