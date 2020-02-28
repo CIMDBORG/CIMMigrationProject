@@ -21,12 +21,28 @@ namespace Interim
     /// </summary>
     public partial class InterimHelpNeeded : Window
     {
+        //ConnectionString comes from App.config
+        //issue_date is used to collect information from query that fills out the form; this includes tracking numbers, current tracking number statuses (pass, audit, invalid)
+        //List of test case IDs assigned to one particular person is stored in an int list
+        //verificationDay keeps track of what day of notes is updated/shown on form. By default, this is the first day of verification (tuesday)
         public string connectionString = ConfigurationManager.ConnectionStrings["conString"].ConnectionString;
         private string[] issue_data;
         private string[] interim_statuses;
         private List<int> IDs;
         private string verificationDay = "Tue";
 
+        /*Name: Michael Figueroa
+        Function Name: InterimHelpNeeded
+        Purpose: InterimHelpNeeded Constructor
+        Parameters: None
+        Return Value: N/A
+        Local Variables: None
+        Algorithm: Calls FillAssignedComboBox twice (once with AssignedComboBox and again with AltComboBox as parameter), calls FillResultComboBOx, FillDayCheckBox,
+        FillStatusComboBoxes, sets AssignedComboBox index to 0 and calls GetScenario IDs to fill List IDs
+        Version: 2.0.0.4
+        Date modified: 1/7/20
+        Assistance Received: N/A
+        */
         public InterimHelpNeeded()
     {
         InitializeComponent();
@@ -41,6 +57,19 @@ namespace Interim
         TotalIssues.Text = "of " + IDs.Count;
     }
 
+
+      /*Name: Michael Figueroa
+      Function Name: FillStatusComboBoxes
+      Purpose: FillStatusComboBoxes Constructor
+      Parameters: None
+      Return Value: N/A
+      Local Variables: None
+      Algorithm: Calls FillAssignedComboBox twice (once with AssignedComboBox and again with AltComboBox as parameter), calls FillResultComboBOx, FillDayCheckBox,
+      FillStatusComboBoxes, sets AssignedComboBox index to 0 and calls GetScenario IDs to fill List IDs
+      Version: 2.0.0.4
+      Date modified: 1/7/20
+      Assistance Received: N/A
+       */
     private void FillStatusComboBoxes()
     {
         IncStatusComboBoxOne.Items.Add("Audit");
@@ -60,8 +89,19 @@ namespace Interim
         NIStatusComboBoxTwo.Items.Add("Help");
     }
 
-
-    //Get the IDs of the test cases assigned to one person
+    /*Name: Michael Figueroa
+        Function Name: FillStatusComboBoxes
+        Purpose: Get the IDs of the test cases assigned to one person
+        Parameters: None
+        Return Value: N/A
+        Local Variables: List<int> IDList, string query, string queryTwo
+        Algorithm: string query is used to create cmd; SqlDataReader is used to read through each record that string query produces, and adds the ID of each record into IDList;
+        The same thing is done with queryTwo, which checks to see if the user has been alt assigned to any individual test cases.
+        If IDList is empty after all of that, then the catch block will catch the exception and tell the user that no test cases have been assigned for that particular day
+        Version: 2.0.0.4
+        Date modified: 1/7/20
+        Assistance Received: N/A
+        */
     private List<int> GetScenarioIDs()
     {
         DateTime currentDate = DateTime.Now;
@@ -106,11 +146,35 @@ namespace Interim
             }
     }
 
+    /*Name: Michael Figueroa
+        Function Name: IDCount
+        Purpose: Getter that returns the count of List<int> IDList
+        Parameters: None
+        Return Value: N/A
+        Local Variables: None
+        Algorithm: None
+        Version: 2.0.0.4
+        Date modified: 1/7/20
+        Assistance Received: N/A
+        */
     public int IDCount()
     {
         return IDs.Count;
     }
 
+    /*Name: Michael Figueroa
+        Function Name: BindResult
+        Purpose: Binds INTERIM_CRITERIA_STATUS for record INTERIM_ID = GetID in INTERIM_TEST_CASES table to ResultComboBox
+        Parameters: None
+        Return Value: N/A
+        Local Variables: string query, string result, int cols, string[] data
+        Algorithm: string query is used to construct SqlCommand which then is read using SqlDataReader. string query will only produce one record since INTERIM_ID is a unique
+        identifier. Using the reader, INTERIM_CRITERIA_STATUS from the one record is added to data[]; after the while loop, string result is set equal to data[0], and 
+        ResultComboBox selected item is set equal to string result - if data[0] is null, then ResultComboBox will also be set as null
+        Version: 2.0.0.4
+        Date modified: 1/7/20
+        Assistance Received: N/A
+        */
     private void BindResult()
     {
         string query;
@@ -163,7 +227,20 @@ namespace Interim
         }
     }
 
-    private void AssignedCombobox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        /*Name: Michael Figueroa
+        Function Name: AssignedCombobox_SelectionChanged
+        Purpose: Event handler for when someone choses a new name from AssignedCombobox
+        Parameters: Auto-Generated
+        Return Value: N/A
+        Local Variables: None
+        Algorithm: Re-Populates List<int> IDs by calling GetScenarioIDs
+        If IDs.Count > 0, then SelectScenarioData, FillInForm, DayComboBox index is set to 0, BindNotes, and BindStatuses are called
+        else, the exception is handled and the user is told that no scenarios have been imported for today
+        Version: 2.0.0.4
+        Date modified: 1/7/20
+        Assistance Received: N/A
+        */
+        private void AssignedCombobox_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         IDs = GetScenarioIDs();
         CurrentIssue.Text = "1";
@@ -182,6 +259,17 @@ namespace Interim
         }
     }
 
+        /*Name: Michael Figueroa
+       Function Name: FillAssignedComboBox
+       Purpose: Fills AssignedComboBox and also can be used to fill AltComboBox
+       Parameters: ComboBox combobox
+       Return Value: N/A
+       Local Variables: None
+       Algorithm: None
+       Version: 2.0.0.4
+       Date modified: 1/7/20
+       Assistance Received: N/A
+       */
     private void FillAssignedComboBox(ComboBox comboBox)
     {
         comboBox.Items.Add("Brandon");
@@ -200,6 +288,17 @@ namespace Interim
         comboBox.Items.Add("Tau");
     }
 
+        /*Name: Michael Figueroa
+       Function Name: FillResultComboBox
+       Purpose: Fills ResultCombobox 
+       Parameters:  None
+       Return Value: N/A
+       Local Variables: None
+       Algorithm: None
+       Version: 2.0.0.4
+       Date modified: 1/7/20
+       Assistance Received: N/A
+       */
     private void FillResultComboBox()
     {
         ResultCombobox.Items.Add("Pass");
@@ -208,8 +307,17 @@ namespace Interim
         ResultCombobox.Items.Add("Fail");
     }
 
-
-
+    /*Name: Michael Figueroa
+       Function Name: FillDayCheckBox
+       Purpose: Fills DayComboBox 
+       Parameters:  None
+       Return Value: N/A
+       Local Variables: None
+       Algorithm: None
+       Version: 2.0.0.4
+       Date modified: 1/7/20
+       Assistance Received: N/A
+       */
     private void FillDayCheckBox()
     {
         DayComboBox.Items.Add("Tue");
@@ -219,6 +327,19 @@ namespace Interim
         DayComboBox.Items.Add("Sat");
     }
 
+         /*Name: Michael Figueroa
+        Function Name: FillInForm
+        Purpose: Fills in the form with the data from issue_data (which is an array filled in SelectScenarioData method)
+        Parameters: None
+        Return Value: N/A
+        Local Variables: None
+        Algorithm: if issue_data[12] is not empty, then  AltComboBox.SelectedItem = issue_data[12]; else AltComboBox.SelectedItem = null
+        if issue_data[13] is not null, then Defect.Text = issue_data[13]; else, Defect.Text is set to null
+        Then calls DetermineDups and BindResult
+        Version: 2.0.0.4
+        Date modified: 1/7/20
+        Assistance Received: N/A
+        */
     private void FillInForm()
     {
         IncShipNumOne.Text = issue_data[0];
@@ -254,6 +375,17 @@ namespace Interim
         BindResult();
     }
 
+        /*Name: Michael Figueroa
+        Function Name: SelectScenarioData
+        Purpose: Fills issue_date array
+        Parameters: string ID
+        Return Value: N/A
+        Local Variables: None
+        Algorithm: string query is initialized, then, using standard SQL Procedure, the query results are read in the while loop, and added to data[x]; issue_date is set equal to data
+        Version: 2.0.0.4
+        Date modified: 1/7/20
+        Assistance Received: N/A
+        */
     private void SelectScenarioData(string ID)
     {
         using (SqlConnection connection = new SqlConnection(connectionString))
@@ -296,7 +428,19 @@ namespace Interim
             }
     }
 
-    //checks whether a tracking number is a dup or not
+    /*Name: Michael Figueroa
+       Function Name: DetermineDups
+       Purpose: checks whether a tracking number is a dup or not
+       Parameters: None
+       Return Value: N/A
+       Local Variables: incTrkNumOneCnt, int incTrkNumTwoCnt, int niTrkNumOneCnt, int niTrkNumTwoCnt, int cols
+       Algorithm: The amount of times each tracking number iappears in INTEIRM_TEST_CASES is found
+       using incTrackingNumCountOne, int incTrkNumTwoCnt, int niTrkNumOneCnt, and int niTrkNumTwoCnt; if there is an instance where one of those tracking numbers appears
+       multiple times, then is marked as a dup
+       Version: 2.0.0.4
+       Date modified: 1/7/20
+       Assistance Received: N/A
+       */
     private void DetermineDups()
     {
         int incTrkNumOneCnt;
@@ -411,8 +555,17 @@ namespace Interim
             }
     }
 
-    //event handler for back arrow
-    //subtract one for the current issue id text, subtract current index from list
+        /*Name: Michael Figueroa
+        Function Name: BackArrow_Click
+        Purpose: Event Handler that allows user to scroll through the test cases (in a backwards manner)
+        Parameters: Auto-Generated
+        Return Value: None
+        Local Variables: string current, int currentID
+        Algorithm: if currentID - 1 >= 0, Calls SelectScenarioData, FillInForm, BindNotes, BindStatuses
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
     private void BackArrow_Click(object sender, RoutedEventArgs e)
     {
         string current = CurrentIssue.Text.ToString();
@@ -429,7 +582,17 @@ namespace Interim
         }
     }
 
-    //event handler for forward arrow
+    /*Name: Michael Figueroa
+        Function Name: ForwardArrow_Click
+        Purpose: Event Handler that allows user to scroll through the test cases (in a forwards manner)
+        Parameters: Auto-Generated
+        Return Value: None
+        Local Variables: string current, int currentID
+        Algorithm: if currentID + 1 < IDs.Count, Calls SelectScenarioData, FillInForm, BindNotes, BindStatuses
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
     private void ForwardArrow_Click(object sender, RoutedEventArgs e)
     {
         string current = CurrentIssue.Text.ToString();
@@ -447,7 +610,17 @@ namespace Interim
         }
     }
 
-    //allows user to jump to an issue by typing in a number
+         /*Name: Michael Figueroa
+        Function Name: CurrentIssue_KeyDown
+        Purpose: allows user to jump to an issue by typing in a number
+        Parameters: Auto-Generated
+        Return Value: None
+        Local Variables: string current, int currentID
+        Algorithm: None
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
     private void CurrentIssue_KeyDown(object sender, KeyEventArgs e)
     {
         if (e.Key == Key.Enter)
@@ -456,7 +629,17 @@ namespace Interim
         }
     }
 
-    //get current test case ID
+        /*Name: Michael Figueroa
+        Function Name: GetID
+        Purpose: get current test case ID
+        Parameters: None
+        Return Value: int currentID
+        Local Variables: string current, int currentIndex, int currentID
+        Algorithm: None
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
     private int GetID()
     {
         string current = CurrentIssue.Text.ToString();
@@ -465,7 +648,17 @@ namespace Interim
         return currentID;
     }
 
-    //update defect number
+    /*Name: Michael Figueroa
+        Function Name: Update_On_Content_Change
+        Purpose: Event handler for Defect TextBox - updates defect number
+        Parameters: Auto-Generated
+        Return Value: None
+        Local Variables: string defectNumber, string updateQuery
+        Algorithm: using basic sql prodcedure, executes updateQuery, then calls SelectScenarioData and FillInForm to refresh the test case data
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
     private void Update_On_Content_Change(object sender, TextChangedEventArgs e)
     {
 
@@ -494,7 +687,17 @@ namespace Interim
             }
     }
 
-    //update notes
+         /*Name: Michael Figueroa
+        Function Name: Notes_TextChanged
+        Purpose: Event handler for Notes TextBox - updates notes based on what day of the week it is
+        Parameters: Auto-Generated
+        Return Value: None
+        Local Variables: string notesQuery
+        Algorithm: using basic sql prodcedure, executes notesQuery, then calls SelectScenarioData and FillInForm to refresh the test case data
+        Version: 2.0.0.4
+        Date modified: Prior to 1/1/20
+        Assistance Received: N/A
+        */
     private void Notes_TextChanged(object sender, TextChangedEventArgs e)
     {
         string notesQuery = "UPDATE INTERIM_HISTORY SET INTERIM_" + verificationDay + "_NOTES = '" + Notes.Text.ToString().Replace("'", "\''") + "' FROM INTERIM_HISTORY " +
@@ -521,7 +724,18 @@ namespace Interim
             }
     }
 
-    //updates the alternate auditor if needed
+        /*Name: Michael Figueroa
+            Function Name: Notes_TextChanged
+            Purpose: Event handler for AltComboBox selection changed
+            Parameters: Auto-Generated
+            Return Value: None
+            Local Variables: string altAud
+            Algorithm: is AltComboBox is not null, altAud is set equal to the selected AltComboBox value; then, standard sql procedure executes the query and SelectScenarioData and
+            FillInForm are called to refresh test case data
+            Version: 2.0.0.4
+            Date modified: Prior to 1/1/20
+            Assistance Received: N/A
+            */
     private void AltComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         string altAud;
@@ -557,7 +771,21 @@ namespace Interim
             }
     }
 
-    //these 4 event methods update the status of the shipper numbers
+        //these 4 event methods update the status of the shipper numbers
+
+
+        /*Name: Michael Figueroa
+            Function Name: IncStatusComboBoxOne_SelectionChanged
+            Purpose: Event handler for IncStatusComboBoxOne selection changed
+            Parameters: Auto-Generated
+            Return Value: None
+            Local Variables: string incStatComboBoxOne, string incStatusOne
+            Algorithm: if IncStatusComboBoxOne is not null, incStatComboBoxOne is set equal to the selected IncStatusComboBoxOne value; 
+            then, standard sql procedure executes the query and SelectScenarioData and FillInForm are called to refresh test case data
+            Version: 2.0.0.4
+            Date modified: Prior to 1/1/20
+            Assistance Received: N/A
+            */
     private void IncStatusComboBoxOne_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         string incStatComboBoxOne;
@@ -595,7 +823,18 @@ namespace Interim
                 connection.Close();
             }
     }
-
+        /*Name: Michael Figueroa
+           Function Name: IncStatusComboBoxTwo_SelectionChanged
+           Purpose: Event handler for IncStatusComboBoxTwo selection changed
+           Parameters: Auto-Generated
+           Return Value: None
+           Local Variables: string incStatComboBoxTwo, string incStatusTwo
+           Algorithm: if incStatComboBoxTwo is not null, incStatComboBoxTwo is set equal to the selected incStatComboBoxTwo value; 
+           then, standard sql procedure executes the query and SelectScenarioData, BindStatuses and FillInForm are called to refresh test case data
+           Version: 2.0.0.4
+           Date modified: Prior to 1/1/20
+           Assistance Received: N/A
+           */
     private void IncStatusComboBoxTwo_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         string incStatComboBoxTwo;
@@ -635,6 +874,18 @@ namespace Interim
             }
     }
 
+        /*Name: Michael Figueroa
+           Function Name: NIStatusComboBoxOne_SelectionChanged
+           Purpose: Event handler for NIStatusComboBoxOne_SelectionChanged selection changed
+           Parameters: Auto-Generated
+           Return Value: None
+           Local Variables: string NIStatComboBoxOne, string NIStatusOne
+           Algorithm: if NIStatusComboBoxOne is not null, NIStatComboBoxOne is set equal to the selected NIStatusComboBoxOne value; 
+           then, standard sql procedure executes the query and SelectScenarioData, BindStatuses and FillInForm are called to refresh test case data
+           Version: 2.0.0.4
+           Date modified: Prior to 1/1/20
+           Assistance Received: N/A
+           */
     private void NIStatusComboBoxOne_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         string NIStatComboBoxOne;
@@ -673,7 +924,18 @@ namespace Interim
             }
 
     }
-
+    /*Name: Michael Figueroa
+           Function Name: NIStatusComboBoxTwo_SelectionChanged
+           Purpose: Event handler for NIStatusComboBoxTwo selection changed
+           Parameters: Auto-Generated
+           Return Value: None
+           Local Variables: string NIStatComboBoxTwo, string NIStatusOne
+           Algorithm: if NIStatusComboBoxTwo is not null, NIStatComboBoxTwo is set equal to the selected NIStatusComboBoxOne value; 
+           then, standard sql procedure executes the query and SelectScenarioData, BindStatuses and FillInForm are called to refresh test case data
+           Version: 2.0.0.4
+           Date modified: Prior to 1/1/20
+           Assistance Received: N/A
+           */
     private void NIStatusComboBoxTwo_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         string NIStatComboBoxTwo;
@@ -712,7 +974,18 @@ namespace Interim
             }
     }
 
-    //updates result of tracking number
+    /*Name: Michael Figueroa
+           Function Name: ResultCombobox_SelectionChanged
+           Purpose: Event handler for ResultCombobox selection changed - updates the result of the scenario
+           Parameters: Auto-Generated
+           Return Value: None
+           Local Variables: string result, string scenarioResult
+           Algorithm: if ResultCombobox is not null, result is set equal to the selected ResultCombobox value; 
+           then, standard sql procedure executes the query and SelectScenarioData, BindStatuses and FillInForm are called to refresh test case data
+           Version: 2.0.0.4
+           Date modified: Prior to 1/1/20
+           Assistance Received: N/A
+           */
     private void ResultCombobox_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         string result;
@@ -750,6 +1023,21 @@ namespace Interim
             }
     }
 
+        /*Name: Michael Figueroa
+           Function Name: BindStatuses
+           Purpose: Binds Statuses for each tracking number to form
+           Parameters: Auto-Generated
+           Return Value: None
+           Local Variables: string query, int cols, string[] data, 
+           Algorithm: if ResultCombobox is not null, result is set equal to the selected ResultCombobox value;
+           then, standard sql procedure executes the query and SelectScenarioData, BindStatuses and FillInForm are called to refresh test case data
+           if interim_statuses[0] != null, then NIStatusComboBoxOne.Text = interim_statuses[0]
+           else, NIStatusComboBoxOne.Text = null
+           same goes for NIStatusComboBoxTwo, IncStatusComboBoxOne, IncStatusComboBoxOne
+           Version: 2.0.0.4
+           Date modified: Prior to 1/1/20
+           Assistance Received: N/A
+           */
     private void BindStatuses()
     {
         string query;
@@ -826,7 +1114,18 @@ namespace Interim
         }
     }
 
-    //bind notes to the form based on what day is chosen from the combobox
+        /*Name: Michael Figueroa
+           Function Name: BindNotes
+           Purpose: Binds Notes for each tracking number to form
+           Parameters: Auto-Generated
+           Return Value: None
+           Local Variables: string query, string notesText
+           Algorithm: query is defined based on what option is chosen from DayComboBox, then standard Sql procedure reads information into data[] array - if data[0] is not null,
+           the Notes textbox is filled with the information from data[0]
+           Version: 2.0.0.4
+           Date modified: Prior to 1/1/20
+           Assistance Received: N/A
+           */
     private void BindNotes()
     {
         string query;
@@ -896,7 +1195,18 @@ namespace Interim
         }
     }
 
-    //updates verificationDay variable based on day chosen on dropdown
+         //updates verificationDay variable based on day chosen on dropdown
+        /*Name: Michael Figueroa
+           Function Name: DayComboBox_SelectionChanged_1
+           Purpose: Event handler 
+           Parameters: Auto-Generated
+           Return Value: None
+           Local Variables: None
+           Algorithm: if DayComboBox.SelectedItem.ToString()  is not null, verification day is changed to that value and BindNotes is called; else, verificationDay is set to an empty string
+           Version: 2.0.0.4
+           Date modified: Prior to 1/1/20
+           Assistance Received: N/A
+           */
     private void DayComboBox_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
     {
         if (DayComboBox.SelectedItem.ToString() != null)
@@ -910,6 +1220,18 @@ namespace Interim
         }
     }
 
+        //updates verificationDay variable based on day chosen on dropdown
+        /*Name: Michael Figueroa
+           Function Name: DayComboBox_SelectionChanged_1
+           Purpose: Event handler 
+           Parameters: Auto-Generated
+           Return Value: None
+           Local Variables: None
+           Algorithm: if DayComboBox.SelectedItem.ToString()  is not null, verification day is changed to that value and BindNotes is called; else, verificationDay is set to an empty string
+           Version: 2.0.0.4
+           Date modified: Prior to 1/1/20
+           Assistance Received: N/A
+           */
         private void DayComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (DayComboBox.SelectedItem.ToString() != null)

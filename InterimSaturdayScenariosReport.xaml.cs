@@ -24,12 +24,34 @@ namespace Interim
     {
         public string connectionString = ConfigurationManager.ConnectionStrings["conString"].ConnectionString;
 
+        /*Name: Michael Figueroa
+        Function Name: InterimSaturdayScenariosReport
+        Purpose: InterimSaturdayScenariosReport Constructor
+        Parameters: None
+        Return Value: N/A
+        Local Variables: None
+        Algorithm: Calls BindDataGrid
+        Version: 2.0.0.4
+        Date modified: 1/7/20
+        Assistance Received: N/A
+        */
         public InterimSaturdayScenariosReport()
         {
             InitializeComponent();
             BindDataGrid();
         }
 
+        /*Name: Michael Figueroa
+        Function Name: Wkd_Query
+        Purpose: Query that is used to display all weekly test cases - this will be modified
+        Parameters: None
+        Return Value: N/A
+        Local Variables: None
+        Algorithm: None
+        Version: 2.0.0.4
+        Date modified: 1/7/20
+        Assistance Received: N/A
+        */
         private string Wkd_Query()
         {
             return "Select INTERIM_ID, INTERIM_BILL_TYPE, INTERIM_TEST_CASE_CRITERIA, INTERIM_NI_SHIP_NUM1, INTERIM_NI_TRACK_NUM1, " +
@@ -38,6 +60,18 @@ namespace Interim
                 "AND (INTERIM_BILL_TYPE IS NOT NULL OR INTERIM_BILL_TYPE <>0) " +
                 "AND (INTERIM_TEST_CASE_CRITERIA IS NOT NULL OR INTERIM_TEST_CASE_CRITERIA <>0) ";
         }
+
+        /*Name: Michael Figueroa
+        Function Name: BindDataGrid
+        Purpose: Binds results from Wkd_Query to SourceReport DataGrid
+        Parameters: None
+        Return Value: N/A
+        Local Variables: string query, DataTable srcReportTable
+        Algorithm: Wkd_Query results fills srcReportTable, then srcReportTable info is binded to SourceReport DataGrid
+        Version: 2.0.0.4
+        Date modified: 1/7/20
+        Assistance Received: N/A
+        */
         private void BindDataGrid()
         {
             string query = Wkd_Query();
@@ -52,7 +86,7 @@ namespace Interim
                     {
                         sda.Fill(srcReportTable);
                     }
-                    SourceReport.ItemsSource = srcReportTable.DefaultView;
+                    SaturdayReport.ItemsSource = srcReportTable.DefaultView;
                 }
                 catch (Exception ex)
                 {
@@ -65,11 +99,22 @@ namespace Interim
                 }
         }
 
-        private void Source_TextChanged(object sender, TextChangedEventArgs e)
+        /*Name: Michael Figueroa
+        Function Name: BindDataGrid
+        Purpose: Binds results from Wkd_Query to SourceReport DataGrid
+        Parameters: None
+        Return Value: N/A
+        Local Variables: string query, DataTable srcReportTable
+        Algorithm: DataRowView reportRow is assigned value from row in which textbox was changed. Name is assigned value that is typed into AltAssign textbox,
+        Wkd_Query results fills srcReportTable, then srcReportTable info is binded to SourceReport DataGrid
+        Version: 2.0.0.4
+        Date modified: 1/7/20
+        Assistance Received: N/A
+        */
+        private void AltAssign_TextChanged(object sender, TextChangedEventArgs e)
         {
             DataRowView reportRow = (DataRowView)((TextBox)e.Source).DataContext;
             string name = ((TextBox)e.Source).Text.ToString();
-            string cc = reportRow["CC"].ToString();
             string updateQuery = "UPDATE INTERIM_TEST_CASES SET INTERIM_ASSIGNED_ALT = 1, INTERIM_ASSIGNED_NAME = '" + name + "' WHERE INTERIM_ID = '" + reportRow["ID"] + "';";
             using (SqlConnection connection = new SqlConnection(connectionString))
                 try

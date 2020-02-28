@@ -19,6 +19,17 @@ namespace WpfApp2
     /// </summary>
     public partial class EDI_Submit_PWR : Window
     {
+        /*Name: Michael Figueroa
+        Function Name: EDI_Submit_PWR
+        Purpose: Constructor for the EDI_Submit_PWR form
+        Parameters: None
+        Return Value: None
+        Local Variables: None
+        Algorithm: None
+        Date modified:  1/2020
+        Assistance Received: N/A
+        Version: 2.0.0.4
+        */
         public EDI_Submit_PWR()
         {
             InitializeComponent();
