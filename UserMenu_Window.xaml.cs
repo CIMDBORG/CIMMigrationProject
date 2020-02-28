@@ -21,9 +21,19 @@ using WpfApp2;
 namespace WpfApp1
 {
     //*******************************************************************
-    // DESCRIPTION: 	Window that holds the Main Menu and other sub-menu's of the application. 
+    //Author: Pawel Kusiak
+    //Name: UserMenu_Window.xaml.cs
+    //Function Name:
+    //Purpose: 	Window that holds the Main Menu and other sub-menu's of the application. 
     //                  On initialization, the frame displays UserMenuPage, the Page containing main app menu.
     //                  Frame also can display sub-menus via Navigation between Pages. See UserMenuPage.xaml.cs for more.
+    //Parameters:
+    //Return Value: 
+    //Local Variables: 
+    //Algorithm: 
+    //Version: 
+    //Date modified: 
+    //Assistance Received: 
     //*******************************************************************
     public partial class UserMenu_Window : Window 
     {
@@ -32,9 +42,19 @@ namespace WpfApp1
         private DataRowView reportRow;
 
         //*******************************************************************
-        // DESCRIPTION: Constructor for Subwindow1 Class, the "Main Menu" window of this application.
+        //Author: Pawel Kusiak
+        //Name: UserMenu_Window.xaml.cs
+        //Function Name:
+        //Purpose: Constructor for Subwindow1 Class, the "Main Menu" window of this application.
         //                  Also pre-populates login-based fields at top of form.
         //                  UserMenuPage, the page containing the buttons of the user menu, is displayed in this window.
+        //Parameters:
+        //Return Value: 
+        //Local Variables: 
+        //Algorithm: 
+        //Version: 
+        //Date modified: 
+        //Assistance Received: 
         //*******************************************************************
         public UserMenu_Window(string[] user_data)
         {
@@ -115,8 +135,18 @@ namespace WpfApp1
             }
         }
         //*******************************************************************
-        // DESCRIPTION: Opens a new New Issue form on button click, by creating and showing an instance of Window NewRecord.
+        //Author: Pawel Kusiak
+        //Name: UserMenu_Window.xaml.cs
+        //Function Name:
+        //Purpose: Opens a new New Issue form on button click, by creating and showing an instance of Window NewRecord.
         //              Passes login-based data to NewRecord form for pre-population of fields.
+        //Parameters:
+        //Return Value: 
+        //Local Variables: 
+        //Algorithm: 
+        //Version: 
+        //Date modified: 
+        //Assistance Received: 
         //*******************************************************************
         private void NewRecordbutton_Click(object sender, RoutedEventArgs e)
         {
@@ -134,9 +164,19 @@ namespace WpfApp1
         }
 
         //*******************************************************************
-        // DESCRIPTION: Runs when the page is loaded.
+        //Author: Pawel Kusiak
+        //Name: UserMenu_Window.xaml.cs
+        //Function Name:
+        //Purpose: Runs when the page is loaded.
         //              This function checks the user's role. If the user is not a Manager, 
         //                  certain features are collapsed and unavailable.
+        //Parameters:
+        //Return Value: 
+        //Local Variables: 
+        //Algorithm: 
+        //Version: 
+        //Date modified: 
+        //Assistance Received: 
         //*******************************************************************
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
@@ -154,7 +194,17 @@ namespace WpfApp1
         }
 
         //*******************************************************************
-        // DESCRIPTION: Runs when 'Generate Report' button is clicked.
+        //Author: Pawel Kusiak
+        //Name: UserMenu_Window.xaml.cs
+        //Function Name:
+        //Purpose: Runs when 'Generate Report' button is clicked.
+        //Parameters:
+        //Return Value: 
+        //Local Variables: 
+        //Algorithm: 
+        //Version: 
+        //Date modified: 
+        //Assistance Received: 
         //*******************************************************************
         private void Reportbutton_Click_1(object sender, RoutedEventArgs e)
         {
