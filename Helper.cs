@@ -337,6 +337,7 @@ namespace WpfApp1
         public static void FillSystemComboBox(ComboBox systemComboBox)
         {
             systemComboBox.Items.Add("All");
+            systemComboBox.Items.Add("Auto");
             systemComboBox.Items.Add("ABR");
             systemComboBox.Items.Add("BAT");
             systemComboBox.Items.Add("BFR");
@@ -365,6 +366,7 @@ namespace WpfApp1
 
         public static void FillSystemComboBoxNoAll(ComboBox systemComboBox)
         {
+            systemComboBox.Items.Add("Auto");
             systemComboBox.Items.Add("ABR");
             systemComboBox.Items.Add("BAT");
             systemComboBox.Items.Add("BFR");
