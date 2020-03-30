@@ -672,16 +672,39 @@ namespace WpfApp1
        Return Value: None
        Local Variables: DataTable shortenedReport, XLWorkbook wb, int numCol, var ws
        Algorithm: Calls ChopTable with parameters report and shortenedReport, then adjusts the column width of the spreadsheet,then prompts user to save worksheet for viewing.
-       Version: 2.0.0.4
-       Date modified: Prior to 1/1/20
+       Version: 3.3.0.0
+       Date modified: 3/24/2020
        Assistance Received: None
        */
-        public static void ToExcelClosedXML(DataTable report)
+        public static void ToExcelClosedXML(string query)
         {
+            DataTable reports = new DataTable();
+            using (SqlConnection con = new SqlConnection(connectionString))
+                try
+                {
+                    con.Open();
+                    SqlCommand cmd = new SqlCommand(query, con); //uses query generated in BindDataGrid to fill the dataTable 
+                    SqlDataAdapter sda = new SqlDataAdapter(cmd);
+                    using (sda)
+                    {
+                        sda.Fill(reports);
+                    }
+                }
+
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.ToString());
+                }
+
+                finally
+                {
+                    con.Close();
+                }
+
             DataTable shortenedReport = new DataTable();
-            ChopTable(report, shortenedReport);
+            ChopTable(reports, shortenedReport);
             XLWorkbook wb = new XLWorkbook();
-            int numCol = report.Columns.Count;
+            int numCol = reports.Columns.Count;
             var ws = wb.Worksheets.Add(shortenedReport, "Report");
 
             var saveFileDialog = new SaveFileDialog

@@ -23,10 +23,10 @@ namespace WpfApp1
     /// </summary>
     public partial class BrowseOpenItems : Page
     {
-        public string connectionString = ConfigurationManager.ConnectionStrings["conString"].ConnectionString;
+        public string connectionString = ConfigurationManager.ConnectionStrings["conString"].ConnectionString; //sql connectionstring; see app.config for details
         private string[] arr;                       //local variable to store login-based user data
         private DataRowView priorBySystemRow;       //local variable to store the row of data in the 'Prioritization by System' DataGrid
-        private string reportQuery;
+        private string reportQuery; //query used for excel export
 
         /*Name: Michael Figueroa
         Function Name: BrowseOpenItems
@@ -67,16 +67,16 @@ namespace WpfApp1
                     string query;
                     if (ReportHelper.SystemChosen(SystemComboBox) == "All")
                     {
-                         query = "SELECT ID, Priority_Number, Sys_Impact as [System], [Status], Category, TFS_BC_HDFS_Num as BID_ID, " +
-                                        "Assigned_To as [Owner], FORMAT(Opened_Date,'MM/dd/yyyy'), Title, Req_Name AS Req, " +
+                         query = "SELECT ID, Priority_Number, Sys_Impact as [System], [Status], Category, TFS_BC_HDFS_Num AS BID, " +
+                                        "Assigned_To as [Owner], FORMAT(Opened_Date,'MM/dd/yyyy') AS Opened_Date, Title, Req_Name AS Req, " +
                                         "Impact, IIf(Completed_Date Is Not Null, DATEDIFF(DAY, Opened_Date, Completed_Date), DATEDIFF(DAY, Opened_Date, Getdate())) as [Days] " +
                                         "FROM New_Issues WHERE ([Status] NOT LIKE '%closed%' AND [Status] NOT LIKE '%implemented%' AND [Status] NOT LIKE '%dropped%' AND [Status] NOT LIKE '%deferred%') " +
                                         "ORDER BY Priority_Number ASC;";
                     }
                     else
                     {
-                         query = "SELECT ID, Priority_Number, Sys_Impact as [System], [Status], Category, TFS_BC_HDFS_Num as BID_ID, " +
-                                        "Assigned_To as [Owner], FORMAT(Opened_Date,'MM/dd/yyyy'), Title, Req_Name AS Req, " +
+                         query = "SELECT ID, Priority_Number, Sys_Impact as [System], [Status], Category, TFS_BC_HDFS_Num as BID, " +
+                                        "Assigned_To as [Owner], FORMAT(Opened_Date,'MM/dd/yyyy') AS Opened_Date, Title, Req_Name AS Req, " +
                                         "Impact, IIf(Completed_Date Is Not Null, DATEDIFF(DAY, Opened_Date, Completed_Date), DATEDIFF(DAY, Opened_Date, Getdate())) as [Days] " +
                                         "FROM New_Issues WHERE ([Status] NOT LIKE '%closed%' AND [Status] NOT LIKE '%implemented%' AND [Status] NOT LIKE '%dropped%' AND [Status] NOT LIKE '%deferred%') " +
                                         "AND Sys_Impact = '" + ReportHelper.SystemChosen(SystemComboBox) + "' " +
@@ -160,36 +160,13 @@ namespace WpfApp1
        Return Value: None
        Local Variables: DataTable reports, DataTable historyTable
        Algorithm: reports and historyTable DataTables are filled, then the helper ToExcelClosedXML method completes the export.
-       Version: 2.0.0.4
-       Date modified: Prior to 1/1/20
+       Version: 3.3.0.0
+       Date modified: 3/24/2020
        Assistance Received: N/A
        */
         private void Export_Click(object sender, RoutedEventArgs e)
         {
-            using (SqlConnection con = new SqlConnection(connectionString))
-                try
-                {
-                    con.Open();
-                    SqlCommand cmd = new SqlCommand(reportQuery, con); //uses query generated in BindDataGrid to fill the dataTable 
-
-                    DataTable reports = new DataTable();
-                    SqlDataAdapter sda = new SqlDataAdapter(cmd);
-                    using (sda)
-                    {
-                        sda.Fill(reports);
-                    }
-
-                    Helper.ToExcelClosedXML(reports);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.ToString());
-                }
-
-                finally
-                {
-                    con.Close();
-                }
+                  Helper.ToExcelClosedXML(reportQuery);           
         }
     }
 }
