@@ -28,7 +28,7 @@ namespace WpfApp1
     //*******************************************************************
     public partial class NewRecord : Window
     {
-        public string connectionString = ConfigurationManager.ConnectionStrings["conString"].ConnectionString;
+        public string connectionString = ConfigurationManager.ConnectionStrings["conString"].ConnectionString; //SQL Connection string; see App.config
         private string[] arr;               //local variable to store login-based user data
         private int IDnum;                      //local variable to store issue ID number
 
@@ -103,9 +103,9 @@ namespace WpfApp1
         Local Variables: None
         Algorithm: First, the ID of the issue just submitted is pulled. Then, in try block, issuesQuery is assigned using InsertData_NewContacts, then executed. The reader retrieves the ID of the issue, assigning it to global 
         variable IDnum, and uses IDnum to execute InsertData_History method, which assigns value to historyQuery; NewRecord closes, UserMenu_Window form shows
-        Version: 2.0.0.4
-        Date modified: Prior to 1/1/20
-        Assistance Received: N/A
+        Version: 3.3.0.0
+        Date modified: 3/25/2020
+        Assistance Received: Brandon Cox
         */
         private void SubmitIssueButton_Click(object sender, RoutedEventArgs e)
         {
@@ -139,10 +139,7 @@ namespace WpfApp1
 
                 MessageBox.Show("Insert Successful!");
 
-                UserMenu_Window userM = new UserMenu_Window(arr);
-                userM.Show();
                 this.Close();
-              
             }
 
             catch (SqlException ex)
@@ -478,31 +475,7 @@ namespace WpfApp1
 
             StatusStackPanel.Visibility = Visibility.Hidden;
         }
-
-       /*Name: Michael Figueroa
-      Function Name: FillSystemComboBox
-      Purpose: Fills comboboxes based on the systems the user oversees
-      Parameters: Auto-Generated
-      Return Value: None
-      Local Variables: char delimiter, string[] sys, int len
-      Algorithm: The delimiter splits the systemString, then the for loop adds values from string[] sys into SystemComboBox; everyone has CIM as option
-      Version: 2.0.0.4
-      Date modified: Prior to 1/1/20
-      Assistance Received: N/A
-      */
-        private void FillSystemComboBox(string systemString)
-        {
-            char delimiter = '/';
-            string[] sys = systemString.Split(delimiter);
-
-            int len = sys.Length;
-            for (int x = 0; x < len; x++)
-            {
-                SystemComboBox.Items.Add(sys[x]);
-            }
-            SystemComboBox.Items.Add("CIM");
-        }
-
+        
         /*Name: Michael Figueroa
         Function Name: CategoryComboBox_SelectionChanged
         Purpose: Collapses and makes fields visible based on whether or not strategic task is chosen as a category

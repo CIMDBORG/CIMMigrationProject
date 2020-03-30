@@ -9,7 +9,7 @@
         Height="600"
         Width="1200"
 
-        Background="#efe1b3" ResizeMode="CanResizeWithGrip" Loaded="Window_Loaded">
+        Background="#efe1b3" ResizeMode="CanResizeWithGrip" Loaded="Window_Loaded" Closed="Window_Closed">
     <Viewbox StretchDirection="DownOnly" Stretch="Uniform">
         <Grid x:Name="MyGrid" Width="1800" Height="1000">
 
@@ -205,7 +205,7 @@
                    Margin="0,0,0,0" FontSize="20"
                    HorizontalAlignment="Left">
                         <TextBlock.ToolTip>
-                            Title: A meaningful description of the item in clear business terms.
+                            Title: A meaningful description of the item in clear business terms. Maximum of 255 characters.
                         </TextBlock.ToolTip>
                     </TextBlock>
                     <TextBox x:Name="TitleText" Style="{StaticResource Textbox1}"
@@ -215,7 +215,7 @@
                      TextWrapping="Wrap" MaxLength="255"
                      SpellCheck.IsEnabled="True" TabIndex="13">
                         <TextBox.ToolTip>
-                            Title: A meaningful description of the item in clear business terms.
+                            Title: A meaningful description of the item in clear business terms. Maximum of 255 characters.
                         </TextBox.ToolTip>
                     </TextBox>
 
@@ -223,7 +223,7 @@
                    Margin="0,15,0,0" FontSize="20"
                    HorizontalAlignment="Left">
                         <TextBlock.ToolTip>
-                            Supporting Details: Supporting information that is not included in the title.
+                            Supporting Details: Supporting information that is not included in the title. Maximum of 255 characters.
                         </TextBlock.ToolTip>
                     </TextBlock>
                     <TextBox x:Name="SupportingDetailsText" Style="{StaticResource Textbox1}"
@@ -234,7 +234,7 @@
                          SpellCheck.IsEnabled="True"  TabIndex="14">
                         <TextBox.ToolTip>
                             <ToolTip >
-                                Supporting Details: Supporting information that is not included in the title.
+                                Supporting Details: Supporting information that is not included in the title. Maximum of 255 characters.
                             </ToolTip>
                         </TextBox.ToolTip>
                     </TextBox>
@@ -243,7 +243,7 @@
                    Margin="0,15,0,0" FontSize="20"
                    HorizontalAlignment="Left">
                         <TextBlock.ToolTip>
-                            Benefits: Benefits of this Strategic Task.
+                            Benefits: Benefits of this Strategic Task. Maximum of 255 characters.
                         </TextBlock.ToolTip>
                     </TextBlock>
                     <TextBox x:Name="BenefitsText" Style="{StaticResource Textbox1}"
@@ -258,7 +258,7 @@
                    Margin="0,15,0,0" FontSize="20" Width="500"
                    HorizontalAlignment="Left" TextWrapping="Wrap">
                         <TextBlock.ToolTip>
-                            Business Impact: What is affected by this issue being opened and how it will impact the business.
+                            Business Impact: What is affected by this issue being opened and how it will impact the business. Maximum of 255 characters.
                         </TextBlock.ToolTip>
                     </TextBlock>
                     <TextBox x:Name="BusinessImpactsText" Style="{StaticResource Textbox1}"
@@ -269,7 +269,7 @@
                          SpellCheck.IsEnabled="True" TabIndex="15">
                         <TextBox.ToolTip>
                             Business Impact: What is affected by this issue being opened,
-                            and how it will impact the business.
+                            and how it will impact the business. Maximum of 255 characters.
                         </TextBox.ToolTip>
                     </TextBox>
 
@@ -277,7 +277,7 @@
                    Margin="0,15,0,0" FontSize="20" Width="500"
                    HorizontalAlignment="Left" TextWrapping="Wrap">
                         <TextBlock.ToolTip>
-                            Business Impact: What is affected by this issue being opened and how it will impact the business.
+                            Business Impact: What is affected by this issue being opened and how it will impact the business. Maximum of 255 characters.
                         </TextBlock.ToolTip>
                     </TextBlock>
                     <TextBox x:Name="DeliverablesTextBox" Style="{StaticResource Textbox1}"
@@ -287,7 +287,7 @@
                      TextWrapping="Wrap" MaxLength="255"
                          SpellCheck.IsEnabled="True" TabIndex="15">
                         <TextBox.ToolTip>
-                            Deliverables: deliverables for an issue, usually this is for strategic tasks
+                            Deliverables: deliverables for an issue, usually this is for strategic tasks. Maximum of 255 characters.
                         </TextBox.ToolTip>
                     </TextBox>
 
@@ -295,7 +295,7 @@
                    Margin="0,15,0,0" FontSize="20" Width="500"
                    HorizontalAlignment="Left" TextWrapping="Wrap">
                         <TextBlock.ToolTip>
-                            Internal Notes: Optional and may be used if you have information you are tracking that exceeds character limitation.
+                            Internal Notes: Optional and may be used if you have information you are tracking that exceeds character limitation. Maximum of 255 characters. 
                         </TextBlock.ToolTip>
 
                     </TextBlock>
@@ -306,7 +306,7 @@
                      TextWrapping="Wrap" MaxLength="255"
                          SpellCheck.IsEnabled="True" TabIndex="16" >
                         <TextBox.ToolTip>
-                            Internal Notes: Optional and may be used if you have information you are tracking that exceeds character limitation.
+                            Internal Notes: Optional and may be used if you have information you are tracking that exceeds character limitation. Maximum of 255 characters. 
                         </TextBox.ToolTip>
                     </TextBox>
 
@@ -319,7 +319,11 @@
                              FontSize="20" AcceptsReturn="True"
                              TextWrapping="Wrap" MaxLength="255"
                              SpellCheck.IsEnabled="True"
-                                 VerticalScrollBarVisibility="Auto"/>
+                                 VerticalScrollBarVisibility="Auto">
+                            <TextBox.ToolTip>
+                                Manager Notes: Used when you need the user specialist to make an update. Maximum of 255 characters.
+                            </TextBox.ToolTip>
+                        </TextBox>
                     </StackPanel>
                     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" MaxHeight="140" MaxWidth="750"
                         HorizontalAlignment="Left" Margin="0,10,0,0" CanContentScroll="True"/>
@@ -328,11 +332,11 @@
 
             <DataGrid   x:Name="Report" Height="500" Width="670"
                         HorizontalAlignment="Left" Margin="43.334,10.333,-468.667,348.333"
-                        AutoGenerateColumns="False" MaxColumnWidth="500" 
-                        CanUserResizeColumns="True" 
+                        AutoGenerateColumns="False" MaxColumnWidth="500"  
+                        CanUserResizeColumns="True"
                         CanUserAddRows="True" IsReadOnly="True"
                         FontSize="20"
-                        TextOptions.TextFormattingMode="Ideal" MouseDoubleClick="Report_MouseDoubleClick" Grid.Column="4" Grid.Row="4" Grid.ColumnSpan="4">
+                        TextOptions.TextFormattingMode="Ideal" MouseDoubleClick="Report_MouseDoubleClick" Grid.Column="4" Grid.Row="4" Grid.ColumnSpan="4" SelectionChanged="Report_SelectionChanged">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Date" Binding="{Binding EntryDate}" Width="110"/>
 
@@ -344,12 +348,13 @@
                         </DataGridTextColumn.ElementStyle>
                     </DataGridTextColumn>
 
-                    <DataGridTextColumn Header="Status Note" Binding="{Binding Status_Note}" Width="396">
+                    <DataGridTextColumn Header="Status Note" Binding="{Binding Status_Note}" Width="396" FontSize="20">
                         <DataGridTextColumn.ElementStyle>
                             <Style>
-                                <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                                <Setter Property="TextBlock.TextWrapping" Value="Wrap"/>
                             </Style>
                         </DataGridTextColumn.ElementStyle>
+                        
                     </DataGridTextColumn>
                 </DataGrid.Columns>
             </DataGrid>
@@ -420,7 +425,7 @@
             <TextBlock Text="of 8" x:Name ="TotalIssues" HorizontalAlignment="Right"
                    Margin="0,813.333,-136.333,9" FontSize="16" Width="70" 
                    TextWrapping="Wrap" Grid.Column="7" Grid.Row="4">
-                <TextBlock.ToolTip>Internal Notes: Optional and may be used if you have information you are tracking that exceeds character limitation.</TextBlock.ToolTip>
+                <TextBlock.ToolTip>Internal Notes: Optional and may be used if you have information you are tracking that exceeds character limitation. Maximum of 255 characters.</TextBlock.ToolTip>
 
             </TextBlock>
             <Button Margin="199.001,800.333,-195.667,10.333" FontFamily="Segoe UI Symbol" 

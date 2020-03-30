@@ -35,6 +35,7 @@ namespace WpfApp1
         private bool fullHistoryChosen = false; //hides the FullHistory DataGrid by default 
         private bool includeCIM; //bool that indicates whether to include CIM issues on report
         private bool includeStratTasks; //bool that indicates whether to include Strategic Tasks on report
+        private string reportQuery;
 
         /*Name: Michael Figueroa
         Function Name: ReportsWindow
@@ -550,7 +551,7 @@ namespace WpfApp1
                          " GROUP BY Priority_Number, Sys_Impact, Assigned_To, Impact, Latest_Status_Update, ID, Category, TFS_BC_HDFS_Num, Opened_Date, Completed_Date, Title,Supporting_Details, Due_Date, Req_Name, [Status] " +
                         "ORDER BY Sys_Impact ASC, Priority_Number ASC;";
             }
-            
+            reportQuery = stringQuery;
             return stringQuery;
         }
 
@@ -858,36 +859,7 @@ namespace WpfApp1
         */
         private void Export_Click(object sender, RoutedEventArgs e)
         {
-            //On Excel Button click, pulls the data from that row of the datagrid, and stores it as a DataRowView object
-            //rowClickedInfo = (DataRowView)((Button)e.Source).DataContext;
-            //Generates an empty excel document 
-           
-            using (SqlConnection con = new SqlConnection(connectionString))
-                try
-                {
-                    con.Open();
-                    SqlCommand cmd = new SqlCommand(GenerateReportQuery(), con); //uses query generated in BindDataGrid to fill the dataTable 
-
-                    DataTable reports = new DataTable();
-
-                    SqlDataAdapter sda = new SqlDataAdapter(cmd);
-                    using (sda)
-                    {
-                        sda.Fill(reports);
-                    }
-
-                    Helper.ToExcelClosedXML(reports);
-                    
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.ToString());
-                }
-
-                finally
-                {
-                    con.Close();
-                }
+                    Helper.ToExcelClosedXML(reportQuery);
         }
 
         /*Name: Michael Figueroa

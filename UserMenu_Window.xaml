@@ -51,7 +51,7 @@
                             Margin="0,0" Cursor="Hand" HorizontalAlignment="Center"
                     Click="UpdateReq_Click"/>
                     <Button x:Name="AgingButton" Content="You Have Issues Close to Aging, Click to Update!" Click="AgingButton_Click" 
-                    Visibility="Collapsed" Width="265" Background="Yellow" Height="20" 
+                    Visibility="Collapsed" Width="300" Background="Yellow" Height="30" Foreground="Black"
                     FontSize="12" Margin="0,0,0,0" Cursor="Hand" Grid.ColumnSpan="3" 
                     HorizontalAlignment="Center" Grid.Row="4" Grid.Column="1"/>
                 </StackPanel>

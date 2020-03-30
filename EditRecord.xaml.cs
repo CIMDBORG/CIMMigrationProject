@@ -26,13 +26,12 @@ namespace WpfApp1
     //*******************************************************************
     public partial class EditRecord : Window
     {
-        public String connectionString = ConfigurationManager.ConnectionStrings["conString"].ConnectionString;
+        public String connectionString = ConfigurationManager.ConnectionStrings["conString"].ConnectionString; //SQL Connection string; see app.config
         private DataRowView priorBySystemRow;           //holds data sent here by row that was clicked 
         private string[] arr;                           //holds login-based user data
         private string[] issue_data;                    //Holds the data about the issue, that will be used to populate the form when it loads
         private Page page;      //Holds the parent prioritization by system page currenty open in the application, which will be updated when the issue is edited.
-        private List<int> IDList;
-
+        private List<int> IDList; //ID List containing every ID number from each item in DataRowView priorRow
         //*******************************************************************
         // DESCRIPTION: Initializes the EditRecord window, using login-based and PBS data. It calls other functions that fill in the form with existing data.
         //              Also takes as parameter the parent PBS page, where updates will be visible after the edits are made.
@@ -153,11 +152,11 @@ namespace WpfApp1
 
        /*Name: Michael Figueroa
        Function Name: SetInitialIDTextBox
-       Purpose: Setter Method
-       Parameters: string[] user_data, DataRowView priorRow, List<int> IDListOriginal
+       Purpose: Setter Method - sets CurrentIssue.Text
+       Parameters: None
        Return Value: N/A
        Local Variables: None
-       Algorithm: Assigns global variables based on values passed by parameters in the constructor, calls methods, then collapses the blue updated label
+       Algorithm: int parses GetIssueID value, then returns the value of that + 1
        Version: 2.0.0.4
        Date modified: Prior to 1/1/20
        Assistance Received: N/A
@@ -831,7 +830,7 @@ namespace WpfApp1
         Date modified: Prior to 1/1/20
         Assistance Received: N/A
         */
-        private void SubmitIssue()
+        private bool SubmitIssue()
         {
             string ID = GetCurrentID().ToString();
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -839,7 +838,7 @@ namespace WpfApp1
                 {
                     connection.Open();
 
-                    if ((IsManager()) && (issue_data[25] != arr[2]))
+                    if ((IsManager()))
                     {
                         string managerQuery = ManagerUpdateQuery(ID);
                         SqlCommand managerCmd = new SqlCommand(managerQuery, connection);
@@ -848,7 +847,7 @@ namespace WpfApp1
                         FillInForm();
                         BindDataGrid(GetCurrentID().ToString());
                         Updated.Visibility = Visibility.Visible;
-
+                        return true;
                     }
                     else if (UserUpdateReady())
                     {
@@ -859,10 +858,12 @@ namespace WpfApp1
                         FillInForm();
                         BindDataGrid(GetCurrentID().ToString());
                         Updated.Visibility = Visibility.Visible;
+                        return true;
                     }
                     else
                     {
                         MessageBox.Show("Update Failed: Must Make Changes to Title, Supplementary Details, Or Business Impacts");
+                        return false;
                     }
                 }
 
@@ -885,6 +886,8 @@ namespace WpfApp1
                     {
                         MessageBox.Show("Hours Field Required for Strategic Tasks");
                     }
+
+                    return false;
                 }
 
 
@@ -900,14 +903,15 @@ namespace WpfApp1
                     {
                         MessageBox.Show(ex.ToString());
                     }
+
+                    return false;
                 }
 
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.ToString());
+                    return false;
                 }
-
-
                 finally
                 {
                     connection.Close();
@@ -1247,7 +1251,6 @@ namespace WpfApp1
         Date modified: Prior to 1/1/20
         Assistance Received: N/A
         */
-        //*******************************************************************
         public void BindDataGrid(string TaskNum)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -1325,16 +1328,22 @@ namespace WpfApp1
         */
         private void BackArrow_Click(object sender, RoutedEventArgs e)
         {
-            string current = CurrentIssue.Text.ToString();
-            int currentID = Int32.Parse(current) - 1;
-            if ((currentID - 1) >= 0)
-            {
-                currentID--;
+            bool successful = SubmitIssue();
 
-                CurrentIssue.Text = (currentID + 1).ToString();
-                BindDataGrid(IDList[currentID].ToString());
-                SelectIssueData(IDList[currentID].ToString());
-                FillInForm();
+            if (successful)
+            {
+                string current = CurrentIssue.Text.ToString();
+                int currentID = Int32.Parse(current) - 1;
+                if ((currentID - 1) >= 0)
+                {
+                    currentID--;
+
+                    CurrentIssue.Text = (currentID + 1).ToString();
+                    BindDataGrid(IDList[currentID].ToString());
+                    SelectIssueData(IDList[currentID].ToString());
+                    FillInForm();
+                }
+                Updated.Visibility = Visibility.Collapsed;
             }
         }
 
@@ -1353,20 +1362,24 @@ namespace WpfApp1
         */
         private void ForwardArrow_Click(object sender, RoutedEventArgs e)
         {
-           // SubmitIssue();
 
-            string current = CurrentIssue.Text.ToString();
-            int currentID = Int32.Parse(current) - 1;
-
-            if ((currentID + 1) < (IDList.Count))
+            bool successful = SubmitIssue();
+            if (successful)
             {
-                currentID++;
+                string current = CurrentIssue.Text.ToString();
+                int currentID = Int32.Parse(current) - 1;
 
-                CurrentIssue.Text = (currentID + 1).ToString();
-                BindDataGrid(IDList[currentID].ToString());
-                SelectIssueData(IDList[currentID].ToString());
-                
-                FillInForm();
+                if ((currentID + 1) < (IDList.Count))
+                {
+                    currentID++;
+
+                    CurrentIssue.Text = (currentID + 1).ToString();
+                    BindDataGrid(IDList[currentID].ToString());
+                    SelectIssueData(IDList[currentID].ToString());
+
+                    FillInForm();
+                }
+                Updated.Visibility = Visibility.Collapsed;
             }
         }
 
@@ -1417,6 +1430,21 @@ namespace WpfApp1
         private void UpdtBtn_Click(object sender, RoutedEventArgs e)
         {
             SubmitIssue();
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            MessageBoxResult messageBoxResult = MessageBox.Show("Exiting Form, Would You Like To Save?", "Save Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            if (messageBoxResult == MessageBoxResult.Yes)
+            {
+                SubmitIssue();
+                this.Close();
+            }
+        }
+
+        private void Report_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
         }
     }
 }
